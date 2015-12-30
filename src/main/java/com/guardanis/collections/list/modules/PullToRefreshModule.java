@@ -14,7 +14,7 @@ import com.guardanis.collections.tools.PullToRefreshHelper.*;
 import com.guardanis.collections.views.PTRImageView;
 import com.guardanis.collections.views.PTRLoadingView;
 
-public class PullToRefreshModule extends CollectionModule<ModularListView> {
+public class PullToRefreshModule extends CollectionModule<ModularListView> implements PullToRefreshListener {
 
     public static final int PULL_CLOSING_ANIMATION_CYCLE_COUNT = 25;
     public static final int PULL_CLOSING_ANIMATION_SLEEP_TIME = 10;
@@ -35,13 +35,12 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
     private boolean closingAnimationActive = false;
 
     private RefreshEventListener refreshEventListener;
-    private PullToRefreshListener pullToRefreshListener;
     private boolean refreshable = true;
 
     private LayoutEventListener layoutEventListener;
 
-    public PullToRefreshModule(Context context, PullToRefreshListener pullToRefreshListener) {
-        this.pullToRefreshListener = pullToRefreshListener;
+    public PullToRefreshModule(Context context, RefreshEventListener refreshEventListener) {
+        this.refreshEventListener = refreshEventListener;
 
         refreshThreshold = (int) (context.getResources().getDisplayMetrics().heightPixels * .20);
         maxPullThreshold = (int) (context.getResources().getDisplayMetrics().heightPixels * .7);
@@ -58,7 +57,7 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(refreshable && pullToRefreshListener.meetsPullingRequirements()){
+        if(refreshable && meetsPullingRequirements()){
             if(onRefreshableTouch(v, event))
                 return true;
         }
@@ -76,7 +75,7 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 if(requiresViewSetup())
-                    onPrepareForPullToRefresh(pullToRefreshListener.getRefreshViewsParent(), event);
+                    onPrepareForPullToRefresh(getRefreshViewsParent(), event);
                 return onTouchMove(event);
             case MotionEvent.ACTION_UP:
             default:
@@ -155,7 +154,20 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
         pullTouchStartY = event.getRawY();
     }
 
-    protected void onRefreshViewPulled(float distance) {
+    @Override
+    public boolean meetsPullingRequirements() {
+        return parent.getFirstVisiblePosition() < 1
+                && !(parent.getChildAt(0) == null || parent.isFlinging())
+                && parent.getChildAt(0).getTop() == 0;
+    }
+
+    @Override
+    public ViewGroup getRefreshViewsParent() {
+        return (ViewGroup) parent.getChildAt(0);
+    }
+
+    @Override
+    public void onRefreshViewPulled(float distance) {
         stopClosingAnimation();
 
         if(refreshable && refreshViewParent != null){
@@ -167,11 +179,12 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
             refreshImageView.onRefreshViewPulled(distance / refreshThreshold);
         }
 
-        pullToRefreshListener.onRefreshViewPulled(distance);
-
         if(layoutEventListener != null)
             layoutEventListener.onOpenedDistanceChanged(distance);
     }
+
+    @Override
+    public void onRefreshViewReleased(boolean thresholdReached) { }
 
     protected void resetViews() {
         if(refreshImageView != null)
@@ -188,13 +201,13 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
 
     protected void onReleasedPullToRefreshViewBeforeThreshold() {
         closeRefreshView(0, false);
-        pullToRefreshListener.onRefreshViewReleased(false);
+        onRefreshViewReleased(false);
     }
 
     protected void onReleasedPullToRefreshViewPassedThreshold() {
         disablePreLoadingViews();
         closeRefreshView((int) parent.getResources().getDimension(R.dimen.cu__ptr_loading_image_height), true);
-        pullToRefreshListener.onRefreshViewReleased(true);
+        onRefreshViewReleased(true);
     }
 
     private void closeRefreshView(final int height, final boolean thresholdReached) {
@@ -241,7 +254,8 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
         }
     }
 
-    protected void onRefreshViewClosed(boolean thresholdReached) {
+    @Override
+    public void onRefreshViewClosed(boolean thresholdReached) {
         stopClosingAnimation();
 
         refreshViewParent.getLayoutParams().height = 0;
@@ -255,8 +269,6 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
             refreshable = false;
             refreshEventListener.onRefresh();
         }
-
-        pullToRefreshListener.onRefreshViewClosed(thresholdReached);
 
         if(layoutEventListener != null)
             layoutEventListener.onOpenedDistanceChanged(0);

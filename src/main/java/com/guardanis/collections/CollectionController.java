@@ -15,6 +15,8 @@ public class CollectionController<T extends ViewGroup> implements View.OnTouchLi
 
     private T parent;
 
+    private View.OnTouchListener secondaryTouchListener;
+
     public CollectionController(T parent){
         this.parent = parent;
     }
@@ -24,6 +26,9 @@ public class CollectionController<T extends ViewGroup> implements View.OnTouchLi
         for(String key : modules.keySet())
             if(modules.get(key).onTouch(v, event))
                 return true;
+
+        if(secondaryTouchListener != null)
+            return secondaryTouchListener.onTouch(v, event);
 
         return false;
     }
@@ -58,5 +63,11 @@ public class CollectionController<T extends ViewGroup> implements View.OnTouchLi
     public void onScroll(AbsListView v, int i, int i1, int i2) {
         for(String key : modules.keySet())
             modules.get(key).onScroll(v, i, i1, i2);
+    }
+
+    public CollectionController<T> registerSecondaryTouchListener(View.OnTouchListener secondaryTouchListener){
+        this.secondaryTouchListener = secondaryTouchListener;
+
+        return this;
     }
 }
