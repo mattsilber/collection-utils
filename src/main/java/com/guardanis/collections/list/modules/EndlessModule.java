@@ -54,7 +54,8 @@ public class EndlessModule extends CollectionModule<ModularListView> {
     }
 
     private boolean isScrollEventProcessable() {
-        return !(parent.getAdapter() == null
+        return !(parent == null
+                || parent.getAdapter() == null
                 || parent.getAdapter().getCount() < 1
                 || eventListener == null
                 || loading

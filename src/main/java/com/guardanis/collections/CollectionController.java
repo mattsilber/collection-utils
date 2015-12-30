@@ -35,6 +35,7 @@ public class CollectionController<T extends ViewGroup> implements View.OnTouchLi
 
     public CollectionController<T> registerModule(CollectionModule<T> module){
         modules.put(module.getClass().getName(), module);
+        module.setParent(parent);
 
         return this;
     }

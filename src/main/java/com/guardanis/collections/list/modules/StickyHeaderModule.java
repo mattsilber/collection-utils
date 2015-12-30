@@ -36,6 +36,9 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
     }
 
     private void adjustStickyHeaders() {
+        if(parent == null)
+            return;
+
         int firstVisiblePosition = parent.getFirstVisiblePosition();
 
         if(firstVisiblePosition < 1)

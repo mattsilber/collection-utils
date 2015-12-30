@@ -33,7 +33,8 @@ public class ScrollEventModule extends CollectionModule<ModularListView> {
 
     @Override
     public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-        eventListener.onScrolled(parent.computeVerticalScrollOffset());
+        if(parent != null)
+            eventListener.onScrolled(parent.computeVerticalScrollOffset());
     }
 
     @Override

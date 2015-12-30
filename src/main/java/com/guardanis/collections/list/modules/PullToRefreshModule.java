@@ -156,8 +156,8 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> imple
 
     @Override
     public boolean meetsPullingRequirements() {
-        return parent.getFirstVisiblePosition() < 1
-                && !(parent.getChildAt(0) == null || parent.isFlinging())
+        return !(parent == null || parent.getChildAt(0) == null || parent.isFlinging())
+                && parent.getFirstVisiblePosition() < 1
                 && parent.getChildAt(0).getTop() == 0;
     }
 
