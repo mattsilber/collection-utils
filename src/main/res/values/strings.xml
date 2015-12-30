@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">Collection Utils</string>
+
+    <string name="cu__ptr_pre_threshold">Pull to Refresh</string>
+    <string name="cu__ptr_post_threshold">Release to Refresh</string>
+
+</resources>

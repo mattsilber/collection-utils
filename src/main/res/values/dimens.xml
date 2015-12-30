@@ -1,0 +1,10 @@
+<resources>
+
+    <dimen name="cu__ptr_text">16dip</dimen>
+    <dimen name="cu__ptr_image">30dip</dimen>
+    <dimen name="cu__ptr_padding">12dip</dimen>
+    <dimen name="cu__ptr_loading_image_width">62dip</dimen>
+    <dimen name="cu__ptr_loading_image_height">62dip</dimen>
+    <dimen name="cu__ptr_loading_image_padding">7dip</dimen>
+
+</resources>
