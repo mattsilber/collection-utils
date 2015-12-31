@@ -17,20 +17,6 @@ public class PullToRefreshHelper {
         public void onRefresh();
     }
 
-    public interface PullToRefreshListener {
-        public boolean meetsPullingRequirements();
-
-        public ViewGroup getRefreshViewsParent();
-
-        public void onRefreshViewPulled(float distance);
-
-        public void onRefreshViewReleased(boolean thresholdReached);
-
-        public void onRefreshViewClosed(boolean thresholdReached);
-
-        public void onRefreshCompleted();
-    }
-
     public interface LayoutEventListener {
         public void onOpenedDistanceChanged(float distance);
     }

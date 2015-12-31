@@ -36,14 +36,10 @@ public class EndlessModule extends CollectionModule<ModularListView> {
     }
 
     @Override
-    public void onDrawDispatched(Canvas canvas) {
-
-    }
+    public void onDrawDispatched(Canvas canvas) { }
 
     @Override
-    public void onScrollStateChanged(AbsListView absListView, int i) {
-
-    }
+    public void onScrollStateChanged(AbsListView absListView, int i) { }
 
     @Override
     public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {

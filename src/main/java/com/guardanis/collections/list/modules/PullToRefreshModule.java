@@ -14,7 +14,7 @@ import com.guardanis.collections.tools.PullToRefreshHelper.*;
 import com.guardanis.collections.views.PTRImageView;
 import com.guardanis.collections.views.PTRLoadingView;
 
-public class PullToRefreshModule extends CollectionModule<ModularListView> implements PullToRefreshListener {
+public class PullToRefreshModule extends CollectionModule<ModularListView> {
 
     public static final int PULL_CLOSING_ANIMATION_CYCLE_COUNT = 25;
     public static final int PULL_CLOSING_ANIMATION_SLEEP_TIME = 10;
@@ -115,12 +115,7 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> imple
 
             pullToRefreshState = PullToRefreshState.PULLING_BELOW_THRESHOLD;
         }
-        else{
-            if(pullToRefreshState != PullToRefreshState.PULLING_PASSED_THRESHOLD)
-                onRefreshThresholdReached();
-
-            pullToRefreshState = PullToRefreshState.PULLING_PASSED_THRESHOLD;
-        }
+        else pullToRefreshState = PullToRefreshState.PULLING_PASSED_THRESHOLD;
     }
 
     public boolean onTouchUp(MotionEvent event) {
@@ -154,19 +149,16 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> imple
         pullTouchStartY = event.getRawY();
     }
 
-    @Override
     public boolean meetsPullingRequirements() {
         return !(parent == null || parent.getChildAt(0) == null || parent.isFlinging())
                 && parent.getFirstVisiblePosition() < 1
                 && parent.getChildAt(0).getTop() == 0;
     }
 
-    @Override
     public ViewGroup getRefreshViewsParent() {
         return (ViewGroup) parent.getChildAt(0);
     }
 
-    @Override
     public void onRefreshViewPulled(float distance) {
         stopClosingAnimation();
 
@@ -183,9 +175,6 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> imple
             layoutEventListener.onOpenedDistanceChanged(distance);
     }
 
-    @Override
-    public void onRefreshViewReleased(boolean thresholdReached) { }
-
     protected void resetViews() {
         if(refreshImageView != null)
             refreshImageView.setVisibility(View.VISIBLE);
@@ -194,20 +183,13 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> imple
             refreshLoadingViewParent.setVisibility(View.GONE);
     }
 
-    protected void onRefreshThresholdReached() {
-//		if(refreshTextView != null) refreshTextView.setText(context.getResources().getString(R.string.pull_to_refresh_post_threshold));
-//		if(refreshImageView != null) refreshImageView.setImageAsset("pull_to_refresh_ic_up.svg");
-    }
-
     protected void onReleasedPullToRefreshViewBeforeThreshold() {
         closeRefreshView(0, false);
-        onRefreshViewReleased(false);
     }
 
     protected void onReleasedPullToRefreshViewPassedThreshold() {
         disablePreLoadingViews();
         closeRefreshView((int) parent.getResources().getDimension(R.dimen.cu__ptr_loading_image_height), true);
-        onRefreshViewReleased(true);
     }
 
     private void closeRefreshView(final int height, final boolean thresholdReached) {
@@ -254,7 +236,6 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> imple
         }
     }
 
-    @Override
     public void onRefreshViewClosed(boolean thresholdReached) {
         stopClosingAnimation();
 
