@@ -25,13 +25,13 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView v, int scrollState) {
+    public void onScrollStateChanged(int scrollState) {
         if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
             adjustStickyHeaders();
     }
 
     @Override
-    public void onScroll(AbsListView v, int i, int i1, int i2) {
+    public void onScroll(int... values) {
         adjustStickyHeaders();
     }
 

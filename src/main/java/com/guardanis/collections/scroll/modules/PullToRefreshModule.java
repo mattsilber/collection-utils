@@ -1,4 +1,4 @@
-package com.guardanis.collections.list.modules;
+package com.guardanis.collections.scroll.modules;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,11 +10,14 @@ import android.widget.AbsListView;
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.R;
 import com.guardanis.collections.list.ModularListView;
-import com.guardanis.collections.tools.PullToRefreshHelper.*;
+import com.guardanis.collections.scroll.ModularScrollView;
+import com.guardanis.collections.tools.PullToRefreshHelper.LayoutEventListener;
+import com.guardanis.collections.tools.PullToRefreshHelper.PullToRefreshState;
+import com.guardanis.collections.tools.PullToRefreshHelper.RefreshEventListener;
 import com.guardanis.collections.views.PTRImageView;
 import com.guardanis.collections.views.PTRLoadingView;
 
-public class PullToRefreshModule extends CollectionModule<ModularListView> {
+public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
 
     public static final int PULL_CLOSING_ANIMATION_CYCLE_COUNT = 25;
     public static final int PULL_CLOSING_ANIMATION_SLEEP_TIME = 10;
@@ -151,7 +154,7 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
 
     public boolean meetsPullingRequirements() {
         return !(parent == null || parent.getChildAt(0) == null || parent.isFlinging())
-                && parent.getFirstVisiblePosition() < 1
+                && parent.getScrollY() == 0
                 && parent.getChildAt(0).getTop() == 0;
     }
 

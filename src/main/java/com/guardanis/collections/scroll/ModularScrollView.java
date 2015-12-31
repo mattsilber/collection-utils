@@ -1,58 +1,49 @@
-package com.guardanis.collections.list;
+package com.guardanis.collections.scroll;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
 
-public class ModularListView extends ListView implements AbsListView.OnScrollListener {
+public class ModularScrollView extends ScrollView {
 
-    protected CollectionController<ModularListView> controller;
-
+    protected CollectionController<ModularScrollView> controller;
     protected boolean flinging = false;
 
-    public ModularListView(Context context) {
+    public ModularScrollView(Context context) {
         super(context);
         init();
     }
 
-    public ModularListView(Context context, AttributeSet attrs) {
+    public ModularScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ModularListView(Context context, AttributeSet attrs, int defStyle) {
+    public ModularScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
     protected void init(){
-        controller = new CollectionController<ModularListView>(this);
+        controller = new CollectionController<ModularScrollView>(this);
 
         setOnTouchListener(controller);
-        setOnScrollListener(this);
 
         if(Build.VERSION.SDK_INT >= 9)
             setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView v, int scrollState) {
-        flinging = scrollState == OnScrollListener.SCROLL_STATE_FLING;
-
-        controller.onScrollStateChanged(scrollState);
-    }
-
-    @Override
-    public void onScroll(AbsListView v, int i, int i1, int i2) {
-        controller.onScroll(i, i1, i2);
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        controller.onScroll(l, t, oldl, oldt);
     }
 
     @Override
@@ -70,25 +61,25 @@ public class ModularListView extends ListView implements AbsListView.OnScrollLis
             controller.onDetachedFromWindow();
     }
 
-    public boolean isFlinging() {
+    public boolean isFlinging(){
         return flinging;
     }
 
-    public CollectionController<ModularListView> getCollectionController(){
+    public CollectionController<ModularScrollView> getCollectionController(){
         return controller;
     }
 
-    public ModularListView registerModule(CollectionModule<ModularListView> module){
+    public ModularScrollView registerModule(CollectionModule<ModularScrollView> module){
         controller.registerModule(module);
 
         return this;
     }
 
-    public void unregisterModule(CollectionModule<ModularListView> module){
+    public void unregisterModule(CollectionModule<ModularScrollView> module){
         controller.unregisterModule(module);
     }
 
-    public <V extends CollectionModule<ModularListView>> V getModule(Class<V> moduleClass){
+    public <V extends CollectionModule<ModularScrollView>> V getModule(Class<V> moduleClass){
         return controller.getModule(moduleClass);
     }
 

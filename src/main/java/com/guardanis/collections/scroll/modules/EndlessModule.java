@@ -1,15 +1,16 @@
-package com.guardanis.collections.list.modules;
+package com.guardanis.collections.scroll.modules;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
 
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.list.ModularListView;
+import com.guardanis.collections.scroll.ModularScrollView;
 
-public class EndlessModule extends CollectionModule<ModularListView> {
+public class EndlessModule extends CollectionModule<ModularScrollView> {
 
     public interface EndlessEventListener {
         public void onNextPage();
@@ -43,16 +44,19 @@ public class EndlessModule extends CollectionModule<ModularListView> {
 
     @Override
     public void onScroll(int... values) {
-        if(isScrollEventProcessable() && values[1] + values[0] >= values[2] - NEXT_PAGE_ITEM_THRESHOLD){
-            loading = true;
-            eventListener.onNextPage();
+        if(isScrollEventProcessable()){
+            ViewGroup container = (ViewGroup) parent.getChildAt(0);
+            View view = (View) container.getChildAt(container.getChildCount() - 1);
+            int diff = view == null ? 0 : ((view.getBottom() - view.getHeight() / 2) - (parent.getHeight() + parent.getScrollY()));
+            if(diff < 1){
+                loading = true;
+                eventListener.onNextPage();
+            }
         }
     }
 
     private boolean isScrollEventProcessable() {
         return !(parent == null
-                || parent.getAdapter() == null
-                || parent.getAdapter().getCount() < 1
                 || eventListener == null
                 || loading
                 || endingReached);

@@ -9,7 +9,7 @@ import android.widget.AbsListView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CollectionController<T extends ViewGroup> implements View.OnTouchListener, AbsListView.OnScrollListener {
+public class CollectionController<T extends ViewGroup> implements View.OnTouchListener {
 
     private Map<String, CollectionModule<T>> modules = new HashMap<String, CollectionModule<T>>();
 
@@ -60,16 +60,17 @@ public class CollectionController<T extends ViewGroup> implements View.OnTouchLi
             modules.get(key).onDetachedFromWindow();
     }
 
-    @Override
-    public void onScrollStateChanged(AbsListView v, int scrollState) {
+    public void onScrollStateChanged(int scrollState) {
         for(String key : modules.keySet())
-            modules.get(key).onScrollStateChanged(v, scrollState);
+            modules.get(key).onScrollStateChanged(scrollState);
     }
 
-    @Override
-    public void onScroll(AbsListView v, int i, int i1, int i2) {
+    /**
+     * @param values the values, in order of declaration, of the appropriate scroll event listener (AbsListview.OnScollListener or ScrollView's override onScrollChanged)
+     */
+    public void onScroll(int... values) {
         for(String key : modules.keySet())
-            modules.get(key).onScroll(v, i, i1, i2);
+            modules.get(key).onScroll(values);
     }
 
     public CollectionController<T> registerSecondaryTouchListener(View.OnTouchListener secondaryTouchListener){

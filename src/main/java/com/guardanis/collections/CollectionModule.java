@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
-public abstract class CollectionModule<T extends ViewGroup> implements View.OnTouchListener, AbsListView.OnScrollListener {
+public abstract class CollectionModule<T extends ViewGroup> implements View.OnTouchListener {
 
     protected T parent;
 
@@ -20,5 +20,9 @@ public abstract class CollectionModule<T extends ViewGroup> implements View.OnTo
     public void onDetachedFromWindow(){
         this.parent = null;
     }
+
+    public abstract void onScrollStateChanged(int scrollState);
+
+    public abstract void onScroll(int... values);
 
 }

@@ -25,10 +25,10 @@ public class ScrollEventModule extends CollectionModule<ModularListView> {
     public void onDrawDispatched(Canvas canvas) { }
 
     @Override
-    public void onScrollStateChanged(AbsListView absListView, int i) { }
+    public void onScrollStateChanged(int i) { }
 
     @Override
-    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+    public void onScroll(int... values) {
         if(parent != null)
             eventListener.onScrolled(parent.computeVerticalScrollOffset());
     }

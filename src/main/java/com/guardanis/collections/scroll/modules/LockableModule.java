@@ -1,14 +1,14 @@
-package com.guardanis.collections.list.modules;
+package com.guardanis.collections.scroll.modules;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
 
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.list.ModularListView;
+import com.guardanis.collections.scroll.ModularScrollView;
 
-public class LockableModule extends CollectionModule<ModularListView> {
+public class LockableModule extends CollectionModule<ModularScrollView> {
 
     private boolean locked = false;
 
