@@ -89,9 +89,10 @@ This will hopefully be the last time I ever write EndlessPullToRefreshStickyHead
 
         @Override
         public void onRefresh(){
-	    page = 1;
+            page = 1;
             endlessModule.setLoading(true);
             endlessModule.setEndingReached(false);
+            loadPageAsync();
         }
 
         protected void loadPageAsync(){
