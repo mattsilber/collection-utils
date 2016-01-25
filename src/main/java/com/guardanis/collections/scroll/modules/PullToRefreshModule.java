@@ -294,7 +294,7 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
         disableLoadingView();
 
         if(refreshViewParent != null){
-            refreshViewParent.getLayoutParams().height = (int) parent.getResources().getDimension(R.dimen.cu__ptr_loading_image_height);
+            refreshViewParent.getLayoutParams().height = (int) refreshViewParent.getResources().getDimension(R.dimen.cu__ptr_loading_image_height);
             refreshViewParent.setLayoutParams(refreshViewParent.getLayoutParams());
             refreshViewParent.postInvalidate();
 
