@@ -38,12 +38,18 @@ public class ScrollEventModule extends CollectionModule<ModularListView> {
     @Override
     public void onScroll(int... values) {
         if(parent != null){
-            if(values[1] > 0 && values[0] == 0){
-                headerHeight = parent.getChildAt(0).getHeight();
-                eventListener.onScrolled(-parent.getChildAt(0).getTop());
-            }
-            else eventListener.onScrolled(headerHeight + parent.computeVerticalScrollOffset());
+            if(headerEnabled)
+                onHeaderedScroll(values);
+            else eventListener.onScrolled(parent.computeVerticalScrollOffset());
         }
+    }
+
+    private void onHeaderedScroll(int... values){
+        if(values[1] > 0 && values[0] == 0){
+            headerHeight = parent.getChildAt(0).getHeight();
+            eventListener.onScrolled(-parent.getChildAt(0).getTop());
+        }
+        else eventListener.onScrolled(headerHeight + parent.computeVerticalScrollOffset());
     }
 
     @Override
