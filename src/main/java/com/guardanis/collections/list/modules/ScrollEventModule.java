@@ -17,8 +17,16 @@ public class ScrollEventModule extends CollectionModule<ModularListView> {
 
     protected ScrollEventListener eventListener;
 
+    protected boolean headerEnabled = false;
+    protected int headerHeight = 0;
+
     public ScrollEventModule(ScrollEventListener eventListener){
+        this(eventListener, false);
+    }
+
+    public ScrollEventModule(ScrollEventListener eventListener, boolean headerEnabled){
         this.eventListener = eventListener;
+        this.headerEnabled = headerEnabled;
     }
 
     @Override
@@ -29,8 +37,13 @@ public class ScrollEventModule extends CollectionModule<ModularListView> {
 
     @Override
     public void onScroll(int... values) {
-        if(parent != null)
-            eventListener.onScrolled(parent.computeVerticalScrollOffset());
+        if(parent != null){
+            if(values[1] > 0 && values[0] == 0){
+                headerHeight = parent.getChildAt(0).getHeight();
+                eventListener.onScrolled(-parent.getChildAt(0).getTop());
+            }
+            else eventListener.onScrolled(headerHeight + parent.computeVerticalScrollOffset());
+        }
     }
 
     @Override
