@@ -49,7 +49,7 @@ ext {
     artifact = 'collection-utils'
 
     libraryDescription = 'An assortment of modularized additives for collection-based layouts'
-    libraryVersion = '1.0.4'
+    libraryVersion = '1.0.5'
 
     developerId = 'mattsilber'
     developerName = 'Matt Silber'
