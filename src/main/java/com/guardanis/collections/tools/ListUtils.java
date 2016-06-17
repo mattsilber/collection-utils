@@ -14,6 +14,10 @@ public class ListUtils<V> {
         public T convert(V from);
     }
 
+    public interface Zipper<V, T, U> {
+        public U zip(V o1, T o2);
+    }
+
     public interface Reducer<T, V>{
         public T reduce(T last, V value);
     }
@@ -91,6 +95,18 @@ public class ListUtils<V> {
 
         for(int i = offset; i < offset + count && i < values.size(); i++)
             returnables.add(values.get(i));
+
+        return new ListUtils(returnables);
+    }
+
+    public <T, U> ListUtils<U> zipWith(List<T> subset, ListUtils.Zipper<V, T, U> zipper){
+        if(values.size() != subset.size())
+            throw new IllegalArgumentException("");
+
+        List<U> returnables = new ArrayList<U>();
+
+        for(int i = 0; i < values.size(); i++)
+            returnables.add(zipper.zip(values.get(i), subset.get(i)));
 
         return new ListUtils(returnables);
     }
