@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.guardanis.collections.CollectionController;

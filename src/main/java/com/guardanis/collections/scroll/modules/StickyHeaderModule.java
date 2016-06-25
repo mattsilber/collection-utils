@@ -1,17 +1,13 @@
 package com.guardanis.collections.scroll.modules;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
 import com.guardanis.collections.CollectionModule;
-import com.guardanis.collections.R;
-import com.guardanis.collections.list.ModularListView;
 import com.guardanis.collections.scroll.ModularScrollView;
 
 public class StickyHeaderModule extends CollectionModule<ModularScrollView> {

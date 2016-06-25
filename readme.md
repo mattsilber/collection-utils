@@ -12,7 +12,7 @@ The idea is simple: Have a ModularizedListView that can delegates touch and draw
     }
 
     dependencies {
-        compile('com.guardanis:collection-utils:1.0.6')
+        compile('com.guardanis:collection-utils:1.0.7')
     }
 ```
 
@@ -35,6 +35,12 @@ A simple pull to refresh system. Pulling down from the top of a list will pull c
 *Important*: Inflate R.layout.cu__pull_to_refresh as a header View for the ModularListView before adding the PullToRefreshModule.
 
 If you would like to override the drawables used (because, why wouldn't you?), just override *R.drawable.cu__ptr_loading_image* and *R.drawable.cu__ptr_pulling_image*.
+
+##### Image Delegates
+
+As of version 1.0.7, the PTR-related ImageViews will delegate their update/drawing calls to either a **PulledImageDelegate** or **LoadingImageDelegate** so that the behavior of the drawing can be changed at will.
+
+Both the ModularListView and ModularScrollView have helper methods, **setPulledImageDelegate(PulledImageDelegate)** and **setLoadingImageDelegate(LoadingImageDelegate)**, respectively.
 
 ### StickyHeaderModule
 

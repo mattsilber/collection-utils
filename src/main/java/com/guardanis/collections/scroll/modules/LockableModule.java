@@ -5,7 +5,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.guardanis.collections.CollectionModule;
-import com.guardanis.collections.list.ModularListView;
 import com.guardanis.collections.scroll.ModularScrollView;
 
 public class LockableModule extends CollectionModule<ModularScrollView> {

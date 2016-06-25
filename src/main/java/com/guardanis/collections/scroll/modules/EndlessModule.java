@@ -4,10 +4,8 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
 import com.guardanis.collections.CollectionModule;
-import com.guardanis.collections.list.ModularListView;
 import com.guardanis.collections.scroll.ModularScrollView;
 
 public class EndlessModule extends CollectionModule<ModularScrollView> {

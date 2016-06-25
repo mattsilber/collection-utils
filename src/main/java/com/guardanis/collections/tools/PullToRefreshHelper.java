@@ -1,6 +1,6 @@
 package com.guardanis.collections.tools;
 
-import android.view.ViewGroup;
+import android.graphics.Canvas;
 
 public class PullToRefreshHelper {
 
@@ -19,6 +19,17 @@ public class PullToRefreshHelper {
 
     public interface LayoutEventListener {
         public void onOpenedDistanceChanged(float distance);
+    }
+
+    public interface PulledImageDelegate {
+        public void adjust(Canvas canvas);
+        public void onRefreshViewPulled(float percentageOfThresholdPulled);
+    }
+
+    public interface LoadingImageDelegate {
+        public void reset();
+        public void adjust(Canvas canvas);
+        public void update();
     }
 
 }

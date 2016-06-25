@@ -5,12 +5,11 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.guardanis.collections.tools.PullToRefreshHelper;
+
 public class PTRImageView extends ImageView {
 
-    private static final float MIN_SCALE = .6f;
-    private static final float MAX_SCALE = 1f;
-
-    private float currentScale = MIN_SCALE;
+    private PullToRefreshHelper.PulledImageDelegate imageDelegate;
 
     public PTRImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -27,24 +26,30 @@ public class PTRImageView extends ImageView {
         init();
     }
 
-    private void init() {
+    protected void init() {
         setWillNotDraw(false);
+    }
+
+    public PTRImageView setPulledImageDelagate(PullToRefreshHelper.PulledImageDelegate imageDelegate){
+        this.imageDelegate = imageDelegate;
+        return this;
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         canvas.save();
-        canvas.scale(currentScale, currentScale, canvas.getWidth() / 2, canvas.getHeight() / 2);
+
+        if(imageDelegate != null)
+            imageDelegate.adjust(canvas);
+
         super.onDraw(canvas);
+
         canvas.restore();
     }
 
     public void onRefreshViewPulled(float percentageOfThresholdPulled) {
-        currentScale = MIN_SCALE + ((MAX_SCALE - MIN_SCALE) * percentageOfThresholdPulled);
-
-        if(currentScale < MIN_SCALE)
-            currentScale = MIN_SCALE;
-        else if(currentScale > MAX_SCALE) currentScale = MAX_SCALE;
+        if(imageDelegate != null)
+            imageDelegate.onRefreshViewPulled(percentageOfThresholdPulled);
 
         postInvalidate();
     }

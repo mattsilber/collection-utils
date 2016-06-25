@@ -1,13 +1,7 @@
 package com.guardanis.collections.grid.modules;
 
-import android.graphics.Canvas;
 import android.support.v4.view.ViewCompat;
-import android.view.MotionEvent;
 import android.view.View;
-
-import com.guardanis.collections.CollectionModule;
-import com.guardanis.collections.grid.ModularGridView;
-import com.guardanis.collections.list.ModularListView;
 
 public class FooterModule extends OuterViewModule {
 

@@ -2,7 +2,6 @@ package com.guardanis.collections.grid.modules;
 
 import android.graphics.Canvas;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.view.MotionEvent;
 import android.view.View;
 

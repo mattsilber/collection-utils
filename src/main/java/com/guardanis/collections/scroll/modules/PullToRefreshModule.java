@@ -5,17 +5,18 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.R;
-import com.guardanis.collections.list.ModularListView;
 import com.guardanis.collections.scroll.ModularScrollView;
+import com.guardanis.collections.tools.PullToRefreshHelper;
 import com.guardanis.collections.tools.PullToRefreshHelper.LayoutEventListener;
 import com.guardanis.collections.tools.PullToRefreshHelper.PullToRefreshState;
 import com.guardanis.collections.tools.PullToRefreshHelper.RefreshEventListener;
 import com.guardanis.collections.views.PTRImageView;
+import com.guardanis.collections.views.PTRLoadingDelegate;
 import com.guardanis.collections.views.PTRLoadingView;
+import com.guardanis.collections.views.PTRPulledImageDelegate;
 
 public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
 
@@ -24,9 +25,11 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
 
     protected ViewGroup refreshViewParent;
     protected PTRImageView refreshImageView;
+    protected PullToRefreshHelper.PulledImageDelegate pulledImageDelegate = new PTRPulledImageDelegate();
 
     protected ViewGroup refreshLoadingViewParent;
     protected PTRLoadingView refreshLoadingView;
+    protected PullToRefreshHelper.LoadingImageDelegate loadingImageDelegate = new PTRLoadingDelegate();
 
     private PullToRefreshState pullToRefreshState = PullToRefreshState.NONE;
     private int refreshThreshold = 0;
@@ -47,6 +50,24 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
 
         refreshThreshold = (int) (context.getResources().getDisplayMetrics().heightPixels * .20);
         maxPullThreshold = (int) (context.getResources().getDisplayMetrics().heightPixels * .7);
+    }
+
+    public PullToRefreshModule setPulledImageDelegate(PullToRefreshHelper.PulledImageDelegate pulledImageDelegate){
+        this.pulledImageDelegate = pulledImageDelegate;
+
+        if(refreshImageView != null)
+            refreshImageView.setPulledImageDelagate(pulledImageDelegate);
+
+        return this;
+    }
+
+    public PullToRefreshModule setLoadingImageDelegate(PullToRefreshHelper.LoadingImageDelegate loadingImageDelegate){
+        this.loadingImageDelegate = loadingImageDelegate;
+
+        if(refreshLoadingView != null)
+            refreshLoadingView.setLoadingImageDelegate(loadingImageDelegate);
+
+        return this;
     }
 
     @Override
@@ -144,9 +165,11 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
         refreshViewParent = (ViewGroup) parent.findViewById(R.id.cu__ptr_parent);
         if(refreshViewParent != null){
             refreshImageView = (PTRImageView) refreshViewParent.findViewById(R.id.cu__ptr_image);
+            refreshImageView.setPulledImageDelagate(pulledImageDelegate);
 
             refreshLoadingViewParent = (ViewGroup) parent.findViewById(R.id.cu__ptr_loading_view_parent);
             refreshLoadingView = (PTRLoadingView) parent.findViewById(R.id.cu__ptr_loading_view);
+            refreshLoadingView.setLoadingImageDelegate(loadingImageDelegate);
         }
 
         pullTouchStartY = event.getRawY();

@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;

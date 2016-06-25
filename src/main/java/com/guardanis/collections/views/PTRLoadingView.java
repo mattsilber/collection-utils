@@ -1,6 +1,5 @@
 package com.guardanis.collections.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -8,18 +7,15 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.guardanis.collections.tools.Loader;
+import com.guardanis.collections.tools.PullToRefreshHelper;
 import com.guardanis.collections.tools.UpdateLoaderTask;
 import com.guardanis.collections.tools.ViewHelper;
-
-import java.util.Date;
 
 public class PTRLoadingView extends ImageView implements Loader {
 
     private final int UPDATE_RATE = 50;
-    private final int MAX_ROTATION_ANGLE_SPEED = 30;
 
-    private int currentLoadingAngle = 0;
-    private int currentLoadingAngleSpeed = 1;
+    private PullToRefreshHelper.LoadingImageDelegate loadingImageDelegate;
 
     private UpdateLoaderTask updateLoaderAsync;
     private boolean enabled = false;
@@ -43,21 +39,27 @@ public class PTRLoadingView extends ImageView implements Loader {
         ViewHelper.disableHardwareAcceleration(this);
     }
 
+    public PTRLoadingView setLoadingImageDelegate(PullToRefreshHelper.LoadingImageDelegate loadingImageDelegate){
+        this.loadingImageDelegate = loadingImageDelegate;
+        return this;
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         canvas.save();
-        canvas.rotate(currentLoadingAngle, canvas.getWidth() / 2, canvas.getHeight() / 2);
+
+        if(loadingImageDelegate != null)
+            loadingImageDelegate.adjust(canvas);
+
         super.onDraw(canvas);
+
         canvas.restore();
     }
 
     @Override
     public void update() {
-        currentLoadingAngle += currentLoadingAngleSpeed;
-
-        currentLoadingAngleSpeed++;
-        if(currentLoadingAngleSpeed > MAX_ROTATION_ANGLE_SPEED)
-            currentLoadingAngleSpeed = MAX_ROTATION_ANGLE_SPEED;
+        if(loadingImageDelegate != null)
+            loadingImageDelegate.update();
 
         invalidate();
     }
@@ -75,8 +77,9 @@ public class PTRLoadingView extends ImageView implements Loader {
         stop();
 
         enabled = true;
-        currentLoadingAngle = 0;
-        currentLoadingAngleSpeed = 1;
+
+        if(loadingImageDelegate != null)
+            loadingImageDelegate.reset();
 
         updateLoaderAsync = new UpdateLoaderTask(this);
 

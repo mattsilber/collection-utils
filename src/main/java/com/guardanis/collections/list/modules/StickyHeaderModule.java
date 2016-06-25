@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ListView;
 
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.R;
