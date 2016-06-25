@@ -14,7 +14,7 @@ public abstract class OuterViewModule extends CollectionModule<ModularGridView> 
     protected View targetView;
     protected float translationY;
 
-    protected int originalPadding = 0;
+    protected int originalPadding = -1;
 
     /**
      * To use this properly, the GridView must be wrapped in a RelativeLayout
@@ -59,6 +59,11 @@ public abstract class OuterViewModule extends CollectionModule<ModularGridView> 
 
     protected boolean isScrollEventProcessable() {
         return parent != null;
+    }
+
+    public void invalidate(){
+        if(parent != null)
+            updateParentPadding();
     }
 
 }

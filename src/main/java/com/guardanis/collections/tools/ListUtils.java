@@ -101,7 +101,7 @@ public class ListUtils<V> {
 
     public <T, U> ListUtils<U> zipWith(List<T> subset, ListUtils.Zipper<V, T, U> zipper){
         if(values.size() != subset.size())
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("Subset size [" + subset.size() + "] does not match values [" + values.size() + "]");
 
         List<U> returnables = new ArrayList<U>();
 

@@ -16,7 +16,9 @@ public class HeaderModule extends OuterViewModule {
 
     @Override
     protected void updateParentPadding() {
-        this.originalPadding = parent.getPaddingTop();
+        this.originalPadding = originalPadding < 1
+                ? parent.getPaddingTop()
+                : originalPadding;
 
         parent.setPadding(parent.getPaddingLeft(),
                 originalPadding + targetView.getHeight(),

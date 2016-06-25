@@ -22,7 +22,9 @@ public class FooterModule extends OuterViewModule {
 
     @Override
     protected void updateParentPadding() {
-        this.originalPadding = parent.getPaddingBottom();
+        this.originalPadding = originalPadding < 0
+                ? parent.getPaddingBottom()
+                : originalPadding;
 
         parent.setPadding(parent.getPaddingLeft(),
                 parent.getPaddingTop(),
