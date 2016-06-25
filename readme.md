@@ -12,7 +12,7 @@ The idea is simple: Have a ModularizedListView that can delegates touch and draw
     }
 
     dependencies {
-        compile('com.guardanis:collection-utils:1.0.7')
+        compile('com.guardanis:collection-utils:1.0.8')
     }
 ```
 
