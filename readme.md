@@ -117,7 +117,7 @@ This adapter has support for delegating different items in the adapter to one or
 
 To register different items to different ViewModules, you can do something like:
 
-    ModularArrayAdapter adapter = new ModularArrayAdapter(this, 0, new ArrayList())
+    ModularArrayAdapter adapter = new ModularArrayAdapter(this)
             .registerModuleBuilder(ItemType1.class,
                     new ModuleBuilder(R.layout.list_type_1,
                             ViewModule1.class,
@@ -139,18 +139,17 @@ Now, let's say you want 1 data-type to match 2 alternating ViewHolders. That cou
             ViewModule2.class,
             resId -> new ViewModule2(resId));
 
-    ModularArrayAdapter adapter = new ModularArrayAdapter(this, 0, new ArrayList())                
+    ModularArrayAdapter adapter = new ModularArrayAdapter(this)                
             .registerModuleBuilderResolver(ImageHolder1.class,
-                    new ModularArrayAdapter.ModuleBuilderResolver() {
+                    new ModuleBuilderResolver(builder1, builder2) {
                         public ModuleBuilder resolve(ModularArrayAdapter adapter, Object item, int position) {
                             return position % 2 == 0
                                     ? builder1
                                     : builder2;
                         }
-                        public int getBuilderTypeCount() {
-                            return 2;
-                        }
                     });
+
+Just a note: you must also supply the ModuleBuilder instances in the ModuleBuilderResolver constructor or else it won't know how to determine the true indeces of the view types for efficiently reusing layouts.
 
 ##### ViewModule
 

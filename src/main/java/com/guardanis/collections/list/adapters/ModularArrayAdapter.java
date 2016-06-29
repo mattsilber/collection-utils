@@ -7,16 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ModularArrayAdapter extends ArrayAdapter {
-
-    public interface ModuleBuilderResolver<V, T extends ModuleBuilder> {
-        public T resolve(ModularArrayAdapter adapter, V item, int position);
-        public int getBuilderTypeCount();
-    }
 
     public interface ActionCallback<T> {
         public void onTriggered(T value);
@@ -28,8 +24,8 @@ public class ModularArrayAdapter extends ArrayAdapter {
     private Map<String, ActionCallback> actionCallbacks =
             new HashMap<String, ActionCallback>();
 
-    public ModularArrayAdapter(Context context, int resource, @NonNull List data) {
-        super(context, resource, data);
+    public ModularArrayAdapter(Context context) {
+        super(context, 0, new ArrayList());
     }
 
     /**
@@ -37,12 +33,9 @@ public class ModularArrayAdapter extends ArrayAdapter {
      */
     public ModularArrayAdapter registerModuleBuilder(Class itemType, final ModuleBuilder builder) {
         return registerModuleBuilderResolver(itemType,
-                new ModuleBuilderResolver() {
+                new ModuleBuilderResolver(builder) {
                     public ModuleBuilder resolve(ModularArrayAdapter adapter, Object item, int position) {
                         return builder;
-                    }
-                    public int getBuilderTypeCount(){
-                        return 1;
                     }
                 });
     }
@@ -75,9 +68,11 @@ public class ModularArrayAdapter extends ArrayAdapter {
 
         for(Class c : viewModuleBuilders.keySet()){
             if(c == item.getClass())
-                return pos;
+                return pos + viewModuleBuilders.get(c)
+                        .getViewTypeIndex(this, item, position);
 
-            pos++;
+            pos += viewModuleBuilders.get(c)
+                .getBuilderTypeCount();
         }
 
         throw new RuntimeException("No Registered Module for " + getItem(position).getClass());
@@ -140,5 +135,6 @@ public class ModularArrayAdapter extends ArrayAdapter {
         catch(ClassCastException e){ e.printStackTrace(); }
         catch(NullPointerException e){ Log.d("collections", key + " is null. Ignoring.");  }
     }
+
 
 }
