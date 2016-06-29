@@ -2,6 +2,7 @@ package com.guardanis.collections.list.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,22 +13,58 @@ import java.util.Map;
 
 public class ModularArrayAdapter extends ArrayAdapter {
 
-    protected Map<Class, ModuleBuilder> viewModuleBuilders = new HashMap<Class, ModuleBuilder>();
+    public interface ModuleBuilderResolver<V, T extends ModuleBuilder> {
+        public T resolve(ModularArrayAdapter adapter, V item, int position);
+        public int getBuilderTypeCount();
+    }
+
+    public interface ActionCallback<T> {
+        public void onTriggered(T value);
+    }
+
+    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders =
+            new HashMap<Class, ModuleBuilderResolver>();
+
+    private Map<String, ActionCallback> actionCallbacks =
+            new HashMap<String, ActionCallback>();
 
     public ModularArrayAdapter(Context context, int resource, @NonNull List data) {
         super(context, resource, data);
     }
 
-    public ModularArrayAdapter registerViewModule(Class itemType, ModuleBuilder builder) {
-        viewModuleBuilders.put(itemType, builder);
+    /**
+     * Register a single ModuleBuilder and link it to the specified class type
+     */
+    public ModularArrayAdapter registerModuleBuilder(Class itemType, final ModuleBuilder builder) {
+        return registerModuleBuilderResolver(itemType,
+                new ModuleBuilderResolver() {
+                    public ModuleBuilder resolve(ModularArrayAdapter adapter, Object item, int position) {
+                        return builder;
+                    }
+                    public int getBuilderTypeCount(){
+                        return 1;
+                    }
+                });
+    }
+
+    /**
+     * Register a ModuleBuilderResolver that can delegate between multiple ModuleBuilders
+     * linked to a single class type.
+     */
+    public ModularArrayAdapter registerModuleBuilderResolver(Class itemType, final ModuleBuilderResolver layoutResolver) {
+        viewModuleBuilders.put(itemType, layoutResolver);
 
         return this;
     }
 
     @Override
     public int getViewTypeCount() {
-        return viewModuleBuilders.keySet()
-                .size();
+        int count = 0;
+
+        for(ModuleBuilderResolver resolver : viewModuleBuilders.values())
+            count += resolver.getBuilderTypeCount();
+
+        return count;
     }
 
     @Override
@@ -52,7 +89,8 @@ public class ModularArrayAdapter extends ArrayAdapter {
 
         for(Class c : viewModuleBuilders.keySet()){
             if(c == item.getClass()){
-                ModuleBuilder builder = viewModuleBuilders.get(c);
+                ModuleBuilder builder = viewModuleBuilders.get(c)
+                        .resolve(this, item, position);
 
                 final ViewModule module;
 
@@ -75,6 +113,32 @@ public class ModularArrayAdapter extends ArrayAdapter {
 
         throw new RuntimeException("ViewModule for item type [" + item.getClass() + "] not found."
                 + " You must call registerViewModule(Class, ModuleBuilder) for all item types.");
+    }
+
+    /**
+     * Register an ActionCallback to be triggered later by submodules.
+     * @param key
+     * @param callback
+     */
+    public ModularArrayAdapter registerCallback(String key, ActionCallback callback){
+        actionCallbacks.put(key, callback);
+
+        return this;
+    }
+
+    /**
+     * Trigger a previously added ActionCallback or do nothing if it doesn't exist or
+     * the supplied value is not of the same type as the ActionCallback
+     * @param key callback key
+     * @param value value to be passed
+     */
+    public <V> void triggerActionCallback(String key, V value){
+        try{
+            actionCallbacks.get(key)
+                    .onTriggered(value);
+        }
+        catch(ClassCastException e){ e.printStackTrace(); }
+        catch(NullPointerException e){ Log.d("collections", key + " is null. Ignoring.");  }
     }
 
 }
