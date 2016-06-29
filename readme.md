@@ -12,7 +12,7 @@ The idea is simple: Have a ModularizedListView that can delegates touch and draw
     }
 
     dependencies {
-        compile('com.guardanis:collection-utils:1.0.8')
+        compile('com.guardanis:collection-utils:1.0.9')
     }
 ```
 
@@ -110,4 +110,96 @@ This will hopefully be the last time I ever write EndlessPullToRefreshStickyHead
 Now, assuming you remembered to call **convertView.setTag(R.integer.cu__sticky_header_tag_ref, true);** in your Adapter's **getView()** method for header items, you should, in fact, have an EndlessPullToRefreshStickyHeaderListView. Shit. I wrote it again.
 
 Anyway, this allows you to create custom components for a ListView without having to worry about extending the class.
+
+## ModularArrayAdapter
+
+This adapter has support for delegating different items in the adapter to one or more different ViewModules, which act as both a ViewHolder and an interface for updating the Views in said holder with the correct data. This allows you to easily show many different layouts for one or more different types of data without having to do anything but setup a ViewModule and register a ModuleBuilder for it.
+
+To register different items to different ViewModules, you can do something like:
+
+    ModularArrayAdapter adapter = new ModularArrayAdapter(this, 0, new ArrayList())
+            .registerModuleBuilder(ItemType1.class,
+                    new ModuleBuilder(R.layout.list_type_1,
+                            ViewModule1.class,
+                            resId -> new ViewModule1(resId)))
+            .registerModuleBuilder(ItemType2.class,
+                    new ModuleBuilder(R.layout.list_type_2
+                            ViewModule2.class,
+                            resId -> new ViewModule2(resId)));
+
+Where ItemType{_} and ViewModule{_} are the classes of the data in your adapter and their respective ViewModules.
+
+Now, let's say you want 1 data-type to match 2 alternating ViewHolders. That could be done by registering the ModuleBuilderResolver instead of just a builder:
+
+    ModuleBuilder builder1 = new ModuleBuilder(R.layout.list_type_1,
+            ViewModule1.class,
+            resId -> new ViewModule1(resId));
+
+    ModuleBuilder builder2 = new ModuleBuilder(R.layout.list_type_2,
+            ViewModule2.class,
+            resId -> new ViewModule2(resId));
+
+    ModularArrayAdapter adapter = new ModularArrayAdapter(this, 0, new ArrayList())                
+            .registerModuleBuilderResolver(ImageHolder1.class,
+                    new ModularArrayAdapter.ModuleBuilderResolver() {
+                        public ModuleBuilder resolve(ModularArrayAdapter adapter, Object item, int position) {
+                            return position % 2 == 0
+                                    ? builder1
+                                    : builder2;
+                        }
+                        public int getBuilderTypeCount() {
+                            return 2;
+                        }
+                    });
+
+##### ViewModule
+
+A simple ViewModule example:
+
+    public class SimpleViewModule extends ViewModule<String> {
+
+        private ImageView image;
+
+        public SimpleViewModule(int layoutResId) {
+            super(layoutResId);
+        }
+
+        @Override
+        protected void locateViewComponents(View convertView) {
+            this.image = (ImageView) convertView.findViewById(R.id.some_view_id);
+        }
+
+        @Override
+        public void updateView(ModularArrayAdapter adapter, String item, int position) {
+            new ImageRequest(adapter.getContext(), item)
+                    .setTargetView(image)
+                    .setFadeTransition()
+                    .execute();
+        }
+    }
+
+##### ActionCallback
+
+Since I want the modules to be as dumb as possible, the ModularArrayAdapter has a type-less callback system allowing you to register, and trigger, callbacks with just keys and the values you want supplied with them. Granted, this removes type-safety and can make it more difficult to track down issues, but there are tradeoffs with everything.
+
+Ie. register a callback with the adapter
+
+    adapter.registerCallback("key__my_item_clicked", item -> { });
+
+And then trigger it from with the ViewModule on a click event
+
+    getConvertView().setOnClickListener(v ->
+        adapter.triggerActionCallback("key__my_item_clicked", item));
+
+## ListUtils
+
+This is just a helper class I've been playing around with for chaining list augmentations in places where Observables felt like overkill. It supports some basic functions like map, reduce, filter, zipWith, take, etc.
+
+Let's say I have a list of Strings, which I want to convert to integers, multiply by 100, select only those > 300, and then sum those values (why? Idk, it's an example):
+
+    String[] values = new String[]{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    int sum = new ListUtils<String>(values)
+            .map(v -> Interger.parseInt(v) * 100)
+            .filter(v -> v > 300)
+            .reduce(0, (last, current) -> last + current);
 
