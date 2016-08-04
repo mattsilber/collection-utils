@@ -23,7 +23,9 @@ android {
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 22
+        targetSdkVersion 23
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -37,6 +39,14 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.4.0'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.json:json:20140107'
+
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
 }
 
 group = 'com.guardanis'
@@ -50,7 +60,7 @@ ext {
     artifact = 'collection-utils'
 
     libraryDescription = 'An assortment of modularized additives for collection-based layouts'
-    libraryVersion = '1.0.9'
+    libraryVersion = '1.0.10'
 
     developerId = 'mattsilber'
     developerName = 'Matt Silber'

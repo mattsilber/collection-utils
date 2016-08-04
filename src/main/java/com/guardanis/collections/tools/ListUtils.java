@@ -111,8 +111,37 @@ public class ListUtils<V> {
         return new ListUtils(returnables);
     }
 
+    public String join(String delimiter){
+        return join(delimiter, new Converter<V, String>() {
+            public String convert(V from) {
+                return from.toString();
+            }
+        });
+    }
+
+    public String join(String delimiter, Converter<V, String> converter){
+        String joined = "";
+
+        if(0 < values.size()){
+            joined += converter.convert(values.get(0));
+
+            for(int i = 1; i < values.size(); i++)
+                joined += delimiter + converter.convert(values.get(i));
+        }
+
+        return joined;
+    }
+
     public List<V> values(){
         return values;
+    }
+
+    public static <T> ListUtils<T> from(T[] values){
+        return new ListUtils<T>(values);
+    }
+
+    public static <T> ListUtils<T> from(List<T> values){
+        return new ListUtils<T>(values);
     }
 
 }
