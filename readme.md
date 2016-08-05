@@ -1,5 +1,7 @@
 # collection-utils
 
+[![Download](https://api.bintray.com/packages/mattsilber/maven/collection-utils/images/download.svg) ](https://bintray.com/mattsilber/maven/collection-utils/_latestVersion)
+
 An assortment of modularized additives for collection-based layouts so I never have to create a class named EndlessPullToRefreshStickyHeaderListView ever again.
 
 The idea is simple: Have a ModularizedListView that can delegates touch and draw events to a CollectionController, which then delegates those events to its child CollectionModule(s) to accomplish a specific task. 
@@ -12,7 +14,7 @@ The idea is simple: Have a ModularizedListView that can delegates touch and draw
     }
 
     dependencies {
-        compile('com.guardanis:collection-utils:1.0.9')
+        compile('com.guardanis:collection-utils:1.0.10')
     }
 ```
 
