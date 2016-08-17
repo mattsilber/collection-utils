@@ -23,6 +23,8 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
     public static final int PULL_CLOSING_ANIMATION_CYCLE_COUNT = 25;
     public static final int PULL_CLOSING_ANIMATION_SLEEP_TIME = 10;
 
+    protected ViewGroup container;
+
     protected ViewGroup refreshViewParent;
     protected PTRImageView refreshImageView;
     protected PullToRefreshHelper.PulledImageDelegate pulledImageDelegate = new PTRPulledImageDelegate();
@@ -46,6 +48,11 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
     private LayoutEventListener layoutEventListener;
 
     public PullToRefreshModule(Context context, RefreshEventListener refreshEventListener) {
+        this(context, null, refreshEventListener);
+    }
+
+    public PullToRefreshModule(Context context, ViewGroup container, RefreshEventListener refreshEventListener) {
+        this.container = container;
         this.refreshEventListener = refreshEventListener;
 
         refreshThreshold = (int) (context.getResources().getDisplayMetrics().heightPixels * .20);
@@ -99,7 +106,7 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 if(requiresViewSetup())
-                    onPrepareForPullToRefresh(getRefreshViewsParent(), event);
+                    onPrepareForPullToRefresh(event);
                 return onTouchMove(event);
             case MotionEvent.ACTION_UP:
             default:
@@ -161,8 +168,12 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
         pullTouchLastY = -1;
     }
 
-    protected void onPrepareForPullToRefresh(ViewGroup parent, MotionEvent event) {
-        refreshViewParent = (ViewGroup) parent.findViewById(R.id.cu__ptr_parent);
+    protected void onPrepareForPullToRefresh(MotionEvent event) {
+        if(container == null)
+            container = (ViewGroup) parent.getChildAt(0);
+
+        refreshViewParent = (ViewGroup) container.findViewById(R.id.cu__ptr_parent);
+
         if(refreshViewParent != null){
             refreshImageView = (PTRImageView) refreshViewParent.findViewById(R.id.cu__ptr_image);
             refreshImageView.setPulledImageDelagate(pulledImageDelegate);
@@ -179,10 +190,6 @@ public class PullToRefreshModule extends CollectionModule<ModularScrollView> {
         return !(parent == null || parent.getChildAt(0) == null || parent.isFlinging())
                 && parent.getScrollY() == 0
                 && parent.getChildAt(0).getTop() == 0;
-    }
-
-    public ViewGroup getRefreshViewsParent() {
-        return (ViewGroup) parent.getChildAt(0);
     }
 
     public void onRefreshViewPulled(float distance) {

@@ -14,7 +14,7 @@ The idea is simple: Have a ModularizedListView that can delegates touch and draw
     }
 
     dependencies {
-        compile('com.guardanis:collection-utils:1.0.10')
+        compile('com.guardanis:collection-utils:1.0.11')
     }
 ```
 
@@ -34,9 +34,9 @@ The EndlessModule triggers a callback onNextPage() when a user is approaching th
 
 A simple pull to refresh system. Pulling down from the top of a list will pull cause the header to expand. When released passed the threshold, it will trigger a loading animation and a callback to **onRefresh()**, allowing you to update the data.
 
-*Important*: Inflate R.layout.cu__pull_to_refresh as a header View for the ModularListView before adding the PullToRefreshModule.
+*Important*: If you don't specify the container in the constructor of the PullToRefreshModule, then you must inflate R.layout.cu__pull_to_refresh as a header View for the ModularListView before adding the PullToRefreshModule. The former would allow you to create the PTR module as an overlay above your ListView or ScrollView.
 
-If you would like to override the drawables used (because, why wouldn't you?), just override *R.drawable.cu__ptr_loading_image* and *R.drawable.cu__ptr_pulling_image*.
+If you would like to override the drawables used (because, why wouldn't you?), just override *R.drawable.cu__ptr_loading_image* and *R.drawable.cu__ptr_pulling_image* or set the images into the Views after they have been inflated.
 
 ##### Image Delegates
 
@@ -86,6 +86,7 @@ This will hopefully be the last time I ever write EndlessPullToRefreshStickyHead
             listView.addHeaderView(activity.getLayoutInflater().inflate(R.layout.cu__pull_to_refresh, null, false));
             listView.registerModule(endlessModule = new EndlessModule(this));
             listView.registerModule(ptrModule = new PullToRefreshModule(this, this);
+            listView.registerModule(ptrModule = new PullToRefreshModule(this, (ViewGroup) findViewbyId(R.id.your_view_in_layout), this); // Or specify the View if you want it as an overlay
             listView.registerModule(new StickyHeaderModule());
         }
 
