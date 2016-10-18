@@ -24,6 +24,9 @@ public class ModularArrayAdapter extends ArrayAdapter {
     private Map<String, ActionCallback> actionCallbacks =
             new HashMap<String, ActionCallback>();
 
+    private Map<String, Object> properties =
+            new HashMap<String, Object>();
+
     public ModularArrayAdapter(Context context) {
         super(context, 0, new ArrayList());
     }
@@ -133,8 +136,22 @@ public class ModularArrayAdapter extends ArrayAdapter {
                     .onTriggered(value);
         }
         catch(ClassCastException e){ e.printStackTrace(); }
-        catch(NullPointerException e){ Log.d("collections", key + " is null. Ignoring.");  }
+        catch(NullPointerException e){ Log.d("collections", key + " callback is null. Ignoring.");  }
     }
 
+    public ModularArrayAdapter setProperty(String key, Object value) {
+        this.properties.put(key, value);
+        return this;
+    }
+
+    public <V> V getProperty(String key){
+        try{
+            return (V) properties.get(key);
+        }
+        catch(ClassCastException e){ e.printStackTrace(); }
+        catch(NullPointerException e){ Log.d("collections", key + " property is null. Ignoring.");  }
+
+        return null;
+    }
 
 }
