@@ -139,11 +139,20 @@ public class ModularArrayAdapter extends ArrayAdapter {
         catch(NullPointerException e){ Log.d("collections", key + " callback is null. Ignoring.");  }
     }
 
+    /**
+     * Set a property for use later
+     * @param key the key to reference
+     * @param value the value to store
+     */
     public ModularArrayAdapter setProperty(String key, Object value) {
         this.properties.put(key, value);
         return this;
     }
 
+    /**
+     * Get a value stored in the properties [String: Object] map
+     * @param key property key
+     */
     public <V> V getProperty(String key){
         try{
             return (V) properties.get(key);
