@@ -62,7 +62,7 @@ public class ListUtils<V> {
         return new ListUtils(returnables);
     }
 
-    public <C> ListUtils<V> filter(Filter<V> filter){
+    public ListUtils<V> filter(Filter<V> filter){
         List<V> returnables = new ArrayList<V>();
 
         for(V value : values)
@@ -79,7 +79,7 @@ public class ListUtils<V> {
         return initial;
     }
 
-    public ListUtils<V> each(FAction action){
+    public ListUtils<V> each(FAction<V> action){
         for(V value : values)
             action.executeFAction(value);
 
