@@ -18,7 +18,7 @@ dependencies {
 }
 ```
 
-# CollectionModule
+## CollectionModule
 
 I've already implemented several modules, include PullToRefresh, StickyHeaders, ScrollEvent, and Endless modules (see below for details). If you come up with others, please feel free to share and make a pull request.
 
@@ -73,7 +73,7 @@ I very often find myself needing to know when, and how far, a ListView is being 
 
 This will hopefully be the last time I ever write EndlessPullToRefreshStickyHeaderListView because that's what I'm implementing here:
 
-```
+```java
 public class TestActivity extends Activity implements EndlessEventListener, RefreshEventListener {
 
     private EndlessModule endlessModule;
@@ -189,14 +189,15 @@ public class SimpleViewModule extends ViewModule<String> {
 }
 ```
 
-##### ActionCallback
+##### Callbacks
 
 Since I want the modules to be as dumb as possible, the ModularArrayAdapter has a type-less callback system allowing you to register, and trigger, callbacks with just keys and the values you want supplied with them. Granted, this removes type-safety and can make it more difficult to track down issues, but there are tradeoffs with everything.
 
 Ie. register a callback with the adapter
 
 ```java
-adapter.registerCallback("key__my_item_clicked", item -> { });
+adapter.registerCallback("key__my_item_clicked", item -> 
+    Toast.makeText(context, item + " clicked!", Toast.LENGTH_SHORT).show());
 ```
 
 And then trigger it from with the ViewModule on a click event
@@ -205,6 +206,9 @@ And then trigger it from with the ViewModule on a click event
 getConvertView().setOnClickListener(v ->
     adapter.triggerCallback("key__my_item_clicked", item));
 ```
+
+Types can be defined at the registration-level (e.g. `adapter.registerCallback(String, Callback<T>)`, and are enforced when triggered, but there is no compile-time safety (since there is no hard link between the two).
+
 ## ListUtils
 
 This is just a helper class I've been playing around with for chaining list augmentations in places where Observables felt like overkill. It supports some basic functions like map, reduce, filter, zipWith, take, etc.
