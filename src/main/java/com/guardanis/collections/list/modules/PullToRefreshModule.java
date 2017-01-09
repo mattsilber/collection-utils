@@ -93,7 +93,8 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
             if(onRefreshableTouch(v, event))
                 return true;
         }
-        else if(isTouchBelowStart()) return true;
+        else if(isTouchBelowStart())
+            return true;
 
         return false;
     }
@@ -247,6 +248,7 @@ public class PullToRefreshModule extends CollectionModule<ModularListView> {
                                     else refreshViewParent.getLayoutParams().height = height;
 
                                     refreshViewParent.setLayoutParams(refreshViewParent.getLayoutParams());
+
                                     if(layoutEventListener != null)
                                         layoutEventListener.onOpenedDistanceChanged(refreshViewParent.getLayoutParams().height);
                                 }

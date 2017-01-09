@@ -8,14 +8,14 @@ The idea is simple: Have a ModularizedListView that can delegates touch and draw
 
 # Installation
 
-```
-    repositories {
-        jcenter()
-    }
+```groovy
+repositories {
+    jcenter()
+}
 
-    dependencies {
-        compile('com.guardanis:collection-utils:1.0.13')
-    }
+dependencies {
+    compile('com.guardanis:collection-utils:1.1.0')
+}
 ```
 
 # CollectionModule
@@ -50,18 +50,20 @@ When scrolling long data-separated lists (or any grouped list, for that matter),
 
 All you need to do is add a boolean tag to the View you create in your Adapter's overridden **getView(int, View, ViewGroup)** method, e.g.
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        ViewHolder holder;
-        if(convertView == null){
-            holder = ....
+```java
+@Override
+public View getView(int position, View convertView, ViewGroup parent){
+    ViewHolder holder;
+    if(convertView == null){
+        holder = ....
 
-            convertView.setTag(holder);
-            convertView.setTag(R.integer.cu__sticky_header_tag_ref, true); // <-- here
-        }
-        ...
-        return convertView;
+        convertView.setTag(holder);
+        convertView.setTag(R.integer.cu__sticky_header_tag_ref, true); // <-- here
     }
+    ...
+    return convertView;
+}
+```
 
 ### ScrollEventModule
 
@@ -71,44 +73,45 @@ I very often find myself needing to know when, and how far, a ListView is being 
 
 This will hopefully be the last time I ever write EndlessPullToRefreshStickyHeaderListView because that's what I'm implementing here:
 
-    public class TestActivity extends Activity implements EndlessEventListener, RefreshEventListener {
+```
+public class TestActivity extends Activity implements EndlessEventListener, RefreshEventListener {
 
-        private EndlessModule endlessModule;
-        private PullToRefreshModule ptrModule;
+    private EndlessModule endlessModule;
+    private PullToRefreshModule ptrModule;
 
-        private int page = 1;
+    private int page = 1;
 
-        @Override
-        public void setup(Bundle savedInstance){
-            setContentView(R.layout.some_layout);
+    @Override
+    public void setup(Bundle savedInstance){
+        setContentView(R.layout.some_layout);
 
-            ModularListView listView = (ModularListView)findViewById(R.id.example_listview);
-            listView.addHeaderView(activity.getLayoutInflater().inflate(R.layout.cu__pull_to_refresh, null, false));
-            listView.registerModule(endlessModule = new EndlessModule(this));
-            listView.registerModule(ptrModule = new PullToRefreshModule(this, this);
-            listView.registerModule(ptrModule = new PullToRefreshModule(this, (ViewGroup) findViewbyId(R.id.your_view_in_layout), this); // Or specify the View if you want it as an overlay
-            listView.registerModule(new StickyHeaderModule());
-        }
-
-        @Override
-        public void onNextPage(){
-            page++;
-            loadPageAsync();
-        }
-
-        @Override
-        public void onRefresh(){
-            page = 1;
-            endlessModule.setLoading(true);
-            endlessModule.setEndingReached(false);
-            loadPageAsync();
-        }
-
-        protected void loadPageAsync(){
-            // Load the page
-        }
-
+        ModularListView listView = (ModularListView)findViewById(R.id.example_listview);
+        listView.addHeaderView(activity.getLayoutInflater().inflate(R.layout.cu__pull_to_refresh, null, false));
+        listView.registerModule(endlessModule = new EndlessModule(this));
+        listView.registerModule(ptrModule = new PullToRefreshModule(this, this);
+        listView.registerModule(ptrModule = new PullToRefreshModule(this, (ViewGroup) findViewbyId(R.id.your_view_in_layout), this); // Or specify the View if you want it as an overlay
+        listView.registerModule(new StickyHeaderModule());
     }
+
+    @Override
+    public void onNextPage(){
+        page++;
+        loadPageAsync();
+    }
+
+    @Override
+    public void onRefresh(){
+        page = 1;
+        endlessModule.setLoading(true);
+        endlessModule.setEndingReached(false);
+        loadPageAsync();
+    }
+
+    protected void loadPageAsync(){
+        // Load the page
+    }
+}
+```
     
 Now, assuming you remembered to call **convertView.setTag(R.integer.cu__sticky_header_tag_ref, true);** in your Adapter's **getView()** method for header items, you should, in fact, have an EndlessPullToRefreshStickyHeaderListView. Shit. I wrote it again.
 
@@ -120,37 +123,41 @@ This adapter has support for delegating different items in the adapter to one or
 
 To register different items to different ViewModules, you can do something like:
 
-    ModularArrayAdapter adapter = new ModularArrayAdapter(this)
-            .registerModuleBuilder(ItemType1.class,
-                    new ModuleBuilder(R.layout.list_type_1,
-                            ViewModule1.class,
-                            resId -> new ViewModule1(resId)))
-            .registerModuleBuilder(ItemType2.class,
-                    new ModuleBuilder(R.layout.list_type_2
-                            ViewModule2.class,
-                            resId -> new ViewModule2(resId)));
+```java
+ModularArrayAdapter adapter = new ModularArrayAdapter(this)
+        .registerModuleBuilder(ItemType1.class,
+                new ModuleBuilder(R.layout.list_type_1,
+                        ViewModule1.class,
+                        resId -> new ViewModule1(resId)))
+        .registerModuleBuilder(ItemType2.class,
+                new ModuleBuilder(R.layout.list_type_2
+                        ViewModule2.class,
+                        resId -> new ViewModule2(resId)));
+```
 
 Where ItemType{_} and ViewModule{_} are the classes of the data in your adapter and their respective ViewModules.
 
 Now, let's say you want 1 data-type to match 2 alternating ViewHolders. That could be done by registering the ModuleBuilderResolver instead of just a builder:
 
-    ModuleBuilder builder1 = new ModuleBuilder(R.layout.list_type_1,
-            ViewModule1.class,
-            resId -> new ViewModule1(resId));
+```java
+ModuleBuilder builder1 = new ModuleBuilder(R.layout.list_type_1,
+        ViewModule1.class,
+        resId -> new ViewModule1(resId));
 
-    ModuleBuilder builder2 = new ModuleBuilder(R.layout.list_type_2,
-            ViewModule2.class,
-            resId -> new ViewModule2(resId));
+ModuleBuilder builder2 = new ModuleBuilder(R.layout.list_type_2,
+        ViewModule2.class,
+        resId -> new ViewModule2(resId));
 
-    ModularArrayAdapter adapter = new ModularArrayAdapter(this)                
-            .registerModuleBuilderResolver(ImageHolder1.class,
-                    new ModuleBuilderResolver(builder1, builder2) {
-                        public ModuleBuilder resolve(ModularArrayAdapter adapter, Object item, int position) {
-                            return position % 2 == 0
-                                    ? builder1
-                                    : builder2;
-                        }
-                    });
+ModularArrayAdapter adapter = new ModularArrayAdapter(this)                
+        .registerModuleBuilderResolver(ImageHolder1.class,
+                new ModuleBuilderResolver(builder1, builder2) {
+                    public ModuleBuilder resolve(ModularArrayAdapter adapter, Object item, int position) {
+                        return position % 2 == 0
+                                ? builder1
+                                : builder2;
+                    }
+                });
+```
 
 Just a note: you must also supply the ModuleBuilder instances in the ModuleBuilderResolver constructor or else it won't know how to determine the true indeces of the view types for efficiently reusing layouts.
 
@@ -158,27 +165,29 @@ Just a note: you must also supply the ModuleBuilder instances in the ModuleBuild
 
 A simple ViewModule example:
 
-    public class SimpleViewModule extends ViewModule<String> {
+```java
+public class SimpleViewModule extends ViewModule<String> {
 
-        private ImageView image;
+    private ImageView image;
 
-        public SimpleViewModule(int layoutResId) {
-            super(layoutResId);
-        }
-
-        @Override
-        protected void locateViewComponents(View convertView) {
-            this.image = (ImageView) convertView.findViewById(R.id.some_view_id);
-        }
-
-        @Override
-        public void updateView(ModularArrayAdapter adapter, String item, int position) {
-            new ImageRequest(adapter.getContext(), item)
-                    .setTargetView(image)
-                    .setFadeTransition()
-                    .execute();
-        }
+    public SimpleViewModule(int layoutResId) {
+        super(layoutResId);
     }
+
+    @Override
+    protected void locateViewComponents(View convertView) {
+        this.image = (ImageView) convertView.findViewById(R.id.some_view_id);
+    }
+
+    @Override
+    public void updateView(ModularArrayAdapter adapter, String item, int position) {
+        new ImageRequest(adapter.getContext(), item)
+                .setTargetView(image)
+                .setFadeTransition()
+                .execute();
+    }
+}
+```
 
 ##### ActionCallback
 
@@ -186,22 +195,26 @@ Since I want the modules to be as dumb as possible, the ModularArrayAdapter has 
 
 Ie. register a callback with the adapter
 
-    adapter.registerCallback("key__my_item_clicked", item -> { });
+```java
+adapter.registerCallback("key__my_item_clicked", item -> { });
+```
 
 And then trigger it from with the ViewModule on a click event
 
-    getConvertView().setOnClickListener(v ->
-        adapter.triggerActionCallback("key__my_item_clicked", item));
-
+```java
+getConvertView().setOnClickListener(v ->
+    adapter.triggerCallback("key__my_item_clicked", item));
+```
 ## ListUtils
 
 This is just a helper class I've been playing around with for chaining list augmentations in places where Observables felt like overkill. It supports some basic functions like map, reduce, filter, zipWith, take, etc.
 
 Let's say I have a list of Strings, which I want to convert to integers, multiply by 100, select only those > 300, and then sum those values (why? Idk, it's an example):
 
-    String[] values = new String[]{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-    int sum = new ListUtils<String>(values)
-            .map(v -> Interger.parseInt(v) * 100)
-            .filter(v -> v > 300)
-            .reduce(0, (last, current) -> last + current);
+```java
+int sum = new ListUtils.from(String.split("1, 2, 3, 4, 5, 6, 7, 8, 9, 10"))
+        .map(v -> Interger.parseInt(v) * 100)
+        .filter(v -> v > 300)
+        .reduce(0, (last, current) -> last + current);
+```
 

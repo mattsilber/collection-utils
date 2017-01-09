@@ -14,15 +14,15 @@ import java.util.Map;
 
 public class ModularArrayAdapter extends ArrayAdapter {
 
-    public interface ActionCallback<T> {
+    public interface Callback<T> {
         public void onTriggered(T value);
     }
 
     protected Map<Class, ModuleBuilderResolver> viewModuleBuilders =
             new HashMap<Class, ModuleBuilderResolver>();
 
-    private Map<String, ActionCallback> actionCallbacks =
-            new HashMap<String, ActionCallback>();
+    private Map<String, Callback> actionCallbacks =
+            new HashMap<String, Callback>();
 
     private Map<String, Object> properties =
             new HashMap<String, Object>();
@@ -118,7 +118,7 @@ public class ModularArrayAdapter extends ArrayAdapter {
      * @param key
      * @param callback
      */
-    public ModularArrayAdapter registerCallback(String key, ActionCallback callback){
+    public ModularArrayAdapter registerCallback(String key, Callback callback){
         actionCallbacks.put(key, callback);
 
         return this;
@@ -130,7 +130,7 @@ public class ModularArrayAdapter extends ArrayAdapter {
      * @param key callback key
      * @param value value to be passed
      */
-    public <V> void triggerActionCallback(String key, V value){
+    public <V> void triggerCallback(String key, V value){
         try{
             actionCallbacks.get(key)
                     .onTriggered(value);

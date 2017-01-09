@@ -13,11 +13,12 @@ public class UpdateLoaderTask implements Runnable {
     public void run() {
         try{
             while(!canceled && loader.canUpdate()){
-                loader.getView().post(new Runnable() {
-                    public void run() {
-                        loader.update();
-                    }
-                });
+                loader.getView()
+                        .post(new Runnable() {
+                            public void run() {
+                                loader.update();
+                            }
+                        });
 
                 Thread.sleep(loader.getUpdateRate());
             }

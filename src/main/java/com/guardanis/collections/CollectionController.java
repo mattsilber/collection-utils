@@ -45,6 +45,7 @@ public class CollectionController<T extends ViewGroup> implements View.OnTouchLi
 
     public <V extends CollectionModule<T>> V getModule(Class<V> moduleClass){
         CollectionModule module = modules.get(moduleClass.getName());
+
         return module == null
                 ? null
                 : (V) modules.get(moduleClass.getName());

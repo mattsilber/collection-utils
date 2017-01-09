@@ -1,5 +1,7 @@
 package com.guardanis.collections.tools;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,21 +25,21 @@ public class ListUtils<V> {
         public T reduce(T last, V value);
     }
 
-    public interface FAction<V> {
-        public void executeFAction(V value);
+    public interface Action<V> {
+        public void executeAction(V value);
     }
 
     private List<V> values;
 
-    public ListUtils(V[] values){
+    public ListUtils(@NonNull V[] values){
         this(Arrays.asList(values));
     }
 
-    public ListUtils(List<V> values){
+    public ListUtils(@NonNull List<V> values){
         this.values = values;
     }
 
-    public ListUtils(Set<V> values){
+    public ListUtils(@NonNull Set<V> values){
         this(values.toArray((V[]) new Object[values.size()]));
     }
 
@@ -62,6 +64,10 @@ public class ListUtils<V> {
                 returnables.addAll(new ListUtils((Object[]) o)
                         .flatMap()
                         .values());
+            else if(o instanceof Set)
+                returnables.addAll(new ListUtils((Set) o)
+                        .flatMap()
+                        .values());
             else returnables.add(o);
 
         return new ListUtils(returnables);
@@ -84,9 +90,9 @@ public class ListUtils<V> {
         return initial;
     }
 
-    public ListUtils<V> each(FAction<V> action){
+    public ListUtils<V> each(Action<V> action){
         for(V value : values)
-            action.executeFAction(value);
+            action.executeAction(value);
 
         return this;
     }
@@ -151,15 +157,15 @@ public class ListUtils<V> {
         return values;
     }
 
-    public static <T> ListUtils<T> from(T[] values){
+    public static <T> ListUtils<T> from(@NonNull T[] values){
         return new ListUtils<T>(values);
     }
 
-    public static <T> ListUtils<T> from(List<T> values){
+    public static <T> ListUtils<T> from(@NonNull List<T> values){
         return new ListUtils<T>(values);
     }
 
-    public static <T> ListUtils<T> from(Set<T> values){
+    public static <T> ListUtils<T> from(@NonNull Set<T> values){
         return new ListUtils<T>(values);
     }
 

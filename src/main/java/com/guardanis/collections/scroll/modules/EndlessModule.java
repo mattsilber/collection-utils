@@ -14,8 +14,6 @@ public class EndlessModule extends CollectionModule<ModularScrollView> {
         public void onNextPage();
     }
 
-    public final int NEXT_PAGE_ITEM_THRESHOLD = 7;
-
     protected EndlessEventListener eventListener;
     protected boolean loading = false;
     protected boolean endingReached = false;
@@ -44,10 +42,15 @@ public class EndlessModule extends CollectionModule<ModularScrollView> {
     public void onScroll(int... values) {
         if(isScrollEventProcessable()){
             ViewGroup container = (ViewGroup) parent.getChildAt(0);
-            View view = (View) container.getChildAt(container.getChildCount() - 1);
-            int diff = view == null ? 0 : ((view.getBottom() - view.getHeight() / 2) - (parent.getHeight() + parent.getScrollY()));
+            View view = container.getChildAt(container.getChildCount() - 1);
+
+            int diff = view == null
+                    ? 0
+                    : ((view.getBottom() - view.getHeight() / 2) - (parent.getHeight() + parent.getScrollY()));
+
             if(diff < 1){
                 loading = true;
+
                 eventListener.onNextPage();
             }
         }
