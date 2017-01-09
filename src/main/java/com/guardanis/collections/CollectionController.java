@@ -45,23 +45,27 @@ public class CollectionController<T extends ViewGroup> implements View.OnTouchLi
 
     public <V extends CollectionModule<T>> V getModule(Class<V> moduleClass){
         CollectionModule module = modules.get(moduleClass.getName());
-        return module == null ? null
-            : (V) modules.get(moduleClass.getName());
+        return module == null
+                ? null
+                : (V) modules.get(moduleClass.getName());
     }
 
     public void onDrawDispatched(Canvas canvas){
         for(String key : modules.keySet())
-            modules.get(key).onDrawDispatched(canvas);
+            modules.get(key)
+                    .onDrawDispatched(canvas);
     }
 
     public void onDetachedFromWindow(){
         for(String key : modules.keySet())
-            modules.get(key).onDetachedFromWindow();
+            modules.get(key)
+                    .onDetachedFromWindow();
     }
 
     public void onScrollStateChanged(int scrollState) {
         for(String key : modules.keySet())
-            modules.get(key).onScrollStateChanged(scrollState);
+            modules.get(key)
+                    .onScrollStateChanged(scrollState);
     }
 
     /**
@@ -69,7 +73,8 @@ public class CollectionController<T extends ViewGroup> implements View.OnTouchLi
      */
     public void onScroll(int... values) {
         for(String key : modules.keySet())
-            modules.get(key).onScroll(values);
+            modules.get(key)
+                    .onScroll(values);
     }
 
     public CollectionController<T> registerSecondaryTouchListener(View.OnTouchListener secondaryTouchListener){

@@ -3,6 +3,7 @@ package com.guardanis.collections.tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class ListUtils<V> {
 
@@ -34,6 +35,10 @@ public class ListUtils<V> {
 
     public ListUtils(List<V> values){
         this.values = values;
+    }
+
+    public ListUtils(Set<V> values){
+        this(values.toArray((V[]) new Object[values.size()]));
     }
 
     public <T> ListUtils<T> map(Converter<V, T> converter){
@@ -111,6 +116,16 @@ public class ListUtils<V> {
         return new ListUtils(returnables);
     }
 
+    public ListUtils<V> unique(){
+        List<V> returnables = new ArrayList<V>();
+
+        for(int i = 0; i < values.size(); i++)
+            if(!returnables.contains(values.get(i)))
+                returnables.add(values.get(i));
+
+        return new ListUtils(returnables);
+    }
+
     public String join(String delimiter){
         return join(delimiter, new Converter<V, String>() {
             public String convert(V from) {
@@ -141,6 +156,10 @@ public class ListUtils<V> {
     }
 
     public static <T> ListUtils<T> from(List<T> values){
+        return new ListUtils<T>(values);
+    }
+
+    public static <T> ListUtils<T> from(Set<T> values){
         return new ListUtils<T>(values);
     }
 

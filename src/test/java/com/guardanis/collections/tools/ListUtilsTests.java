@@ -8,6 +8,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ListUtilsTests {
 
@@ -34,13 +38,13 @@ public class ListUtilsTests {
                     public Integer convert(String from) {
                         return Integer.parseInt(from);
                     }
-                }) // "1,2,3,4,5,6,7"
+                }) // 1,2,3,4,5,6,7
                 .filter(new ListUtils.Filter<Integer>() {
                     public boolean isFilterMatched(Integer obj) {
                         return obj > 1 && obj < 7;
                     }
-                }) // "2,3,4,5,6"
-                .take(4)  // "2,3,4,5"
+                }) // 2,3,4,5,6
+                .take(4)  // 2,3,4,5
                 .reduce(0, new ListUtils.Reducer<Integer, Integer>() {
                     public Integer reduce(Integer last, Integer value) {
                         return last + value;
@@ -48,6 +52,26 @@ public class ListUtilsTests {
                 });
 
         assert(reduced == 14);
+    }
+
+    @Test
+    public void testUnique() throws Exception {
+        String original = "1,1,1,2,2,3,3,3,4,4";
+
+        int reduced = ListUtils.from(original.split(","))
+                .unique() // "1,2,3,4"
+                .map(new ListUtils.Converter<String, Integer>() {
+                    public Integer convert(String from) {
+                        return Integer.parseInt(from);
+                    }
+                }) // 1,2,3,4
+                .reduce(0, new ListUtils.Reducer<Integer, Integer>() {
+                    public Integer reduce(Integer last, Integer value) {
+                        return last + value;
+                    }
+                }); // 10
+
+        assert(reduced == 10);
     }
 
 }
