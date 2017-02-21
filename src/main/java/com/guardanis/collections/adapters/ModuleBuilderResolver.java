@@ -1,4 +1,4 @@
-package com.guardanis.collections.list.adapters;
+package com.guardanis.collections.adapters;
 
 import android.support.annotation.NonNull;
 
@@ -17,13 +17,13 @@ public abstract class ModuleBuilderResolver<V, T extends ModuleBuilder> {
             this.builders.add(builder);
     }
 
-    public abstract T resolve(ModularArrayAdapter adapter, V item, int position);
+    public abstract T resolve(ModularAdapter adapter, V item, int position);
 
     public int getBuilderTypeCount(){
         return builders.size();
     }
 
-    public int getViewTypeIndex(ModularArrayAdapter adapter, V item, int position){
+    public int getViewTypeIndex(ModularAdapter adapter, V item, int position){
         ModuleBuilder builder = resolve(adapter, item, position);
 
         for(int i = 0; i < builders.size(); i++)
@@ -32,5 +32,9 @@ public abstract class ModuleBuilderResolver<V, T extends ModuleBuilder> {
 
         throw new RuntimeException("No ModuleBuilder registered for " + item.getClass().getSimpleName()
                 + " at position " + position);
+    }
+
+    public T getBuilder(int localIndex){
+        return builders.get(localIndex);
     }
 }

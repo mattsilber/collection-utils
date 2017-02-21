@@ -1,58 +1,57 @@
-package com.guardanis.collections.list;
+package com.guardanis.collections.recycler;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ListView;
 
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.tools.ListUtils;
 
-public class ModularListView extends ListView implements AbsListView.OnScrollListener {
+public class ModularRecyclerView extends RecyclerView implements AbsListView.OnScrollListener {
 
-    protected CollectionController<ModularListView> controller;
+    protected CollectionController<ModularRecyclerView> controller;
 
     protected boolean flinging = false;
 
-    public ModularListView(Context context) {
+    public ModularRecyclerView(Context context) {
         super(context);
         init();
     }
 
-    public ModularListView(Context context, AttributeSet attrs) {
+    public ModularRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ModularListView(Context context, AttributeSet attrs, int defStyle) {
+    public ModularRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
     protected void init(){
-        controller = new CollectionController<ModularListView>(this);
+        controller = new CollectionController<ModularRecyclerView>(this);
 
         setOnTouchListener(controller);
-        setOnScrollListener(this);
+//        setOnScrollListener(this);
 
         if(Build.VERSION.SDK_INT >= 9)
             setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView v, int scrollState) {
-        flinging = scrollState == OnScrollListener.SCROLL_STATE_FLING;
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-        controller.onScrollStateChanged(scrollState);
     }
 
     @Override
-    public void onScroll(AbsListView v, int i, int i1, int i2) {
-        controller.onScroll(i, i1, i2);
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
     }
 
     @Override
@@ -74,25 +73,25 @@ public class ModularListView extends ListView implements AbsListView.OnScrollLis
         return flinging;
     }
 
-    public CollectionController<ModularListView> getCollectionController(){
+    public CollectionController<ModularRecyclerView> getCollectionController(){
         return controller;
     }
 
-    public ModularListView registerModule(CollectionModule<ModularListView> module){
+    public ModularRecyclerView registerModule(CollectionModule<ModularRecyclerView> module){
         controller.registerModule(module);
 
         return this;
     }
 
-    public void unregisterModule(CollectionModule<ModularListView> module){
+    public void unregisterModule(CollectionModule<ModularRecyclerView> module){
         controller.unregisterModule(module);
     }
 
-    public <V extends CollectionModule<ModularListView>> V getModule(Class<V> moduleClass){
+    public <V extends CollectionModule<ModularRecyclerView>> V getModule(Class<V> moduleClass){
         return controller.getModule(moduleClass);
     }
 
-    public <V extends CollectionModule<ModularListView>> ModularListView bindModule(Class<V> moduleClass, ListUtils.Action<V> action){
+    public <V extends CollectionModule<ModularRecyclerView>> ModularRecyclerView bindModule(Class<V> moduleClass, ListUtils.Action<V> action){
         if(controller.getModule(moduleClass) != null)
             action.executeAction(controller.getModule(moduleClass));
 
@@ -103,4 +102,5 @@ public class ModularListView extends ListView implements AbsListView.OnScrollLis
     public int computeVerticalScrollOffset(){
         return super.computeVerticalScrollOffset();
     }
+
 }

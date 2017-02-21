@@ -9,6 +9,7 @@ import android.widget.ScrollView;
 
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
+import com.guardanis.collections.tools.ListUtils;
 
 public class ModularScrollView extends ScrollView {
 
@@ -79,6 +80,13 @@ public class ModularScrollView extends ScrollView {
 
     public <V extends CollectionModule<ModularScrollView>> V getModule(Class<V> moduleClass){
         return controller.getModule(moduleClass);
+    }
+
+    public <V extends CollectionModule<ModularScrollView>> ModularScrollView bindModule(Class<V> moduleClass, ListUtils.Action<V> action){
+        if(controller.getModule(moduleClass) != null)
+            action.executeAction(controller.getModule(moduleClass));
+
+        return this;
     }
 
     @Override
