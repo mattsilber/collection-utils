@@ -13,7 +13,7 @@ import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.tools.ListUtils;
 
-public class ModularRecyclerView extends RecyclerView implements AbsListView.OnScrollListener {
+public class ModularRecyclerView extends RecyclerView {
 
     protected CollectionController<ModularRecyclerView> controller;
 
@@ -38,20 +38,9 @@ public class ModularRecyclerView extends RecyclerView implements AbsListView.OnS
         controller = new CollectionController<ModularRecyclerView>(this);
 
         setOnTouchListener(controller);
-//        setOnScrollListener(this);
 
         if(Build.VERSION.SDK_INT >= 9)
             setOverScrollMode(View.OVER_SCROLL_NEVER);
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
     }
 
     @Override
@@ -59,6 +48,22 @@ public class ModularRecyclerView extends RecyclerView implements AbsListView.OnS
         super.dispatchDraw(canvas);
 
         controller.onDrawDispatched(canvas);
+    }
+
+    @Override
+    public void onScrollStateChanged(int newState) {
+        super.onScrollStateChanged(newState);
+
+        flinging = newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING;
+
+        controller.onScrollStateChanged(newState);
+    }
+
+    @Override
+    public void onScrolled(int dx, int dy) {
+        super.onScrolled(dx, dy);
+
+        controller.onScroll(dx, dy);
     }
 
     @Override
