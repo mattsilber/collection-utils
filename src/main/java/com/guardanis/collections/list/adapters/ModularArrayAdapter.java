@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
+import com.guardanis.collections.adapters.Callback;
 import com.guardanis.collections.adapters.ModularAdapter;
 import com.guardanis.collections.adapters.ModuleBuilder;
 import com.guardanis.collections.adapters.ModuleBuilderResolver;
@@ -16,10 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter<ListViewModule> {
-
-    public interface Callback<T> {
-        public void onTriggered(T value);
-    }
 
     protected Map<Class, ModuleBuilderResolver> viewModuleBuilders =
             new HashMap<Class, ModuleBuilderResolver>();

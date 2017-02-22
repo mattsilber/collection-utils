@@ -2,8 +2,6 @@ package com.guardanis.collections.adapters;
 
 import android.content.Context;
 
-import com.guardanis.collections.list.adapters.ModularArrayAdapter;
-
 public interface ModularAdapter<M extends AdapterViewModule> {
 
     public Context getContext();
@@ -24,7 +22,7 @@ public interface ModularAdapter<M extends AdapterViewModule> {
      * @param key
      * @param callback
      */
-    public ModularAdapter<M> registerCallback(String key, ModularArrayAdapter.Callback callback);
+    public ModularAdapter<M> registerCallback(String key, Callback callback);
 
     /**
      * Trigger a previously added ActionCallback or do nothing if it doesn't exist or

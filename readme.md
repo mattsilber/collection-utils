@@ -4,7 +4,7 @@
 
 An assortment of modularized additives for collection-based layouts so I never have to create a class named EndlessPullToRefreshStickyHeaderListView ever again.
 
-The idea is simple: Have a ModularizedListView that can delegates touch and draw events to a CollectionController, which then delegates those events to its child CollectionModule(s) to accomplish a specific task. 
+The idea is simple: Have a ModularListView or ModularRecyclerView that can delegates touch and draw events to a CollectionController, which then delegates those events to its child CollectionModule(s) to accomplish a specific task. 
 
 # Installation
 
@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compile('com.guardanis:collection-utils:1.1.0')
+    compile('com.guardanis:collection-utils:2.0.0')
 }
 ```
 
@@ -22,15 +22,15 @@ dependencies {
 
 I've already implemented several modules, include PullToRefresh, StickyHeaders, ScrollEvent, and Endless modules (see below for details). If you come up with others, please feel free to share and make a pull request.
 
-## Currently Implemented ListView modules
+### Currently Implemented ListView modules
 
-### EndlessModule
+#### EndlessModule
 
 The EndlessModule triggers a callback onNextPage() when a user is approaching the end of the list.
 
 **Note**: You must manually call endlessModule.setLoading(false) and/or endlessModule.setEndingReached(true) when you have finished loading your next page of data or reached the end, respectively. Otherwise the next onNextPage() event won't be triggered.
 
-### PullToRefreshModule
+#### PullToRefreshModule
 
 A simple pull to refresh system. Pulling down from the top of a list will pull cause the header to expand. When released passed the threshold, it will trigger a loading animation and a callback to **onRefresh()**, allowing you to update the data.
 
@@ -38,13 +38,13 @@ A simple pull to refresh system. Pulling down from the top of a list will pull c
 
 If you would like to override the drawables used (because, why wouldn't you?), just override *R.drawable.cu__ptr_loading_image* and *R.drawable.cu__ptr_pulling_image* or set the images into the Views after they have been inflated.
 
-##### Image Delegates
+###### Image Delegates
 
 As of version 1.0.7, the PTR-related ImageViews will delegate their update/drawing calls to either a **PulledImageDelegate** or **LoadingImageDelegate** so that the behavior of the drawing can be changed at will.
 
 Both the ModularListView and ModularScrollView have helper methods, **setPulledImageDelegate(PulledImageDelegate)** and **setLoadingImageDelegate(LoadingImageDelegate)**, respectively.
 
-### StickyHeaderModule
+#### StickyHeaderModule
 
 When scrolling long data-separated lists (or any grouped list, for that matter), it's really nice to have sticky headers show you where you are. This will help you do that.
 
@@ -65,11 +65,11 @@ public View getView(int position, View convertView, ViewGroup parent){
 }
 ```
 
-### ScrollEventModule
+#### ScrollEventModule
 
 I very often find myself needing to know when, and how far, a ListView is being scrolled. This will trigger a callback to **onScrolled(int distance)** as that happens.
 
-### Pulling it all together
+#### Pulling it all together
 
 This will hopefully be the last time I ever write EndlessPullToRefreshStickyHeaderListView because that's what I'm implementing here:
 
@@ -117,11 +117,11 @@ Now, assuming you remembered to call **convertView.setTag(R.integer.cu__sticky_h
 
 Anyway, this allows you to create custom components for a ListView without having to worry about extending the class.
 
-## ModularArrayAdapter
+## ModularAdapter
 
 This adapter has support for delegating different items in the adapter to one or more different ViewModules, which act as both a ViewHolder and an interface for updating the Views in said holder with the correct data. This allows you to easily show many different layouts for one or more different types of data without having to do anything but setup a ViewModule and register a ModuleBuilder for it.
 
-To register different items to different ViewModules, you can do something like:
+To register different items to different AdapterViewModules, you can do something like:
 
 ```java
 ModularArrayAdapter adapter = new ModularArrayAdapter(this)
@@ -135,7 +135,7 @@ ModularArrayAdapter adapter = new ModularArrayAdapter(this)
                         resId -> new ViewModule2(resId)));
 ```
 
-Where ItemType{_} and ViewModule{_} are the classes of the data in your adapter and their respective ViewModules.
+Where ItemType{_} and ViewModule{_} are the classes of the data in your adapter and their respective AdapterViewModules.
 
 Now, let's say you want 1 data-type to match 2 alternating ViewHolders. That could be done by registering the ModuleBuilderResolver instead of just a builder:
 
@@ -161,12 +161,14 @@ ModularArrayAdapter adapter = new ModularArrayAdapter(this)
 
 Just a note: you must also supply the ModuleBuilder instances in the ModuleBuilderResolver constructor or else it won't know how to determine the true indeces of the view types for efficiently reusing layouts.
 
-##### ViewModule
+##### AdapterViewModule
 
-A simple ViewModule example:
+The `AdapterViewModule` is the base class for use with the modular builders. Currently, there are 2 base implementation classes: the `ListViewModule` and the `RecyclerViewModule` for their respective Views. No, they are not compatible with one another.
+
+`ListViewModule` example:
 
 ```java
-public class SimpleViewModule extends ViewModule<String> {
+public class SimpleViewModule extends ListViewModule<String> {
 
     private ImageView image;
 
@@ -188,10 +190,45 @@ public class SimpleViewModule extends ViewModule<String> {
     }
 }
 ```
+The same example, but for the `RecyclerViewModule`:
+
+```java
+public class SimpleViewModule extends RecyclerViewModule<String, SimpleViewHolder> {
+
+    private ImageView image;
+
+    public SimpleViewModule(int layoutResId) {
+        super(layoutResId);
+    }
+
+    @Override
+    protected SimpleViewHolder buildViewHolder(View convertView) {
+        return new SimpleViewHolder(convertView);
+    }
+
+    @Override
+    public void updateView(ModularArrayAdapter adapter, String item, int position) {
+        new ImageRequest(adapter.getContext(), item)
+                .setTargetView(getViewHolder().image)
+                .setFadeTransition()
+                .execute();
+    }
+}
+
+public static class SimpleViewHolder extends RecyclerView.ViewHolder {
+    ImageView image;
+
+    public SimpleViewHolder(View convertView){
+        super(convertView);
+        this.image = (ImageView) convertView.findViewById(R.id.some_view_id);
+    }
+
+}
+```
 
 ##### Callbacks
 
-Since I want the modules to be as dumb as possible, the ModularArrayAdapter has a type-less callback system allowing you to register, and trigger, callbacks with just keys and the values you want supplied with them. Granted, this removes type-safety and can make it more difficult to track down issues, but there are tradeoffs with everything.
+Since I want the modules to be as dumb as possible, the ModularAdapters have a type-less callback system allowing you to register, and trigger, callbacks with just keys and the values you want supplied with them. Granted, this removes type-safety and can make it more difficult to track down issues, but there are tradeoffs with everything.
 
 Ie. register a callback with the adapter
 

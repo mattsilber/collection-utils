@@ -6,10 +6,10 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
+import com.guardanis.collections.adapters.Callback;
 import com.guardanis.collections.adapters.ModularAdapter;
 import com.guardanis.collections.adapters.ModuleBuilder;
 import com.guardanis.collections.adapters.ModuleBuilderResolver;
-import com.guardanis.collections.list.adapters.ModularArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +23,8 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     protected Map<Class, ModuleBuilderResolver> viewModuleBuilders =
             new HashMap<Class, ModuleBuilderResolver>();
 
-    private Map<String, ModularArrayAdapter.Callback> actionCallbacks =
-            new HashMap<String, ModularArrayAdapter.Callback>();
+    private Map<String, Callback> actionCallbacks =
+            new HashMap<String, Callback>();
 
     private Map<String, Object> properties =
             new HashMap<String, Object>();
@@ -124,7 +124,7 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public ModularRecyclerAdapter registerCallback(String key, ModularArrayAdapter.Callback callback){
+    public ModularRecyclerAdapter registerCallback(String key, Callback callback){
         actionCallbacks.put(key, callback);
 
         return this;
