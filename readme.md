@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compile('com.guardanis:collection-utils:2.0.1')
+    compile('com.guardanis:collection-utils:2.0.2')
 }
 ```
 
@@ -248,7 +248,7 @@ Types can be defined at the registration-level (e.g. `adapter.registerCallback(S
 
 ## ListUtils
 
-This is just a helper class I've been playing around with for chaining list augmentations in places where Observables felt like overkill. It supports some basic functions like map, reduce, filter, zipWith, take, etc.
+This is just a helper class I've been playing around with for chaining list augmentations in places where Observables felt like overkill. It supports some basic functions like map, reduce, filter, zipWith, take, unique, sort, reverse, join, etc.
 
 Let's say I have a list of Strings, which I want to convert to integers, multiply by 100, select only those > 300, and then sum those values (why? Idk, it's an example):
 

@@ -2,8 +2,12 @@ package com.guardanis.collections.tools;
 
 import android.support.annotation.NonNull;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -122,6 +126,27 @@ public class ListUtils<V> {
         return new ListUtils(returnables);
     }
 
+    public ListUtils<V> reverse(){
+        List<V> returnables = new ArrayList<V>();
+
+        for(int i = values.size() - 1; 0 <= i; i--)
+            returnables.add(values.get(i));
+
+        return new ListUtils(returnables);
+    }
+
+    public ListUtils<V> sort(Comparator<V> comparator){
+        List<V> returnables = new ArrayList<V>();
+
+        for(int i = 0; i < values.size(); i++)
+            returnables.add(values.get(i));
+
+        Collections.sort(returnables,
+                comparator);
+
+        return new ListUtils(returnables);
+    }
+
     public ListUtils<V> unique(){
         List<V> returnables = new ArrayList<V>();
 
@@ -155,6 +180,26 @@ public class ListUtils<V> {
 
     public List<V> values(){
         return values;
+    }
+
+    /**
+     * Convert and return the resulting List<V> as an array of type V.
+     * Class<V> arrayType must be explicitly defined so we're not using
+     * items to determine the true array type.
+     */
+    @SuppressWarnings("unchecked")
+    public V[] valuesToArray(Class<V> arrayType){
+        return values.toArray((V[]) Array.newInstance(arrayType,
+                values.size()));
+    }
+
+    public static <T> ListUtils<T> fromMappedCount(int count, Converter<Integer, T> converter){
+        List<T> values = new ArrayList<T>();
+
+        for(int i = 0; i < count; i++)
+            values.add(converter.convert(i));
+
+        return new ListUtils<T>(values);
     }
 
     public static <T> ListUtils<T> from(@NonNull T[] values){
