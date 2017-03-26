@@ -3,22 +3,17 @@ package com.guardanis.collections.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 
-import com.guardanis.collections.tools.Loader;
 import com.guardanis.collections.tools.PullToRefreshHelper;
 import com.guardanis.collections.tools.UpdateLoaderTask;
 import com.guardanis.collections.tools.ViewHelper;
 
-public class PTRLoadingView extends ImageView implements Loader {
-
-    private final int UPDATE_RATE = 50;
+public class PTRLoadingView extends ImageView implements Runnable {
 
     private PullToRefreshHelper.LoadingImageDelegate loadingImageDelegate;
 
     private UpdateLoaderTask updateLoaderAsync;
-    private boolean enabled = false;
 
     public PTRLoadingView(Context context) {
         super(context);
@@ -56,50 +51,31 @@ public class PTRLoadingView extends ImageView implements Loader {
         canvas.restore();
     }
 
-    @Override
-    public void update() {
-        if(loadingImageDelegate != null)
-            loadingImageDelegate.update();
-
-        invalidate();
-    }
-
-    @Override
     public void stop() {
-        enabled = false;
-
         if(updateLoaderAsync != null)
             updateLoaderAsync.cancel();
+
+        updateLoaderAsync = null;
     }
 
-    @Override
     public void start() {
         stop();
-
-        enabled = true;
 
         if(loadingImageDelegate != null)
             loadingImageDelegate.reset();
 
-        updateLoaderAsync = new UpdateLoaderTask(this);
+        updateLoaderAsync = new UpdateLoaderTask(this, this);
 
         new Thread(updateLoaderAsync)
                 .start();
     }
 
     @Override
-    public View getView() {
-        return this;
-    }
+    public void run() {
+        if(loadingImageDelegate != null)
+            loadingImageDelegate.update();
 
-    @Override
-    public int getUpdateRate() {
-        return UPDATE_RATE;
-    }
-
-    @Override
-    public boolean canUpdate() {
-        return enabled;
+        invalidate();
     }
 
     @Override
@@ -108,4 +84,5 @@ public class PTRLoadingView extends ImageView implements Loader {
 
         super.onDetachedFromWindow();
     }
+
 }
