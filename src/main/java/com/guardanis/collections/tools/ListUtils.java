@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ListUtils<V> {
@@ -59,11 +61,11 @@ public class ListUtils<V> {
     public ListUtils<Object> flatMap(){
         List<Object> returnables = new ArrayList<Object>();
 
-        for(Object o : values)
+        for(Object o : values){
             if(o instanceof List)
                 returnables.addAll(new ListUtils((List) o)
-                    .flatMap()
-                    .values());
+                        .flatMap()
+                        .values());
             else if(o instanceof Object[])
                 returnables.addAll(new ListUtils((Object[]) o)
                         .flatMap()
@@ -72,7 +74,9 @@ public class ListUtils<V> {
                 returnables.addAll(new ListUtils((Set) o)
                         .flatMap()
                         .values());
-            else returnables.add(o);
+            else if(o != null)
+                returnables.add(o);
+        }
 
         return new ListUtils(returnables);
     }
@@ -157,6 +161,31 @@ public class ListUtils<V> {
         return new ListUtils(returnables);
     }
 
+    public ListUtils<Map.Entry<String, List<V>>> groupBy(@NonNull Converter<V, String> groupHasher) {
+        Map<String, List<V>> map = new HashMap<String, List<V>>();
+
+        for(V value : values) {
+            String hash = groupHasher.convert(value);
+
+            List<V> values = map.get(hash);
+
+            if(values == null){
+                values = new ArrayList<V>();
+
+                map.put(hash, values);
+            }
+
+            values.add(value);
+        }
+
+        List<Map.Entry<String, List<V>>> returnables = new ArrayList<Map.Entry<String, List<V>>>();
+
+        for(String key : map.keySet())
+            returnables.add(new MapEntry<List<V>>(key, map.get(key)));
+
+        return new ListUtils(returnables);
+    }
+
     public String join(String delimiter){
         return join(delimiter, new Converter<V, String>() {
             public String convert(V from) {
@@ -212,6 +241,34 @@ public class ListUtils<V> {
 
     public static <T> ListUtils<T> from(@NonNull Set<T> values){
         return new ListUtils<T>(values);
+    }
+
+    private static class MapEntry<V> implements Map.Entry<String, V> {
+
+        private String key;
+        private V value;
+
+        public MapEntry(String key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public V getValue() {
+            return value;
+        }
+
+        @Override
+        public V setValue(V v) {
+            V old = value;
+            this.value = v;
+            return old;
+        }
     }
 
 }

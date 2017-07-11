@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -96,6 +97,31 @@ public class ListUtilsTests {
 
         assert(values[0] == 0
                 && values[2] == 2);
+    }
+
+    @Test
+    public void testGroupBy() throws Exception {
+        String[] data = new String[]{ "1", "2", "1" };
+
+        int size = ListUtils.from(data)
+                .groupBy(new ListUtils.Converter<String, String>() {
+                    @Override
+                    public String convert(String item) {
+                        return item;
+                    }
+                })
+                .filter(new ListUtils.Filter<Map.Entry<String, List<String>>>() {
+                    @Override
+                    public boolean isFilterMatched(Map.Entry<String, List<String>> items) {
+                        return items.getKey().equals("1");
+                    }
+                })
+                .values()
+                .get(0)
+                .getValue()
+                .size();
+
+        assert(size == 2);
     }
 
     private static class SimpleNumberConverter implements ListUtils.Converter<String, Integer> {
