@@ -116,8 +116,7 @@ public class ListUtilsTests {
                         return items.getKey().equals("1");
                     }
                 })
-                .values()
-                .get(0)
+                .first()
                 .getValue()
                 .size();
 

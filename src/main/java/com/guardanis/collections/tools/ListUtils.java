@@ -105,6 +105,13 @@ public class ListUtils<V> {
         return this;
     }
 
+    public ListUtils<V> eachIndexed(Action<MapEntry<String, V>> action){
+        for(int i = 0; i < values.size(); i++)
+            action.executeAction(new MapEntry(i, values.get(i)));
+
+        return this;
+    }
+
     public ListUtils<V> take(int count){
         return take(count, 0);
     }
@@ -181,9 +188,23 @@ public class ListUtils<V> {
         List<Map.Entry<String, List<V>>> returnables = new ArrayList<Map.Entry<String, List<V>>>();
 
         for(String key : map.keySet())
-            returnables.add(new MapEntry<List<V>>(key, map.get(key)));
+            returnables.add(new MapEntry<String, List<V>>(key, map.get(key)));
 
         return new ListUtils(returnables);
+    }
+
+    public V first() {
+        if(values.size() < 1)
+            return null;
+
+        return values.get(0);
+    }
+
+    public V last() {
+        if(values.size() < 1)
+            return null;
+
+        return values.get(values.size() - 1);
     }
 
     public String join(String delimiter){
@@ -243,18 +264,18 @@ public class ListUtils<V> {
         return new ListUtils<T>(values);
     }
 
-    private static class MapEntry<V> implements Map.Entry<String, V> {
+    private static class MapEntry<K, V> implements Map.Entry<K, V> {
 
-        private String key;
+        private K key;
         private V value;
 
-        public MapEntry(String key, V value) {
+        public MapEntry(K key, V value) {
             this.key = key;
             this.value = value;
         }
 
         @Override
-        public String getKey() {
+        public K getKey() {
             return key;
         }
 
