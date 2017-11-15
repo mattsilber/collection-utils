@@ -162,6 +162,11 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return context;
     }
 
+    public void insert(int position, Object obj){
+        this.data.add(position, obj);
+        notifyDataSetChanged();
+    }
+
     public void add(Object obj){
         this.data.add(obj);
         notifyDataSetChanged();
@@ -184,8 +189,12 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        this.data.clear();
+        notifyDataSetChanged();
+    }
+
     public Object getItem(int position){
         return data.get(position);
     }
-
 }
