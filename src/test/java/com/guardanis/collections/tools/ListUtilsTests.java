@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -100,18 +101,64 @@ public class ListUtilsTests {
     }
 
     @Test
+    public void testFlatMap() throws Exception {
+        List<Integer> child1 = new ArrayList<Integer>();
+        child1.add(10);
+        child1.add(11);
+        child1.add(12);
+
+        List<Integer> child2 = new ArrayList<Integer>();
+        child2.add(20);
+        child2.add(21);
+
+        List<Integer> parent = new ArrayList<Integer>();
+        parent.add(0);
+        parent.addAll(child1);
+        parent.addAll(child2);
+
+        String value = ListUtils.from(parent)
+                .flatMap()
+                .reduce("", new ListUtils.Reducer<String, Integer>() {
+                    public String reduce(String last, Integer current) {
+                        return last + current + " ";
+                    }
+                })
+                .trim();
+
+        assert(value.equals("0 10 11 12 20 21"));
+    }
+
+    @Test
+    public void testFlatMapExcludesNull() throws Exception {
+        List<Integer> parent = new ArrayList<Integer>();
+        parent.add(0);
+        parent.add(1);
+        parent.add(2);
+        parent.add(3);
+
+        String value = ListUtils.from(parent)
+                .flatMap()
+                .reduce("", new ListUtils.Reducer<String, Integer>() {
+                    public String reduce(String last, Integer current) {
+                        return current < 2 ? last : last + current + " ";
+                    }
+                })
+                .trim();
+
+        assert(value.equals("2 3"));
+    }
+
+    @Test
     public void testGroupBy() throws Exception {
         String[] data = new String[]{ "1", "2", "1" };
 
         int size = ListUtils.from(data)
                 .groupBy(new ListUtils.Converter<String, String>() {
-                    @Override
                     public String convert(String item) {
                         return item;
                     }
                 })
                 .filter(new ListUtils.Filter<Map.Entry<String, List<String>>>() {
-                    @Override
                     public boolean isFilterMatched(Map.Entry<String, List<String>> items) {
                         return items.getKey().equals("1");
                     }

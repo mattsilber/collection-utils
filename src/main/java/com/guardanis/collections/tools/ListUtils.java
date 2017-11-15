@@ -49,7 +49,7 @@ public class ListUtils<V> {
         this(values.toArray((V[]) new Object[values.size()]));
     }
 
-    public <T> ListUtils<T> map(Converter<V, T> converter){
+    public <T> ListUtils<T> map(Converter<V, T> converter) {
         List<T> returnables = new ArrayList<T>();
 
         for(V value : values)
@@ -58,24 +58,43 @@ public class ListUtils<V> {
         return new ListUtils(returnables);
     }
 
-    public ListUtils<Object> flatMap(){
-        List<Object> returnables = new ArrayList<Object>();
+    public ListUtils<V> flatMap() {
+        return flatMap(new Converter<V, V>(){
+            public V convert(V from) {
+                return from;
+            }
+        });
+    }
 
-        for(Object o : values){
-            if(o instanceof List)
-                returnables.addAll(new ListUtils((List) o)
-                        .flatMap()
+    public <T> ListUtils<T> flatMap(Converter<V, T> converter){
+        List<T> returnables = new ArrayList<T>();
+
+        for (V value : values) {
+            List<T> converted = new ArrayList<T>();
+
+            if(value instanceof List)
+                converted.addAll(new ListUtils((List<V>) value)
+                        .flatMap(converter)
                         .values());
-            else if(o instanceof Object[])
-                returnables.addAll(new ListUtils((Object[]) o)
-                        .flatMap()
+            else if(value instanceof Object[])
+                converted.addAll(new ListUtils((Object[]) value)
+                        .flatMap(converter)
                         .values());
-            else if(o instanceof Set)
-                returnables.addAll(new ListUtils((Set) o)
-                        .flatMap()
+            else if(value instanceof Set)
+                converted.addAll(new ListUtils((Set) value)
+                        .flatMap(converter)
                         .values());
-            else if(o != null)
-                returnables.add(o);
+            else if(value != null) {
+                T item = converter.convert(value);
+
+                if(item != null)
+                    converted.add(item);
+            }
+
+            if(converted == null || converted.size() < 1)
+                continue;
+
+            returnables.addAll(converted);
         }
 
         return new ListUtils(returnables);
@@ -105,7 +124,7 @@ public class ListUtils<V> {
         return this;
     }
 
-    public ListUtils<V> eachIndexed(Action<MapEntry<String, V>> action){
+    public ListUtils<V> eachIndexed(Action<MapEntry<Integer, V>> action){
         for(int i = 0; i < values.size(); i++)
             action.executeAction(new MapEntry(i, values.get(i)));
 
@@ -264,7 +283,7 @@ public class ListUtils<V> {
         return new ListUtils<T>(values);
     }
 
-    private static class MapEntry<K, V> implements Map.Entry<K, V> {
+    public static class MapEntry<K, V> implements Map.Entry<K, V> {
 
         private K key;
         private V value;
@@ -291,5 +310,4 @@ public class ListUtils<V> {
             return old;
         }
     }
-
 }
