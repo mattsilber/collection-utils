@@ -58,15 +58,15 @@ public class ListUtils<V> {
         return new ListUtils(returnables);
     }
 
-    public ListUtils<V> flatMap() {
-        return flatMap(new Converter<V, V>(){
-            public V convert(V from) {
+    public ListUtils<Object> flatMap() {
+        return flatMap(new Converter<V, Object>(){
+            public Object convert(V from) {
                 return from;
             }
         });
     }
 
-    public <T> ListUtils<T> flatMap(Converter<V, T> converter){
+    public <T, S> ListUtils<T> flatMap(Converter<S, T> converter){
         List<T> returnables = new ArrayList<T>();
 
         for (V value : values) {
@@ -77,15 +77,15 @@ public class ListUtils<V> {
                         .flatMap(converter)
                         .values());
             else if(value instanceof Object[])
-                converted.addAll(new ListUtils((Object[]) value)
+                converted.addAll(new ListUtils((V[]) value)
                         .flatMap(converter)
                         .values());
             else if(value instanceof Set)
-                converted.addAll(new ListUtils((Set) value)
+                converted.addAll(new ListUtils((Set<V>) value)
                         .flatMap(converter)
                         .values());
             else if(value != null) {
-                T item = converter.convert(value);
+                T item = converter.convert((S) value);
 
                 if(item != null)
                     converted.add(item);

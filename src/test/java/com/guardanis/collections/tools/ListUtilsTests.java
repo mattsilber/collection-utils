@@ -111,13 +111,17 @@ public class ListUtilsTests {
         child2.add(20);
         child2.add(21);
 
-        List<Integer> parent = new ArrayList<Integer>();
+        List<Object> parent = new ArrayList<Object>();
         parent.add(0);
-        parent.addAll(child1);
-        parent.addAll(child2);
+        parent.add(child1);
+        parent.add(child2);
 
         String value = ListUtils.from(parent)
-                .flatMap()
+                .flatMap(new ListUtils.Converter<Object, Integer>() {
+                    public Integer convert(Object from) {
+                        return (Integer) from;
+                    }
+                })
                 .reduce("", new ListUtils.Reducer<String, Integer>() {
                     public String reduce(String last, Integer current) {
                         return last + current + " ";
@@ -129,6 +133,37 @@ public class ListUtilsTests {
     }
 
     @Test
+    public void testFlatMapNestedList() throws Exception {
+        List<Integer> child1 = new ArrayList<Integer>();
+        child1.add(10);
+        child1.add(11);
+        child1.add(12);
+
+        List<Integer> child2 = new ArrayList<Integer>();
+        child2.add(20);
+        child2.add(21);
+
+        List<List<Integer>> parent = new ArrayList<List<Integer>>();
+        parent.add(child1);
+        parent.add(child2);
+
+        String value = ListUtils.from(parent)
+                .flatMap(new ListUtils.Converter<Integer, Integer>() {
+                    public Integer convert(Integer from) {
+                        return from;
+                    }
+                })
+                .reduce("", new ListUtils.Reducer<String, Integer>() {
+                    public String reduce(String last, Integer current) {
+                        return last + current + " ";
+                    }
+                })
+                .trim();
+
+        assert(value.equals("10 11 12 20 21"));
+    }
+
+    @Test
     public void testFlatMapExcludesNull() throws Exception {
         List<Integer> parent = new ArrayList<Integer>();
         parent.add(0);
@@ -137,10 +172,14 @@ public class ListUtilsTests {
         parent.add(3);
 
         String value = ListUtils.from(parent)
-                .flatMap()
+                .flatMap(new ListUtils.Converter<Integer, Integer>() {
+                    public Integer convert(Integer from) {
+                        return from < 2 ? null : from;
+                    }
+                })
                 .reduce("", new ListUtils.Reducer<String, Integer>() {
                     public String reduce(String last, Integer current) {
-                        return current < 2 ? last : last + current + " ";
+                        return last + current + " ";
                     }
                 })
                 .trim();
