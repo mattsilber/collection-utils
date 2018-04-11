@@ -252,8 +252,8 @@ public class ListUtils<V> {
     }
 
     /**
-     * Convert and return the resulting List<V> as an array of type V.
-     * Class<V> arrayType must be explicitly defined so we're not using
+     * Convert and return the resulting List as an array of type V.
+     * Class arrayType must be explicitly defined so we're not using
      * items to determine the true array type.
      */
     @SuppressWarnings("unchecked")
