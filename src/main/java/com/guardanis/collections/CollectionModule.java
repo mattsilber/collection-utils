@@ -23,5 +23,4 @@ public abstract class CollectionModule<T extends ViewGroup> implements View.OnTo
     public abstract void onScrollStateChanged(int scrollState);
 
     public abstract void onScroll(int... values);
-
 }
