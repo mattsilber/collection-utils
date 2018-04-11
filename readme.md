@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile('com.guardanis:collection-utils:2.2.1')
+    compile('com.guardanis:collection-utils:2.3.0')
 }
 ```
 
@@ -33,6 +33,8 @@ The EndlessModule triggers an `onNextPage()` callback when a user is approaching
 **Note**: You must manually call `EndlessModule.setLoading(false)` and/or `EndlessModule.setEndingReached(true)` when you have finished loading your next page of data or reached the end, respectively. Otherwise the next `onNextPage()` event won't be triggered.
 
 #### PullToRefreshModule
+
+Removed in version 2.3.0
 
 A simple pull to refresh system. Pulling down from the top of a list will pull cause the header to expand. When released passed the threshold, it will trigger a loading animation and a callback to `onRefresh()`, allowing you to update the data.
 

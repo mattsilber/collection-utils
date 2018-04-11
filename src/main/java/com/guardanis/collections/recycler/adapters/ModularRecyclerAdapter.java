@@ -20,14 +20,11 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private Context context;
 
-    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders =
-            new HashMap<Class, ModuleBuilderResolver>();
+    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new HashMap<Class, ModuleBuilderResolver>();
 
-    private Map<String, Callback> actionCallbacks =
-            new HashMap<String, Callback>();
+    private Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
 
-    private Map<String, Object> properties =
-            new HashMap<String, Object>();
+    private Map<String, Object> properties = new HashMap<String, Object>();
 
     private List<Object> data = new ArrayList<Object>();
 
@@ -75,10 +72,7 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         .createViewModule();
 
                 module.overrideViewHolder(holder);
-
-                module.updateView(this,
-                        item,
-                        position);
+                module.updateView(this, item, position);
             }
         }
     }

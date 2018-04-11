@@ -18,14 +18,11 @@ import java.util.Map;
 
 public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter<ListViewModule> {
 
-    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders =
-            new HashMap<Class, ModuleBuilderResolver>();
+    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new HashMap<Class, ModuleBuilderResolver>();
 
-    private Map<String, Callback> actionCallbacks =
-            new HashMap<String, Callback>();
+    private Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
 
-    private Map<String, Object> properties =
-            new HashMap<String, Object>();
+    private Map<String, Object> properties = new HashMap<String, Object>();
 
     public ModularArrayAdapter(Context context) {
         super(context, 0, new ArrayList());
@@ -145,5 +142,4 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter<
 
         return null;
     }
-
 }

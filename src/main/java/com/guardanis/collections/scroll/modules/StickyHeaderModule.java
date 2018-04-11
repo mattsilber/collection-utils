@@ -44,6 +44,7 @@ public class StickyHeaderModule extends CollectionModule<ModularScrollView> {
 
         if(firstPosition > -1){
             currentStickyViewParent = (ViewGroup) contentsParent.getChildAt(firstPosition);
+
             if(currentStickyViewParent != null)
                 currentStickyView = currentStickyViewParent.findViewById(stickyHeaderId);
         }
@@ -74,7 +75,8 @@ public class StickyHeaderModule extends CollectionModule<ModularScrollView> {
     private int getAdjustedTopPosition() {
         if(parent.getScrollY() > (currentStickyViewParent.getTop() + currentStickyViewParent.getHeight() - currentStickyView.getHeight()))
             return currentStickyViewParent.getTop() + currentStickyViewParent.getHeight() - currentStickyView.getHeight();
-        else return parent.getScrollY();
+        else
+            return parent.getScrollY();
     }
 
 }
