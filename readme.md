@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile('com.guardanis:collection-utils:2.3.0')
+    compile('com.guardanis:collection-utils:2.4.0')
 }
 ```
 
