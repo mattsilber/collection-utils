@@ -25,9 +25,7 @@ public class ModuleBuilder<T extends AdapterViewModule> {
      */
     public T create(ViewGroup parent){
         T item = createViewModule();
-
-        item.build(parent.getContext(),
-                parent);
+        item.build(parent.getContext(), parent);
 
         return item;
     }

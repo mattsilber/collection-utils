@@ -99,7 +99,8 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter<
                 }
                 else module = (ListViewModule) convertView.getTag();
 
-                module.updateView(this, item, position);
+                ((ListViewModule) module)
+                        .updateView(this, item, position);
 
                 return convertView;
             }

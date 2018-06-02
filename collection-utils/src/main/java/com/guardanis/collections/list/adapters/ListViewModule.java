@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
 
-public abstract class ListViewModule<T> extends AdapterViewModule<T, ModularArrayAdapter> {
+public abstract class ListViewModule<T> extends AdapterViewModule<View> {
 
     protected View convertView;
 
@@ -24,6 +24,8 @@ public abstract class ListViewModule<T> extends AdapterViewModule<T, ModularArra
     }
 
     protected abstract void locateViewComponents(View convertView);
+
+    public abstract void updateView(ModularArrayAdapter adapter, T item, int position);
 
     public View getConvertView(){
         return convertView;

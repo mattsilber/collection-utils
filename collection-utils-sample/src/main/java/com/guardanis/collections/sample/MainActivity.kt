@@ -8,9 +8,7 @@ import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.recycler.ModularRecyclerView
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.modules.EndlessModule
-import com.guardanis.collections.sample.modules.SampleDividerModule
-import com.guardanis.collections.sample.modules.SampleImageModule
-import com.guardanis.collections.sample.modules.SampleTextModule
+import com.guardanis.collections.sample.modules.*
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -49,6 +47,13 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
                         { SampleImageModule.ViewModule(it) }))
 
         adapter.registerModuleBuilder(
+                SampleViewPagerModule::class.java,
+                ModuleBuilder(
+                        R.layout.pager_module,
+                        SampleViewPagerModule.ViewModule::class.java,
+                        { SampleViewPagerModule.ViewModule(it) }))
+
+        adapter.registerModuleBuilder(
                 SampleDividerModule::class.java,
                 ModuleBuilder(
                         R.layout.divider_module,
@@ -63,8 +68,9 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
     private fun appendRandomContent() {
         0.until(30)
                 .map({
-                    when (Random().nextInt(3)) {
+                    when (Random().nextInt(4)) {
                         0 -> SampleImageModule.createRandomInstance()
+                        1 -> SampleViewPagerModule.createInstance(supportFragmentManager)
                         else -> SampleTextModule.createRandomInstance()
                     }
                 })
