@@ -8,8 +8,11 @@ import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.recycler.ModularRecyclerView
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.modules.EndlessModule
+import com.guardanis.collections.sample.modules.SampleDividerModule
+import com.guardanis.collections.sample.modules.SampleImageModule
 import com.guardanis.collections.sample.modules.SampleTextModule
 import java.lang.ref.WeakReference
+import java.util.*
 
 class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
 
@@ -36,7 +39,21 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
                 ModuleBuilder(
                         R.layout.text_module,
                         SampleTextModule.ViewModule::class.java,
-                        { SampleTextModule.ViewModule() }))
+                        { SampleTextModule.ViewModule(it) }))
+
+        adapter.registerModuleBuilder(
+                SampleImageModule::class.java,
+                ModuleBuilder(
+                        R.layout.image_module,
+                        SampleImageModule.ViewModule::class.java,
+                        { SampleImageModule.ViewModule(it) }))
+
+        adapter.registerModuleBuilder(
+                SampleDividerModule::class.java,
+                ModuleBuilder(
+                        R.layout.divider_module,
+                        SampleDividerModule.ViewModule::class.java,
+                        { SampleDividerModule.ViewModule() }))
 
         recycler.adapter = this.adapter
 
@@ -45,8 +62,16 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
 
     private fun appendRandomContent() {
         0.until(30)
-                .map({ SampleTextModule.createRandomInstance() })
-                .forEach({ adapter.add(it) })
+                .map({
+                    when (Random().nextInt(3)) {
+                        0 -> SampleImageModule.createRandomInstance()
+                        else -> SampleTextModule.createRandomInstance()
+                    }
+                })
+                .forEach({
+                    adapter.add(it)
+                    adapter.add(SampleDividerModule.createInstance())
+                })
 
         adapter.notifyDataSetChanged()
 

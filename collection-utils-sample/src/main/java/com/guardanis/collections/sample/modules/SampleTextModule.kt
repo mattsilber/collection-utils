@@ -15,7 +15,7 @@ class SampleTextModule(
         private val details: String,
         private @ColorInt val backgroundColor: Int) {
 
-    class ViewModule(): RecyclerViewModule<SampleTextModule, ViewHolder>(R.layout.text_module) {
+    class ViewModule(layoutResId: Int): RecyclerViewModule<SampleTextModule, ViewHolder>(layoutResId) {
 
         override fun buildViewHolder(view: View): ViewHolder {
             return ViewHolder(view)
