@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.pager.adapters.PagerViewModule
 
 class SamplePagerFragmentModule {
@@ -16,7 +17,7 @@ class SamplePagerFragmentModule {
             return SamplePagerFragment()
         }
 
-        override fun createArguments(item: SamplePagerFragmentModule): Bundle {
+        override fun createArguments(adapter: ModularAdapter, item: SamplePagerFragmentModule, position: Int): Bundle {
             val bundle = Bundle()
             bundle.putInt(PagerViewModule.BUNDLE_LAYOUT_RES_ID_KEY, layoutResId)
 

@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.pager.adapters.ModularPagerFragmentAdapter
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
@@ -19,7 +20,7 @@ class SampleViewPagerModule(private val fragmentManager: FragmentManager) {
             return ViewHolder(view)
         }
 
-        override fun updateView(adapter: ModularRecyclerAdapter, item: SampleViewPagerModule, position: Int) {
+        override fun updateView(adapter: ModularAdapter, item: SampleViewPagerModule, position: Int) {
             val adapter = ModularPagerFragmentAdapter(adapter.context, item.fragmentManager)
             adapter.registerModuleBuilder(
                     SamplePagerFragmentModule::class.java,

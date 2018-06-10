@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
+import com.guardanis.collections.adapters.ModularAdapter;
 
 abstract public class PagerViewModule<T> extends AdapterViewModule<Fragment> {
 
@@ -14,5 +15,5 @@ abstract public class PagerViewModule<T> extends AdapterViewModule<Fragment> {
         super(layoutResId);
     }
 
-    protected abstract Bundle createArguments(T item);
+    protected abstract Bundle createArguments(ModularAdapter adapter, T item, int position);
 }

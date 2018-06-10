@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter<ListViewModule> {
+public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter {
 
     protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new HashMap<Class, ModuleBuilderResolver>();
 
@@ -30,12 +30,7 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter<
 
     @Override
     public ModularArrayAdapter registerModuleBuilder(Class itemType, final ModuleBuilder builder) {
-        return registerModuleBuilderResolver(itemType,
-                new ModuleBuilderResolver(builder) {
-                    public ModuleBuilder resolve(ModularAdapter adapter, Object item, int position) {
-                        return builder;
-                    }
-                });
+        return registerModuleBuilderResolver(itemType, ModuleBuilderResolver.createSimpleResolverInstance(builder));
     }
 
     @Override
@@ -86,15 +81,16 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter<
 
                 if(convertView == null
                         || convertView.getTag() == null
-                        || convertView.getTag().getClass() != c){
-                    module = builder.create(parent);
+                        || convertView.getTag().getClass() != c) {
+                    module = builder.createViewModule();
 
                     if(!(module instanceof ListViewModule))
                         throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
 
-                    convertView = ((ListViewModule) module)
-                            .getConvertView();
+                    final ListViewModule listViewModule = ((ListViewModule) module);
+                    listViewModule.build(getContext(), parent);
 
+                    convertView = listViewModule.getConvertView();
                     convertView.setTag(module);
                 }
                 else module = (ListViewModule) convertView.getTag();
@@ -106,8 +102,7 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter<
             }
         }
 
-        throw new RuntimeException("AdapterViewModule for item type [" + item.getClass() + "] not found."
-                + " You must call registerViewModule(Class, ModuleBuilder) for all item types.");
+        throw new RuntimeException("AdapterViewModule for item type [" + item.getClass() + "] not found. You must call registerViewModule(Class, ModuleBuilder) for all item types.");
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import android.support.annotation.ColorInt
 import android.support.v7.widget.RecyclerView
+import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
 import com.guardanis.collections.sample.R
@@ -21,7 +22,7 @@ class SampleTextModule(
             return ViewHolder(view)
         }
 
-        override fun updateView(adapter: ModularRecyclerAdapter, item: SampleTextModule, position: Int) {
+        override fun updateView(adapter: ModularAdapter, item: SampleTextModule, position: Int) {
             viewHolder.titleView?.text = item.title
             viewHolder.detailsView?.text = item.details
             viewHolder.itemView.setBackgroundColor(item.backgroundColor)

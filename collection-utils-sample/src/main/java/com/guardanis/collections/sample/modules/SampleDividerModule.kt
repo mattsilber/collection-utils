@@ -5,6 +5,7 @@ import android.support.v4.view.ViewCompat
 import android.view.View
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
+import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
 import com.guardanis.collections.sample.R
@@ -19,7 +20,7 @@ class SampleDividerModule(private val height: Int) {
             return ViewHolder(view)
         }
 
-        override fun updateView(adapter: ModularRecyclerAdapter, item: SampleDividerModule, position: Int) {
+        override fun updateView(adapter: ModularAdapter, item: SampleDividerModule, position: Int) {
             val params = viewHolder.itemView.layoutParams
             params.height = item.height
 

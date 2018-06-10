@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
+import com.guardanis.collections.adapters.ModularAdapter;
 
 public abstract class RecyclerViewModule<T, H extends ViewHolder> extends AdapterViewModule<View> {
 
@@ -24,7 +25,7 @@ public abstract class RecyclerViewModule<T, H extends ViewHolder> extends Adapte
     }
 
     public abstract H buildViewHolder(View view);
-    public abstract void updateView(ModularRecyclerAdapter adapter, T item, int position);
+    public abstract void updateView(ModularAdapter adapter, T item, int position);
 
     /**
      * Override this RecyclerViewModule's target viewHolder for calls to update(ModularAdapter, T, int)

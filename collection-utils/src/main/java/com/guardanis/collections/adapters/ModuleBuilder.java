@@ -30,7 +30,7 @@ public class ModuleBuilder<T extends AdapterViewModule> {
         return item;
     }
 
-    public T createViewModule(){
+    public T createViewModule() {
         return builderDelegate.create(layoutResId);
     }
 

@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ModularAdapter<RecyclerViewModule> {
+public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ModularAdapter {
 
     private Context context;
 
@@ -33,13 +33,8 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public ModularRecyclerAdapter registerModuleBuilder(Class itemType, final ModuleBuilder<RecyclerViewModule> builder) {
-        return registerModuleBuilderResolver(itemType,
-                new ModuleBuilderResolver(builder) {
-                    public ModuleBuilder resolve(ModularAdapter adapter, Object item, int position) {
-                        return builder;
-                    }
-                });
+    public ModularRecyclerAdapter registerModuleBuilder(Class itemType, final ModuleBuilder builder) {
+        return registerModuleBuilderResolver(itemType, ModuleBuilderResolver.createSimpleResolverInstance(builder));
     }
 
     @Override
@@ -52,13 +47,15 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         AdapterViewModule module = getBuilder(viewType)
-                .create(parent);
+                .createViewModule();
 
         if(!(module instanceof RecyclerViewModule))
             throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
 
-        return ((RecyclerViewModule) module)
-                .getViewHolder();
+        RecyclerViewModule recyclerViewModule = ((RecyclerViewModule) module);
+        recyclerViewModule.build(getContext(), parent);
+
+        return recyclerViewModule.getViewHolder();
     }
 
     @Override

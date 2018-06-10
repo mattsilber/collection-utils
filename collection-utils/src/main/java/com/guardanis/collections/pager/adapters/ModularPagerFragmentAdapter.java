@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter implements ModularAdapter<PagerViewModule> {
+public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter implements ModularAdapter {
 
     private WeakReference<Context> context;
     private List<Object> items = new ArrayList<Object>();
@@ -76,7 +76,7 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
         PagerViewModule pagerModule = (PagerViewModule) module;
 
         Fragment fragment = (Fragment) pagerModule.build(context.get(), null);
-        fragment.setArguments(pagerModule.createArguments(item));
+        fragment.setArguments(pagerModule.createArguments(this, item, position));
 
         return fragment;
     }
@@ -92,13 +92,8 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
     }
 
     @Override
-    public ModularPagerFragmentAdapter registerModuleBuilder(Class itemType, final ModuleBuilder<PagerViewModule> builder) {
-        return registerModuleBuilderResolver(itemType,
-                new ModuleBuilderResolver(builder) {
-                    public ModuleBuilder resolve(ModularAdapter adapter, Object item, int position) {
-                        return builder;
-                    }
-                });
+    public ModularPagerFragmentAdapter registerModuleBuilder(Class itemType, final ModuleBuilder builder) {
+        return registerModuleBuilderResolver(itemType, ModuleBuilderResolver.createSimpleResolverInstance(builder));
     }
 
     @Override
