@@ -30,8 +30,7 @@ public abstract class ModuleBuilderResolver<V> {
             if(builders.get(i) == builder)
                 return i;
 
-        throw new RuntimeException("No ModuleBuilder registered for " + item.getClass().getSimpleName()
-                + " at position " + position);
+        throw new RuntimeException("No ModuleBuilder registered for " + item.getClass().getSimpleName() + " at position " + position);
     }
 
     public ModuleBuilder getBuilder(int localIndex){

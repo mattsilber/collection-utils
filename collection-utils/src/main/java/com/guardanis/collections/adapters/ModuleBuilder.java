@@ -20,16 +20,6 @@ public class ModuleBuilder<T extends AdapterViewModule> {
         this.builderDelegate = builderDelegate;
     }
 
-    /**
-     * Create the AdapterViewModule and inflate it
-     */
-    public T create(ViewGroup parent){
-        T item = createViewModule();
-        item.build(parent.getContext(), parent);
-
-        return item;
-    }
-
     public T createViewModule() {
         return builderDelegate.create(layoutResId);
     }
