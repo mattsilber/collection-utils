@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile('com.guardanis:collection-utils:2.4.0')
+    compile('com.guardanis:collection-utils:2.5.0')
 }
 ```
 
@@ -90,8 +90,8 @@ public class TestActivity extends Activity implements EndlessEventListener, Refr
         ModularListView listView = (ModularListView)findViewById(R.id.example_listview);
         listView.addHeaderView(activity.getLayoutInflater().inflate(R.layout.cu__pull_to_refresh, null, false));
         listView.registerModule(endlessModule = new EndlessModule(this));
-        listView.registerModule(ptrModule = new PullToRefreshModule(this, this);
-        listView.registerModule(ptrModule = new PullToRefreshModule(this, (ViewGroup) findViewbyId(R.id.your_view_in_layout), this); // Or specify the View if you want it as an overlay
+        listView.registerModule(ptrModule = new PullToRefreshModule(this, this));
+        listView.registerModule(ptrModule = new PullToRefreshModule(this, (ViewGroup) findViewbyId(R.id.your_view_in_layout), this)); // Or specify the View if you want it as an overlay
         listView.registerModule(new StickyHeaderModule());
     }
 
@@ -165,7 +165,7 @@ Just a note: you must also supply the `ModuleBuilder` instances in the `ModuleBu
 
 ##### AdapterViewModule
 
-The `AdapterViewModule` is the base class for use with the modular builders. Currently, there are 2 base implementation classes: the `ListViewModule` and the `RecyclerViewModule` for their respective Views. No, they are not compatible with one another, but are close enough that migrating between the two should be simple.
+The `AdapterViewModule` is the base class for use with the modular builders. Currently, there are 3 base implementation classes: the `ListViewModule`, the `RecyclerViewModule`, and the `PagerViewModule` for their respective Views. No, they are generally not compatible with one another, but can be nested together.
 
 `ListViewModule` example:
 
@@ -184,7 +184,7 @@ public class SimpleViewModule extends ListViewModule<String> {
     }
 
     @Override
-    public void updateView(ModularArrayAdapter adapter, String item, int position) {
+    public void updateView(ModularAdapter adapter, String item, int position) {
         new ImageRequest(adapter.getContext(), item)
                 .setTargetView(image)
                 .setFadeTransition()
@@ -207,7 +207,7 @@ public class SimpleViewModule extends RecyclerViewModule<String, SimpleViewHolde
     }
 
     @Override
-    public void updateView(ModularArrayAdapter adapter, String item, int position) {
+    public void updateView(ModularAdapter adapter, String item, int position) {
         new ImageRequest(adapter.getContext(), item)
                 .setTargetView(getViewHolder().image)
                 .setFadeTransition()
@@ -248,7 +248,7 @@ Types can be defined at the registration-level (e.g. `adapter.registerCallback(S
 
 ## ListUtils
 
-This is just a helper class I've been playing around with for chaining list augmentations in places where Observables felt like overkill. It supports some basic functions like map, reduce, filter, zipWith, take, unique, sort, reverse, join, etc.
+This is just a helper class I've been playing around with for chaining list augmentations in places where Observables felt like overkill or where Kotlin isn't supported. It supports some basic functions like map, reduce, filter, zipWith, take, unique, sort, reverse, join, etc.
 
 Let's say I have a list of Strings, which I want to convert to integers, multiply by 100, select only those > 300, and then sum those values (why? Idk, it's an example):
 

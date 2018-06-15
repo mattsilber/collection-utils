@@ -2,13 +2,11 @@ package com.guardanis.collections.sample.modules
 
 import android.support.v4.app.FragmentManager
 import android.support.v4.view.ViewPager
-import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.pager.adapters.ModularPagerFragmentAdapter
-import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
 import com.guardanis.collections.sample.R
 

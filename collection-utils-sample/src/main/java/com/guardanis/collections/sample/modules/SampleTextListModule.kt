@@ -1,6 +1,5 @@
 package com.guardanis.collections.sample.modules
 
-import android.graphics.Color
 import android.view.View
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.list.adapters.ListViewModule

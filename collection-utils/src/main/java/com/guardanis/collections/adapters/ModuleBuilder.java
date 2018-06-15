@@ -1,7 +1,6 @@
 package com.guardanis.collections.adapters;
 
 import android.support.annotation.NonNull;
-import android.view.ViewGroup;
 
 public class ModuleBuilder<T extends AdapterViewModule> {
 

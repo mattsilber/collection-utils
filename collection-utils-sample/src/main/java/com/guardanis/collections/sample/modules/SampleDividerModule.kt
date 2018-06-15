@@ -1,16 +1,10 @@
 package com.guardanis.collections.sample.modules
 
-import android.content.Context
-import android.support.v4.view.ViewCompat
-import android.view.View
-import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.guardanis.collections.adapters.ModularAdapter
-import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
 import com.guardanis.collections.sample.R
-import com.guardanis.imageloader.ImageRequest
-import java.util.*
 
 class SampleDividerModule(private val height: Int) {
 
