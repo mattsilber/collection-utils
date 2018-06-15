@@ -63,6 +63,14 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
                         SampleDividerModule.ViewModule::class.java,
                         { SampleDividerModule.ViewModule() }))
 
+        // A ListViewModule is backwards compatible with the ModularRecyclerAdapter
+        adapter.registerModuleBuilder(
+                SampleTextListModule::class.java,
+                ModuleBuilder(
+                        R.layout.text_list_module,
+                        SampleTextListModule.ViewModule::class.java,
+                        { SampleTextListModule.ViewModule() }))
+
         recycler.adapter = this.adapter
 
         this.recycler = WeakReference(recycler)
@@ -85,9 +93,10 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
     private fun appendRandomContent() {
         0.until(30)
                 .map({
-                    when (Random().nextInt(4)) {
+                    when (Random().nextInt(5)) {
                         0 -> SampleImageModule.createRandomInstance()
                         1 -> SampleViewPagerModule.createInstance(supportFragmentManager)
+                        2 -> SampleTextListModule.createInstance()
                         else -> SampleTextModule.createRandomInstance()
                     }
                 })

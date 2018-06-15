@@ -63,9 +63,9 @@ class SampleTextModule(
         private val randomColor: Int
             get() {
                 return when (Random().nextInt(3)) {
-                    0 -> Color.RED
-                    1 -> Color.BLUE
-                    else -> Color.DKGRAY
+                    0 -> Color.parseColor("#E74C3C")
+                    1 -> Color.parseColor("#2980B9")
+                    else -> Color.parseColor("#7F8C8D")
                 }
             }
 

@@ -18,10 +18,14 @@ public abstract class ListViewModule<T> extends AdapterViewModule<View> {
     @Override
     public View build(Context context, ViewGroup parent){
         this.convertView = inflate(context, parent);
-
-        locateViewComponents(convertView);
+        this.locateViewComponents(convertView);
 
         return convertView;
+    }
+
+    public void overrideTargetView(View convertView) {
+        this.convertView = convertView;
+        this.locateViewComponents(convertView);
     }
 
     protected abstract void locateViewComponents(View convertView);

@@ -10,6 +10,7 @@ import com.guardanis.collections.adapters.Callback;
 import com.guardanis.collections.adapters.ModularAdapter;
 import com.guardanis.collections.adapters.ModuleBuilder;
 import com.guardanis.collections.adapters.ModuleBuilderResolver;
+import com.guardanis.collections.list.adapters.ListViewModule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,13 +50,20 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         AdapterViewModule module = getBuilder(viewType)
                 .createViewModule();
 
-        if(!(module instanceof RecyclerViewModule))
-            throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
+        if (module instanceof RecyclerViewModule) {
+            RecyclerViewModule recyclerViewModule = ((RecyclerViewModule) module);
+            recyclerViewModule.build(getContext(), parent);
 
-        RecyclerViewModule recyclerViewModule = ((RecyclerViewModule) module);
-        recyclerViewModule.build(getContext(), parent);
+            return recyclerViewModule.getViewHolder();
+        }
+        else if (module instanceof ListViewModule) {
+            ListViewModule listViewModule = ((ListViewModule) module);
+            listViewModule.build(getContext(), parent);
 
-        return recyclerViewModule.getViewHolder();
+            return new RecyclerListViewHolderCompat(listViewModule.getConvertView());
+        }
+
+        throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
     }
 
     @Override
@@ -64,14 +72,28 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         for(Class c : viewModuleBuilders.keySet()){
             if(c == item.getClass()){
-                RecyclerViewModule module = (RecyclerViewModule) viewModuleBuilders.get(c)
+                AdapterViewModule module = viewModuleBuilders.get(c)
                         .resolve(this, item, position)
                         .createViewModule();
 
-                module.overrideViewHolder(holder);
-                module.updateView(this, item, position);
+                if (module instanceof RecyclerViewModule)
+                    onBindRecyclerViewModule((RecyclerViewModule) module, item, holder, position);
+                else if (module instanceof ListViewModule)
+                    onBindCompatibilityViewModule((ListViewModule) module, item, holder, position);
+                else
+                    throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
             }
         }
+    }
+
+    protected void onBindRecyclerViewModule(RecyclerViewModule module, Object item, RecyclerView.ViewHolder holder, int position) {
+        module.overrideViewHolder(holder);
+        module.updateView(this, item, position);
+    }
+
+    protected void onBindCompatibilityViewModule(ListViewModule module, Object item, RecyclerView.ViewHolder holder, int position) {
+        module.overrideTargetView(holder.itemView);
+        module.updateView(this, item, position);
     }
 
     @Override
