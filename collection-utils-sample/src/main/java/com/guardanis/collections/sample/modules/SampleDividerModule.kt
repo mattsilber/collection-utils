@@ -1,9 +1,11 @@
 package com.guardanis.collections.sample.modules
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
+import com.guardanis.collections.recycler.adapters.callbacks.ViewHolderLifeCycleCallbacks
 import com.guardanis.collections.sample.R
 
 class SampleDividerModule(private val height: Int) {
@@ -22,9 +24,30 @@ class SampleDividerModule(private val height: Int) {
         }
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view)
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view), ViewHolderLifeCycleCallbacks {
+
+        override fun onViewAttachedToWindow() {
+            Log.d(callbackTag, "onViewAttachedToWindow")
+        }
+
+        override fun onViewDetachedFromWindow() {
+            Log.d(callbackTag, "onViewDetachedFromWindow")
+        }
+
+        override fun onFailedToRecycleView(): Boolean {
+            Log.d(callbackTag, "onFailedToRecycleView")
+
+            return false
+        }
+
+        override fun onViewRecycled() {
+            Log.d(callbackTag, "onViewRecycled")
+        }
+    }
 
     companion object {
+
+        val callbackTag = "VHLifeCycleCallbacks"
 
         fun createInstance(): SampleDividerModule {
             return SampleDividerModule(1)

@@ -1,6 +1,7 @@
 package com.guardanis.collections.recycler.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.guardanis.collections.adapters.ModularAdapter;
 import com.guardanis.collections.adapters.ModuleBuilder;
 import com.guardanis.collections.adapters.ModuleBuilderResolver;
 import com.guardanis.collections.list.adapters.ListViewModule;
+import com.guardanis.collections.recycler.adapters.callbacks.ViewHolderLifeCycleCallbacks;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,6 +159,39 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public ModularRecyclerAdapter setProperty(String key, Object value) {
         this.properties.put(key, value);
         return this;
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+
+        if (holder instanceof ViewHolderLifeCycleCallbacks)
+            ((ViewHolderLifeCycleCallbacks) holder).onViewAttachedToWindow();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        if (holder instanceof ViewHolderLifeCycleCallbacks)
+            ((ViewHolderLifeCycleCallbacks) holder).onViewDetachedFromWindow();
+    }
+
+    @Override
+    public boolean onFailedToRecycleView(@NonNull RecyclerView.ViewHolder holder) {
+        if (holder instanceof ViewHolderLifeCycleCallbacks
+                && ((ViewHolderLifeCycleCallbacks) holder).onFailedToRecycleView())
+            return true;
+
+        return super.onFailedToRecycleView(holder);
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+
+        if (holder instanceof ViewHolderLifeCycleCallbacks)
+            ((ViewHolderLifeCycleCallbacks) holder).onViewRecycled();
     }
 
     @Override
