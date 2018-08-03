@@ -72,37 +72,29 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter 
     public View getView(int position, View convertView, ViewGroup parent){
         Object item = getItem(position);
 
-        for(Class c : viewModuleBuilders.keySet()){
-            if(c == item.getClass()){
-                ModuleBuilder builder = viewModuleBuilders.get(c)
-                        .resolve(this, item, position);
+        ModuleBuilderResolver resolver = viewModuleBuilders.get(item.getClass());
 
-                final AdapterViewModule module;
+        if (resolver == null)
+            throw new RuntimeException("ModuleBuilderResolver for item type [" + item.getClass() + "] not found.");
 
-                if(convertView == null
-                        || convertView.getTag() == null
-                        || convertView.getTag().getClass() != c) {
-                    module = builder.createViewModule();
+        ModuleBuilder builder = resolver.resolve(this, item, position);
+        ListViewModule module;
 
-                    if(!(module instanceof ListViewModule))
-                        throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
+        if(convertView == null
+                || convertView.getTag() == null
+                || convertView.getTag().getClass() != item.getClass()) {
+            module = (ListViewModule) builder.createViewModule();
+            module.build(getContext(), parent);
 
-                    final ListViewModule listViewModule = ((ListViewModule) module);
-                    listViewModule.build(getContext(), parent);
-
-                    convertView = listViewModule.getConvertView();
-                    convertView.setTag(module);
-                }
-                else module = (ListViewModule) convertView.getTag();
-
-                ((ListViewModule) module)
-                        .updateView(this, item, position);
-
-                return convertView;
-            }
+            convertView = module.getConvertView();
+            convertView.setTag(module);
         }
+        else
+            module = (ListViewModule) convertView.getTag();
 
-        throw new RuntimeException("AdapterViewModule for item type [" + item.getClass() + "] not found. You must call registerViewModule(Class, ModuleBuilder) for all item types.");
+        module.updateView(this, item, position);
+
+        return convertView;
     }
 
     @Override

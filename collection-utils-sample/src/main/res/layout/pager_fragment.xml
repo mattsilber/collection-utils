@@ -10,7 +10,7 @@
     <com.guardanis.fontutils.TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@drawable/base__rounded_content"
         android:gravity="center"
         android:padding="16dp"
         android:text="This text is inside a view pager.\nSwipe me."

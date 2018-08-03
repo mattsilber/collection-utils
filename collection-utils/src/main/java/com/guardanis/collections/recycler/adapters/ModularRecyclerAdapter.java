@@ -72,20 +72,20 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Object item = getItem(position);
 
-        for(Class c : viewModuleBuilders.keySet()){
-            if(c == item.getClass()){
-                AdapterViewModule module = viewModuleBuilders.get(c)
-                        .resolve(this, item, position)
-                        .createViewModule();
+        ModuleBuilderResolver resolver = viewModuleBuilders.get(item.getClass());
 
-                if (module instanceof RecyclerViewModule)
-                    onBindRecyclerViewModule((RecyclerViewModule) module, item, holder, position);
-                else if (module instanceof ListViewModule)
-                    onBindCompatibilityViewModule((ListViewModule) module, item, holder, position);
-                else
-                    throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
-            }
-        }
+        if (resolver == null)
+            throw new RuntimeException("ModuleBuilderResolver for item type [" + item.getClass() + "] not found.");
+
+        ModuleBuilder builder = resolver.resolve(this, item, position);
+        AdapterViewModule module = builder.createViewModule();
+
+        if (module instanceof RecyclerViewModule)
+            onBindRecyclerViewModule((RecyclerViewModule) module, item, holder, position);
+        else if (module instanceof ListViewModule)
+            onBindCompatibilityViewModule((ListViewModule) module, item, holder, position);
+        else
+            throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
     }
 
     protected void onBindRecyclerViewModule(RecyclerViewModule module, Object item, RecyclerView.ViewHolder holder, int position) {

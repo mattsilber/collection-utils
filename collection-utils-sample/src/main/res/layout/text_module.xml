@@ -5,7 +5,10 @@
     android:layout_height="wrap_content"
     android:background="#FFFF0000"
     android:orientation="vertical"
-    android:padding="16dip">
+    android:paddingBottom="32dip"
+    android:paddingLeft="16dip"
+    android:paddingRight="16dip"
+    android:paddingTop="32dip">
 
     <com.guardanis.fontutils.TextView
         android:id="@+id/text_module_title"
