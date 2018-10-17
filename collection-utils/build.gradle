@@ -1,9 +1,4 @@
 buildscript {
-    repositories {
-        jcenter()
-        maven { url 'https://maven.google.com/' }
-    }
-
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
@@ -13,12 +8,12 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -38,13 +33,10 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
 
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:1.10.19'
-    testImplementation 'org.json:json:20140107'
 
     androidTestImplementation 'com.android.support:support-annotations:27.1.1'
     androidTestImplementation 'com.android.support.test:runner:0.4.1'
@@ -60,7 +52,7 @@ ext {
     artifact = 'collection-utils'
 
     libraryDescription = 'An assortment of modularized additives for collection-based layouts'
-    libraryVersion = '2.5.2'
+    libraryVersion = '3.0.0'
 
     developerId = 'mattsilber'
     developerName = 'Matt Silber'
