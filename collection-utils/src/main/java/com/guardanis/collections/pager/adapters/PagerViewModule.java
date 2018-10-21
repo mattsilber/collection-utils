@@ -1,10 +1,11 @@
 package com.guardanis.collections.pager.adapters;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
 import com.guardanis.collections.adapters.ModularAdapter;
+
+import androidx.fragment.app.Fragment;
 
 abstract public class PagerViewModule<T> extends AdapterViewModule<Fragment> {
 

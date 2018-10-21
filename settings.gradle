@@ -1,1 +1,1 @@
-include ':collection-utils', ':collection-utils-sample'
+include ':collection-utils', ':collection-utils-legacy', ':collection-utils-sample'

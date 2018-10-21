@@ -3,16 +3,16 @@ package com.guardanis.collections.recycler;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
 
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
-import com.guardanis.collections.tools.ListUtils;
+import com.guardanis.collections.adapters.Callback;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ModularRecyclerView extends RecyclerView {
 
@@ -97,9 +97,9 @@ public class ModularRecyclerView extends RecyclerView {
         return controller.getModule(moduleClass);
     }
 
-    public <V extends CollectionModule<ModularRecyclerView>> ModularRecyclerView bindModule(Class<V> moduleClass, ListUtils.Action<V> action){
+    public <V extends CollectionModule<ModularRecyclerView>> ModularRecyclerView bindModule(Class<V> moduleClass, Callback<V> action){
         if(controller.getModule(moduleClass) != null)
-            action.executeAction(controller.getModule(moduleClass));
+            action.onTriggered(controller.getModule(moduleClass));
 
         return this;
     }

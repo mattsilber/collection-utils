@@ -31,6 +31,7 @@ dependencies {
     implementation "com.google.android.material:material:1.0.0"
 
     implementation project(path: ':collection-utils')
+    implementation project(path: ':collection-utils-legacy')
 
     implementation "com.guardanis:font-utils:1.0.2"
 

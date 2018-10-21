@@ -16,11 +16,12 @@ public class EndlessModule extends CollectionModule<ModularRecyclerView> {
         public void onNextPage();
     }
 
-    public final int NEXT_PAGE_ITEM_THRESHOLD = 7;
+    public static final int NEXT_PAGE_ITEM_THRESHOLD = 7;
 
     protected EndlessEventListener eventListener;
     protected boolean loading = false;
     protected boolean endingReached = false;
+    protected int nextPageThresholdThreshold = EndlessModule.NEXT_PAGE_ITEM_THRESHOLD;
 
     public EndlessModule(EndlessEventListener eventListener){
         this.eventListener = eventListener;
@@ -92,5 +93,12 @@ public class EndlessModule extends CollectionModule<ModularRecyclerView> {
 
     public void setLoading(boolean loading){
         this.loading = loading;
+    }
+
+    public void setNextPageThreshold(int nextPageThresholdThreshold) {
+        if (nextPageThresholdThreshold < 0)
+            throw new RuntimeException("Next page threshold can't be less than 0");
+
+        this.nextPageThresholdThreshold = nextPageThresholdThreshold;
     }
 }

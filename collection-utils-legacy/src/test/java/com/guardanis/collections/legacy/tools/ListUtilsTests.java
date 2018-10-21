@@ -1,4 +1,4 @@
-package com.guardanis.collections.tools;
+package com.guardanis.collections.legacy.tools;
 
 import org.junit.Test;
 

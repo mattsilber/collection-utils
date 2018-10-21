@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
-import com.guardanis.collections.tools.ListUtils;
+import com.guardanis.collections.adapters.Callback;
 
 public class ModularListView extends ListView implements AbsListView.OnScrollListener {
 
@@ -92,9 +92,9 @@ public class ModularListView extends ListView implements AbsListView.OnScrollLis
         return controller.getModule(moduleClass);
     }
 
-    public <V extends CollectionModule<ModularListView>> ModularListView bindModule(Class<V> moduleClass, ListUtils.Action<V> action){
+    public <V extends CollectionModule<ModularListView>> ModularListView bindModule(Class<V> moduleClass, Callback<V> action){
         if(controller.getModule(moduleClass) != null)
-            action.executeAction(controller.getModule(moduleClass));
+            action.onTriggered(controller.getModule(moduleClass));
 
         return this;
     }

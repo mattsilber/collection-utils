@@ -2,12 +2,13 @@ package com.guardanis.collections.pager;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
-import com.guardanis.collections.tools.ListUtils;
+import com.guardanis.collections.adapters.Callback;
+
+import androidx.viewpager.widget.ViewPager;
 
 public class ModularViewPager extends ViewPager {
 
@@ -62,9 +63,9 @@ public class ModularViewPager extends ViewPager {
         return controller.getModule(moduleClass);
     }
 
-    public <V extends CollectionModule<ModularViewPager>> ModularViewPager bindModule(Class<V> moduleClass, ListUtils.Action<V> action){
+    public <V extends CollectionModule<ModularViewPager>> ModularViewPager bindModule(Class<V> moduleClass, Callback<V> action){
         if(controller.getModule(moduleClass) != null)
-            action.executeAction(controller.getModule(moduleClass));
+            action.onTriggered(controller.getModule(moduleClass));
 
         return this;
     }

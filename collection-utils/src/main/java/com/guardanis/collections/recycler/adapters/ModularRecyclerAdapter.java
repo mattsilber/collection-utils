@@ -1,9 +1,6 @@
 package com.guardanis.collections.recycler.adapters;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.ViewGroup;
 
@@ -19,6 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ModularAdapter {
 

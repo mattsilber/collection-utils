@@ -1,4 +1,4 @@
-package com.guardanis.collections.tools;
+package com.guardanis.collections.legacy.tools;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

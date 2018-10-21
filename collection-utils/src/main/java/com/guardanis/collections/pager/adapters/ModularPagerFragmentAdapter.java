@@ -1,9 +1,6 @@
 package com.guardanis.collections.pager.adapters;
 
 import android.content.Context;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
@@ -18,6 +15,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter implements ModularAdapter {
 
