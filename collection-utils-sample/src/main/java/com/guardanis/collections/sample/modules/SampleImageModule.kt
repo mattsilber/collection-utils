@@ -1,13 +1,15 @@
 package com.guardanis.collections.sample.modules
 
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.AppCompatImageView
-import android.support.v7.widget.RecyclerView
+import androidx.core.view.ViewCompat
+import androidx.appcompat.widget.AppCompatImageView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
 import com.guardanis.collections.sample.R
-import com.guardanis.imageloader.ImageRequest
+import com.guardanis.collections.sample.glide.GlideApp
+import com.guardanis.collections.sample.glide.SampleGlideModule
 import java.util.*
 
 class SampleImageModule(private val imageUrl: String) {
@@ -19,24 +21,19 @@ class SampleImageModule(private val imageUrl: String) {
         }
 
         override fun updateView(adapter: ModularAdapter, item: SampleImageModule, position: Int) {
-            viewHolder.imageView?.let({
-                ViewCompat.setBackground(it, null)
+            viewHolder.imageView?.run({
+                ViewCompat.setBackground(this, null)
 
-                ImageRequest.create(it)
-                        .setTargetUrl(item.imageUrl)
-                        .setTagRequestPreventionEnabled(false)
-                        .execute()
+                GlideApp.with(this)
+                        .load(item.imageUrl)
+                        .into(this)
             })
         }
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
-        var imageView: AppCompatImageView?
-
-        init {
-            this.imageView = view.findViewById(R.id.image_module_logo)
-        }
+        var imageView: AppCompatImageView? = view.findViewById(R.id.image_module_logo)
     }
 
     companion object {
@@ -44,9 +41,9 @@ class SampleImageModule(private val imageUrl: String) {
         private val randomImageUrl: String
             get() {
                 return when (Random().nextInt(3)) {
-                    0 -> "http://guardanis.com/image/android_dreamer.png"
-                    1 -> "http://guardanis.com/image/android_quitter.png"
-                    else -> "http://guardanis.com/image/android_corners.png"
+                    0 -> "https://guardanis.com/image/android_dreamer.png"
+                    1 -> "https://guardanis.com/image/android_quitter.png"
+                    else -> "https://guardanis.com/image/android_corners.png"
                 }
             }
 

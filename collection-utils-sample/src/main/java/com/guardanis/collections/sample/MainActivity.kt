@@ -1,9 +1,9 @@
 package com.guardanis.collections.sample
 
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.generic.SwipeRefreshLayoutModule
 import com.guardanis.collections.recycler.ModularRecyclerView

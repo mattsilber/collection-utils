@@ -1,8 +1,8 @@
 package com.guardanis.collections.generic;
 
 import android.graphics.Canvas;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;

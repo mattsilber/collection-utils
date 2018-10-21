@@ -1,7 +1,5 @@
 package com.guardanis.collections.tools;
 
-import android.support.annotation.NonNull;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
 
 public class ListUtils<V> {
 

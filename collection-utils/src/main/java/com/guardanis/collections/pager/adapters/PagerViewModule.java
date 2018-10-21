@@ -1,7 +1,7 @@
 package com.guardanis.collections.pager.adapters;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
 import com.guardanis.collections.adapters.ModularAdapter;

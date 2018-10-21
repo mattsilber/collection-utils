@@ -1,13 +1,14 @@
 package com.guardanis.collections.recycler.modules;
 
 import android.graphics.Canvas;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.recycler.ModularRecyclerView;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class EndlessModule extends CollectionModule<ModularRecyclerView> {
 
