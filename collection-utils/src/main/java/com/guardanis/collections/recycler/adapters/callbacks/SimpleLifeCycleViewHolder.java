@@ -1,7 +1,8 @@
 package com.guardanis.collections.recycler.adapters.callbacks;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SimpleLifeCycleViewHolder extends RecyclerView.ViewHolder implements ViewHolderLifeCycleCallbacks {
 

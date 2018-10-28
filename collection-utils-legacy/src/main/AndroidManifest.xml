@@ -1,5 +1,5 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.guardanis.collections">
+    package="com.guardanis.collections.legacy">
 
 </manifest>

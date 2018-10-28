@@ -1,14 +1,15 @@
 package com.guardanis.collections.recycler.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.guardanis.collections.adapters.AdapterViewModule;
 import com.guardanis.collections.adapters.ModularAdapter;
 
-public abstract class RecyclerViewModule<T, H extends ViewHolder> extends AdapterViewModule<View> {
+import androidx.recyclerview.widget.RecyclerView;
+
+public abstract class RecyclerViewModule<T, H extends RecyclerView.ViewHolder> extends AdapterViewModule<View> {
 
     private H viewHolder;
 

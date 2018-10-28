@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile('com.guardanis:collection-utils:2.5.2')
+    compile('com.guardanis:collection-utils:3.0.0')
 }
 ```
 
@@ -246,16 +246,14 @@ getConvertView().setOnClickListener(v ->
 
 Types can be defined at the registration-level (e.g. `adapter.registerCallback(String, Callback<T>)`, and are enforced when triggered, but there is no compile-time safety (since there is no hard link between the two).
 
-## ListUtils
+### ListUtils
 
-This is just a helper class I've been playing around with for chaining list augmentations in places where Observables felt like overkill or where Kotlin isn't supported. It supports some basic functions like map, reduce, filter, zipWith, take, unique, sort, reverse, join, etc.
+As of Version 3.0.0, ListUtils will reside in the Legacy extensions since Kotlin/J8 basically make them useless.
 
-Let's say I have a list of Strings, which I want to convert to integers, multiply by 100, select only those > 300, and then sum those values (why? Idk, it's an example):
+### Legacy Extensions
 
-```java
-int sum = new ListUtils.from(String.split("1, 2, 3, 4, 5, 6, 7, 8, 9, 10"))
-        .map(v -> Interger.parseInt(v) * 100)
-        .filter(v -> v > 300)
-        .reduce(0, (last, current) -> last + current);
+```groovy
+dependencies {
+    compile('com.guardanis:collection-utils-legacy:3.0.0')
+}
 ```
-

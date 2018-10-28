@@ -1,7 +1,8 @@
 package com.guardanis.collections.recycler.adapters;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerListViewHolderCompat extends RecyclerView.ViewHolder {
 

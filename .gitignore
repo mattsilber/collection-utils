@@ -9,3 +9,5 @@
 *.iml
 
 collection-utils/build
+collection-utils-legacy/build
+collection-utils-sample/build

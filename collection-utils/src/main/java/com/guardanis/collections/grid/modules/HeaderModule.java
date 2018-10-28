@@ -1,7 +1,8 @@
 package com.guardanis.collections.grid.modules;
 
-import android.support.v4.view.ViewCompat;
 import android.view.View;
+
+import androidx.core.view.ViewCompat;
 
 public class HeaderModule extends OuterViewModule {
 

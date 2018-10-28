@@ -1,25 +1,13 @@
-package com.guardanis.collections.tools;
-
-import android.content.Context;
+package com.guardanis.collections.legacy.tools;
 
 import org.junit.Test;
 
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ListUtilsTests {
-
-    @Mock
-    Context mockedContext;
 
     @Test
     public void testJoin() throws Exception {
@@ -215,7 +203,5 @@ public class ListUtilsTests {
         public Integer convert(String from) {
             return Integer.parseInt(from);
         }
-
     }
-
 }
