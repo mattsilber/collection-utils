@@ -3,7 +3,9 @@ package com.guardanis.collections.sample
 import android.os.Bundle
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.guardanis.collections.adapters.Callback
 import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.generic.SwipeRefreshLayoutModule
 import com.guardanis.collections.recycler.ModularRecyclerView
@@ -18,6 +20,10 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
     private var recycler: WeakReference<ModularRecyclerView> = WeakReference<ModularRecyclerView>(null)
     private lateinit var adapter: ModularRecyclerAdapter
 
+    private val sampleTextModuleLongClickedCallback = Callback<Int> {
+        adapter.remove(it)
+    }
+
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
 
@@ -31,6 +37,7 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
         recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recycler.registerModule(EndlessModule(this))
         recycler.registerModule(KSwipeRefreshLayoutModule(findViewById(R.id.main_swipe_refresh_layout), { refresh() }))
+        recycler.itemAnimator = DefaultItemAnimator()
 
         this.adapter = ModularRecyclerAdapter(this)
 
@@ -70,6 +77,9 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
                         SampleTextListModule.ViewModule::class.java,
                         { SampleTextListModule.ViewModule() }))
 
+        // Callbacks are registered with the ModularAdapter to be triggered later by items
+        adapter.registerCallback(SampleTextModule.itemLongClicked, sampleTextModuleLongClickedCallback)
+
         recycler.adapter = this.adapter
 
         this.recycler = WeakReference(recycler)
@@ -77,20 +87,23 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
 
     private fun refresh() {
         recycler.get()
-                ?.getModule(EndlessModule::class.java)
-                ?.isLoading = true
-
-        recycler.get()
-                ?.getModule(EndlessModule::class.java)
-                ?.setEndingReached(false)
+                ?.let({ it.getModule(EndlessModule::class.java) })
+                ?.apply({
+                    this.isLoading = true
+                    this.setEndingReached(false)
+                })
 
         adapter.clear()
 
         appendRandomContent()
+
+        recycler.get()
+                ?.getModule(KSwipeRefreshLayoutModule::class.java)
+                ?.onRefreshCompleted()
     }
 
     private fun appendRandomContent() {
-        0.until(30)
+        0.until(10)
                 .map({
                     when (Random().nextInt(5)) {
                         0 -> SampleImageModule.createRandomInstance()
@@ -104,28 +117,22 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
                     adapter.add(SampleDividerModule.createInstance())
                 })
 
-        adapter.notifyDataSetChanged()
-
         recycler.get()
                 ?.getModule(EndlessModule::class.java)
                 ?.isLoading = false
-
-        recycler.get()
-                ?.getModule(KSwipeRefreshLayoutModule::class.java)
-                ?.onRefreshCompleted()
     }
 
     override fun onNextPage() {
         recycler.get()
-                ?.getModule(EndlessModule::class.java)
-                ?.isLoading = true
+                ?.apply({
+                    this.getModule(EndlessModule::class.java)?.isLoading = true
+                    this.post({
+                        appendRandomContent()
 
-        appendRandomContent()
-
-        if (1000 < adapter.itemCount)
-            recycler.get()
-                    ?.getModule(EndlessModule::class.java)
-                    ?.onEndingReached()
+                        if (1000 < this@MainActivity.adapter.itemCount)
+                            this.getModule(EndlessModule::class.java)?.onEndingReached()
+                    })
+                })
     }
 
     class KSwipeRefreshLayoutModule(layout: SwipeRefreshLayout, refreshListener: (() -> Unit)):

@@ -22,14 +22,12 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter implements ModularAdapter {
 
-    private WeakReference<Context> context;
-    private List<Object> items = new ArrayList<Object>();
+    protected WeakReference<Context> context;
+    protected List<Object> items = new ArrayList<Object>();
 
     protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new HashMap<Class, ModuleBuilderResolver>();
-
-    private Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
-
-    private Map<String, Object> properties = new HashMap<String, Object>();
+    protected Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
+    protected Map<String, Object> properties = new HashMap<String, Object>();
 
     public ModularPagerFragmentAdapter(Context context, FragmentManager manager) {
         super(manager);

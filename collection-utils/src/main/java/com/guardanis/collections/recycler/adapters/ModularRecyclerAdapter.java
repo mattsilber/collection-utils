@@ -13,6 +13,7 @@ import com.guardanis.collections.list.adapters.ListViewModule;
 import com.guardanis.collections.recycler.adapters.callbacks.ViewHolderLifeCycleCallbacks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ModularAdapter {
 
-    private Context context;
+    protected Context context;
 
     protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new HashMap<Class, ModuleBuilderResolver>();
+    protected Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
+    protected Map<String, Object> properties = new HashMap<String, Object>();
 
-    private Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
-
-    private Map<String, Object> properties = new HashMap<String, Object>();
-
-    private List<Object> data = new ArrayList<Object>();
+    protected List<Object> data = new ArrayList<Object>();
 
     public ModularRecyclerAdapter(Context context){
         this.context = context;
@@ -159,6 +158,7 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public ModularRecyclerAdapter setProperty(String key, Object value) {
         this.properties.put(key, value);
+
         return this;
     }
 
@@ -211,39 +211,49 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return context;
     }
 
-    public void insert(int position, Object obj){
-        this.data.add(position, obj);
-        notifyDataSetChanged();
+    public void insert(final int position, final Object obj) {
+        data.add(position, obj);
+
+        notifyItemInserted(position);
     }
 
-    public void add(Object obj){
-        this.data.add(obj);
-        notifyDataSetChanged();
+    public void add(final Object obj) {
+        data.add(obj);
+
+        notifyItemInserted(data.size() - 1);
     }
 
-    public void addAll(List<Object> objects){
-        for(Object obj : objects)
-            this.data.add(obj);
+    public void addAll(final Collection<Object> objects) {
+        data.addAll(objects);
 
-        notifyDataSetChanged();
+        notifyItemRangeInserted(data.size() - objects.size(), objects.size());
     }
 
-    public void remove(Object obj){
-        this.data.remove(obj);
-        notifyDataSetChanged();
+    public void remove(final Object obj) {
+        for (int index = data.size() - 1; 0 <= index; index--) {
+            if (obj == data.get(index))
+                remove(index);
+        }
     }
 
-    public void remove(int position){
-        this.data.remove(position);
-        notifyDataSetChanged();
+    public void remove(final int position) {
+        data.remove(position);
+
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 
     public void clear() {
-        this.data.clear();
+        data.clear();
+
         notifyDataSetChanged();
     }
 
-    public Object getItem(int position){
+    public Object getItem(int position) {
         return data.get(position);
+    }
+
+    public List<Object> getItems() {
+        return data;
     }
 }

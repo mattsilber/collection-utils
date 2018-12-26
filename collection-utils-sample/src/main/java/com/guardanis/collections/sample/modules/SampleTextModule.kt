@@ -25,6 +25,10 @@ class SampleTextModule(
             viewHolder.titleView?.text = item.title
             viewHolder.detailsView?.text = item.details
             viewHolder.itemView.setBackgroundColor(item.backgroundColor)
+            viewHolder.itemView.setOnLongClickListener({
+                adapter.triggerCallback(itemLongClicked, position)
+                return@setOnLongClickListener true
+            })
         }
     }
 
@@ -40,6 +44,8 @@ class SampleTextModule(
     }
 
     companion object {
+
+        const val itemLongClicked = "sample_text_module_clicked" // Int
 
         private val randomTitle: String
             get() {
