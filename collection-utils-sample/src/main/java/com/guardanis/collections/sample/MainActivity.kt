@@ -1,17 +1,17 @@
 package com.guardanis.collections.sample
 
 import android.os.Bundle
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.guardanis.collections.adapters.Callback
 import com.guardanis.collections.adapters.ModuleBuilder
-import com.guardanis.collections.recycler.modules.SwipeRefreshLayoutModule
 import com.guardanis.collections.recycler.ModularRecyclerView
 import com.guardanis.collections.recycler.adapters.CompatModularRecyclerAdapter
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.modules.EndlessModule
+import com.guardanis.collections.recycler.modules.SwipeRefreshLayoutModule
 import com.guardanis.collections.sample.modules.*
 import java.lang.ref.WeakReference
 import java.util.*

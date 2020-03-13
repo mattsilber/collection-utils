@@ -1,9 +1,9 @@
 package com.guardanis.collections.sample.modules
 
-import androidx.fragment.app.FragmentManager
-import androidx.viewpager.widget.ViewPager
 import android.view.View
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.pager.adapters.ModularPagerFragmentAdapter

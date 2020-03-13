@@ -45,6 +45,8 @@ public class EndlessModule extends CollectionModule<ModularRecyclerView> {
 
     @Override
     public void onScroll(int... values) {
+        final ModularRecyclerView parent = getParent();
+
         if(isScrollEventProcessable()){
             if(parent.getLayoutManager() instanceof LinearLayoutManager){
                 int lastVisibleItem = ((LinearLayoutManager) parent.getLayoutManager())
@@ -64,13 +66,15 @@ public class EndlessModule extends CollectionModule<ModularRecyclerView> {
     }
 
     private void handleNextPage(int lastVisibleItem){
-        if(parent.getAdapter().getItemCount() - NEXT_PAGE_ITEM_THRESHOLD < lastVisibleItem){
+        if(getParent().getAdapter().getItemCount() - NEXT_PAGE_ITEM_THRESHOLD < lastVisibleItem){
             loading = true;
             eventListener.onNextPage();
         }
     }
 
     private boolean isScrollEventProcessable() {
+        final ModularRecyclerView parent = getParent();
+
         return !(parent == null
                 || parent.getAdapter() == null
                 || parent.getAdapter().getItemCount() < 1

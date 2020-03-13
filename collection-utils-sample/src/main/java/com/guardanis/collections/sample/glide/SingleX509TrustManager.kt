@@ -1,9 +1,9 @@
 package com.guardanis.collections.sample.glide
 
 import java.security.KeyStore
-import java.util.*
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
+import java.util.*
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 

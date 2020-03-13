@@ -22,7 +22,8 @@ public class StickyHeaderModule extends CollectionModule<ModularScrollView> {
 
     public void reset() {
         currentStickyView = null;
-        parent.invalidate();
+
+        getParent().invalidate();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class StickyHeaderModule extends CollectionModule<ModularScrollView> {
     }
 
     private void adjustStickyHeaders() {
-        LinearLayout contentsParent = (LinearLayout) parent.getChildAt(0);
+        LinearLayout contentsParent = (LinearLayout) getParent().getChildAt(0);
         int firstPosition = getFirstVisibleChildPosition(contentsParent);
 
         if(firstPosition > -1){
@@ -52,12 +53,15 @@ public class StickyHeaderModule extends CollectionModule<ModularScrollView> {
     }
 
     private int getFirstVisibleChildPosition(LinearLayout contentsParent) {
+        final ModularScrollView parent = getParent();
+
         Rect scrollBounds = new Rect();
         parent.getHitRect(scrollBounds);
 
-        for(int i = 0; i < contentsParent.getChildCount(); i++)
+        for(int i = 0; i < contentsParent.getChildCount(); i++) {
             if(contentsParent.getChildAt(i).getLocalVisibleRect(scrollBounds))
                 return i;
+        }
 
         return -1;
     }
@@ -67,12 +71,16 @@ public class StickyHeaderModule extends CollectionModule<ModularScrollView> {
         if(currentStickyView != null){
             canvas.save();
             canvas.translate(0, getAdjustedTopPosition());
+            
             currentStickyView.draw(canvas);
+
             canvas.restore();
         }
     }
 
     private int getAdjustedTopPosition() {
+        final ModularScrollView parent = getParent();
+
         if(parent.getScrollY() > (currentStickyViewParent.getTop() + currentStickyViewParent.getHeight() - currentStickyView.getHeight()))
             return currentStickyViewParent.getTop() + currentStickyViewParent.getHeight() - currentStickyView.getHeight();
         else

@@ -1,6 +1,7 @@
 package com.guardanis.collections.adapters;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -10,11 +11,10 @@ public abstract class ModuleBuilderResolver<V> {
     protected List<ModuleBuilder> builders = new ArrayList<ModuleBuilder>();
 
     public ModuleBuilderResolver(@NonNull ModuleBuilder... builders){
-        if(builders == null || builders.length < 1)
+        if(builders.length < 1)
             throw new RuntimeException("The builders must be supplied, else delegation will not work efficiently");
 
-        for(ModuleBuilder builder : builders)
-            this.builders.add(builder);
+        this.builders.addAll(Arrays.asList(builders));
     }
 
     public abstract ModuleBuilder resolve(ModularAdapter adapter, V item, int position);
@@ -37,6 +37,7 @@ public abstract class ModuleBuilderResolver<V> {
         return builders.get(localIndex);
     }
 
+    @SuppressWarnings("unchecked")
     public static <V> ModuleBuilderResolver<V> createSimpleResolverInstance(final ModuleBuilder builder) {
         return new ModuleBuilderResolver(builder) {
             public ModuleBuilder resolve(ModularAdapter adapter, Object item, int position) {

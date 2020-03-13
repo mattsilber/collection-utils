@@ -35,6 +35,8 @@ public class ScrollEventModule extends CollectionModule<ModularListView> {
 
     @Override
     public void onScroll(int... values) {
+        final ModularListView parent = getParent();
+
         if(parent != null){
             if(headerEnabled)
                 onHeaderedScroll(values);
@@ -43,7 +45,9 @@ public class ScrollEventModule extends CollectionModule<ModularListView> {
         }
     }
 
-    private void onHeaderedScroll(int... values){
+    private void onHeaderedScroll(int... values) {
+        final ModularListView parent = getParent();
+
         if(values[1] > 0 && values[0] == 0){
             headerHeight = parent.getChildAt(0).getHeight();
             eventListener.onScrolled(-parent.getChildAt(0).getTop());

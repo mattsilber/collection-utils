@@ -1,8 +1,8 @@
 package com.guardanis.collections.sample.modules
 
 import android.graphics.Color
-import androidx.annotation.ColorInt
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule

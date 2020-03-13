@@ -27,7 +27,7 @@ public class ScrollEventModule extends CollectionModule<ModularRecyclerView> {
 
     @Override
     public void onScroll(int... values) {
-        if(parent != null)
+        if(getParent() != null)
             eventListener.onScrolled(values[0], values[1]);
     }
 

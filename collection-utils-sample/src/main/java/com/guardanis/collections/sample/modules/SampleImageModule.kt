@@ -1,8 +1,8 @@
 package com.guardanis.collections.sample.modules
 
-import androidx.core.view.ViewCompat
-import androidx.appcompat.widget.AppCompatImageView
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule

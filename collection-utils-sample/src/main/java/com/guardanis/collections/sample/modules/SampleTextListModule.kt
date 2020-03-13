@@ -2,7 +2,6 @@ package com.guardanis.collections.sample.modules
 
 import android.view.View
 import com.guardanis.collections.adapters.ModularAdapter
-import com.guardanis.collections.list.adapters.ListViewModule
 import com.guardanis.collections.sample.R
 import com.guardanis.fontutils.TextView
 import java.util.*

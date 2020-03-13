@@ -57,11 +57,11 @@ public abstract class OuterViewModule extends CollectionModule<ModularGridView> 
     public void onScrollStateChanged(int i) { }
 
     protected boolean isScrollEventProcessable() {
-        return parent != null;
+        return getParent() != null;
     }
 
     public void invalidate(){
-        if(parent != null)
+        if(getParent() != null)
             updateParentPadding();
     }
 

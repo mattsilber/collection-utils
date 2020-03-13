@@ -35,6 +35,8 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
     }
 
     private void adjustStickyHeaders() {
+        final ModularListView parent = getParent();
+
         if(parent == null)
             return;
 
@@ -55,7 +57,8 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
     }
 
     private void onCurrentPositionIncreased(int firstVisiblePosition){
-        View firstVisible = parent.getChildAt(0);
+        View firstVisible = getParent()
+                .getChildAt(0);
 
         if(isViewAHeader(firstVisible)){
             currentStickyBitmap = getCurrentStickyBitmap(firstVisible);
@@ -74,7 +77,8 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
     }
 
     private void updateNextStickyPosition(){
-        View secondVisible = parent.getChildAt(1);
+        View secondVisible = getParent()
+                .getChildAt(1);
 
         if(isViewAHeader(secondVisible))
             nextStickyView = secondVisible;

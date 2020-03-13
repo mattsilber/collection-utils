@@ -43,6 +43,7 @@ public class CompatModularRecyclerAdapter extends ModularRecyclerAdapter {
             super.bind(item, module, holder, position);
     }
 
+    @SuppressWarnings("unchecked")
     protected void onBindCompatibilityViewModule(ListViewModule module, Object item, RecyclerView.ViewHolder holder, int position) {
         module.overrideTargetView(holder.itemView);
         module.updateView(this, item, position);

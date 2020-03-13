@@ -2,6 +2,8 @@ package com.guardanis.collections.grid.modules;
 
 import android.view.View;
 
+import com.guardanis.collections.grid.ModularGridView;
+
 import androidx.core.view.ViewCompat;
 
 public class HeaderModule extends OuterViewModule {
@@ -17,6 +19,8 @@ public class HeaderModule extends OuterViewModule {
 
     @Override
     protected void updateParentPadding() {
+        final ModularGridView parent = getParent();
+
         this.originalPadding = originalPadding < 0
                 ? parent.getPaddingTop()
                 : originalPadding;
@@ -30,7 +34,7 @@ public class HeaderModule extends OuterViewModule {
     @Override
     public void onScroll(int... values) {
         if(isScrollEventProcessable() && values[0] == 0){
-            final View firstView = parent.getChildAt(0);
+            final View firstView = getParent().getChildAt(0);
 
             if (firstView != null) {
                 translationY = ViewCompat.getY(firstView) - targetView.getHeight() + (originalPadding / 2);

@@ -40,6 +40,8 @@ public class EndlessModule extends CollectionModule<ModularScrollView> {
 
     @Override
     public void onScroll(int... values) {
+        final ModularScrollView parent = getParent();
+
         if(isScrollEventProcessable()){
             ViewGroup container = (ViewGroup) parent.getChildAt(0);
             View view = container.getChildAt(container.getChildCount() - 1);
@@ -57,7 +59,7 @@ public class EndlessModule extends CollectionModule<ModularScrollView> {
     }
 
     private boolean isScrollEventProcessable() {
-        return !(parent == null
+        return !(getParent() == null
                 || eventListener == null
                 || loading
                 || endingReached);
