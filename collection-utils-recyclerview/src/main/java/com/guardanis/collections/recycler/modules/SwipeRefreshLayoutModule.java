@@ -1,4 +1,4 @@
-package com.guardanis.collections.generic;
+package com.guardanis.collections.recycler.modules;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
@@ -46,7 +46,7 @@ public class SwipeRefreshLayoutModule<V extends ViewGroup> extends CollectionMod
     public void setRefreshing(boolean refreshing) {
         SwipeRefreshLayout view = layout.get();
 
-        if (layout == null)
+        if (view == null)
             return;
 
         view.setRefreshing(refreshing);

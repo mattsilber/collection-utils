@@ -9,7 +9,7 @@ import java.util.*
 
 class SampleTextListModule(val text: String) {
 
-    class ViewModule: ListViewModule<SampleTextListModule>(R.layout.text_list_module) {
+    class ViewModule: com.guardanis.collections.list.adapters.ListViewModule<SampleTextListModule>(R.layout.text_list_module) {
 
         var titleView: TextView? = null
 

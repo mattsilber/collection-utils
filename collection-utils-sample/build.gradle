@@ -13,12 +13,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'android-command'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
     }
 
     sourceSets.main.assets.srcDirs = ['assets']
@@ -27,13 +27,22 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "androidx.appcompat:appcompat:1.0.0"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    implementation "com.google.android.material:material:1.1.0"
 
     implementation project(path: ':collection-utils')
     implementation project(path: ':collection-utils-legacy')
+    implementation project(path: ':collection-utils-gridview')
+    implementation project(path: ':collection-utils-listview')
+    implementation project(path: ':collection-utils-recyclerview')
+    implementation project(path: ':collection-utils-recyclerview-compat')
+    implementation project(path: ':collection-utils-viewpager')
+    implementation project(path: ':collection-utils-scrollview')
 
-    implementation "com.guardanis:font-utils:1.0.2"
+    implementation "com.guardanis:font-utils:1.0.3"
 
     implementation "com.github.bumptech.glide:glide:4.8.0"
     implementation "com.github.bumptech.glide:okhttp3-integration:4.8.0"

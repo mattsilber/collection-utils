@@ -9,7 +9,6 @@ import com.guardanis.collections.adapters.Callback;
 import com.guardanis.collections.adapters.ModularAdapter;
 import com.guardanis.collections.adapters.ModuleBuilder;
 import com.guardanis.collections.adapters.ModuleBuilderResolver;
-import com.guardanis.collections.list.adapters.ListViewModule;
 import com.guardanis.collections.recycler.adapters.callbacks.ViewHolderLifeCycleCallbacks;
 
 import java.util.ArrayList;
@@ -52,49 +51,58 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         AdapterViewModule module = getBuilder(viewType)
                 .createViewModule();
 
-        if (module instanceof RecyclerViewModule) {
-            RecyclerViewModule recyclerViewModule = ((RecyclerViewModule) module);
-            recyclerViewModule.build(getContext(), parent);
+        return createViewHolder(module, parent, viewType);
+    }
 
-            return recyclerViewModule.getViewHolder();
-        }
-        else if (module instanceof ListViewModule) {
-            ListViewModule listViewModule = ((ListViewModule) module);
-            listViewModule.build(getContext(), parent);
+    protected RecyclerView.ViewHolder createViewHolder(
+            AdapterViewModule module,
+            ViewGroup parent,
+            int viewType) {
 
-            return new RecyclerListViewHolderCompat(listViewModule.getConvertView());
-        }
+        RecyclerViewModule recyclerViewModule = ((RecyclerViewModule) module);
+        recyclerViewModule.build(getContext(), parent);
 
-        throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
+        return recyclerViewModule.getViewHolder();
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Object item = getItem(position);
-
-        ModuleBuilderResolver resolver = viewModuleBuilders.get(item.getClass());
-
-        if (resolver == null)
-            throw new RuntimeException("ModuleBuilderResolver for item type [" + item.getClass() + "] not found.");
-
+        ModuleBuilderResolver resolver = findResolverOf(item.getClass());
         ModuleBuilder builder = resolver.resolve(this, item, position);
         AdapterViewModule module = builder.createViewModule();
 
+        bind(item, module, holder, position);
+    }
+
+    protected <T> ModuleBuilderResolver findResolverOf(Class<T> type) {
+        ModuleBuilderResolver resolver = viewModuleBuilders.get(type);
+
+        if (resolver == null)
+            throw new RuntimeException("ModuleBuilderResolver for item type [" + type + "] not found.");
+
+        return resolver;
+    }
+
+    protected <T> void bind(
+            Object item,
+            AdapterViewModule module,
+            RecyclerView.ViewHolder holder,
+            int position) {
+
         if (module instanceof RecyclerViewModule)
             onBindRecyclerViewModule((RecyclerViewModule) module, item, holder, position);
-        else if (module instanceof ListViewModule)
-            onBindCompatibilityViewModule((ListViewModule) module, item, holder, position);
         else
             throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
     }
 
-    protected void onBindRecyclerViewModule(RecyclerViewModule module, Object item, RecyclerView.ViewHolder holder, int position) {
-        module.overrideViewHolder(holder);
-        module.updateView(this, item, position);
-    }
+    protected void onBindRecyclerViewModule(
+            RecyclerViewModule module,
+            Object item,
+            RecyclerView.ViewHolder holder,
+            int position) {
 
-    protected void onBindCompatibilityViewModule(ListViewModule module, Object item, RecyclerView.ViewHolder holder, int position) {
-        module.overrideTargetView(holder.itemView);
+        module.overrideViewHolder(holder);
         module.updateView(this, item, position);
     }
 

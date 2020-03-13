@@ -4,12 +4,10 @@ import androidx.core.view.ViewCompat
 import androidx.appcompat.widget.AppCompatImageView
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
 import com.guardanis.collections.sample.R
 import com.guardanis.collections.sample.glide.GlideApp
-import com.guardanis.collections.sample.glide.SampleGlideModule
 import java.util.*
 
 class SampleImageModule(private val imageUrl: String) {
