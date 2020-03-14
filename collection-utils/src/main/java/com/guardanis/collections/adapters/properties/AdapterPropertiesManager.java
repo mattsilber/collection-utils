@@ -1,5 +1,7 @@
 package com.guardanis.collections.adapters.properties;
 
+import androidx.annotation.Nullable;
+
 public interface AdapterPropertiesManager {
 
     /**
@@ -13,5 +15,6 @@ public interface AdapterPropertiesManager {
      * Get a value stored in the properties [String: Object] map
      * @param key property key
      */
+    @Nullable
     public <V> V getProperty(String key);
 }

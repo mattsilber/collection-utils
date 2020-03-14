@@ -5,6 +5,8 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
+
 public class SimpleAdapterPropertiesManager implements AdapterPropertiesManager {
 
     protected Map<String, Object> properties = new HashMap<String, Object>();
@@ -15,11 +17,12 @@ public class SimpleAdapterPropertiesManager implements AdapterPropertiesManager 
     }
 
     @Override
+    @Nullable
+    @SuppressWarnings("unchecked")
     public <V> V getProperty(String key){
-        try{
+        try {
             return (V) properties.get(key);
         }
-        catch(ClassCastException e){ e.printStackTrace(); }
         catch(NullPointerException e){ Log.d("collections", key + " property is null. Ignoring.");  }
 
         return null;
