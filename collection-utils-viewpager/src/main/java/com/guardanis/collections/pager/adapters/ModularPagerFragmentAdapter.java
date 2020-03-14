@@ -81,10 +81,10 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
 
         AdapterViewModule module = builder.createViewModule();
 
-        if (!(module instanceof PagerViewModule))
+        if (!(module instanceof ViewPagerAdapterViewModule))
             throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
 
-        PagerViewModule pagerModule = (PagerViewModule) module;
+        ViewPagerAdapterViewModule pagerModule = (ViewPagerAdapterViewModule) module;
 
         Fragment fragment = (Fragment) pagerModule.build(context.get(), null);
         fragment.setArguments(pagerModule.createArguments(this, item, position));

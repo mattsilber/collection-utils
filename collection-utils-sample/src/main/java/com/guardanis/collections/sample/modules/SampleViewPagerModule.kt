@@ -7,12 +7,12 @@ import androidx.viewpager.widget.ViewPager
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.pager.adapters.ModularPagerFragmentAdapter
-import com.guardanis.collections.recycler.adapters.RecyclerViewModule
+import com.guardanis.collections.recycler.adapters.RecyclerViewAdapterViewModule
 import com.guardanis.collections.sample.R
 
 class SampleViewPagerModule(private val fragmentManager: FragmentManager) {
 
-    class ViewModule(layoutResId: Int): RecyclerViewModule<SampleViewPagerModule, ViewHolder>(layoutResId) {
+    class ViewModule(layoutResId: Int): RecyclerViewAdapterViewModule<SampleViewPagerModule, ViewHolder>(layoutResId) {
 
         override fun buildViewHolder(view: View): ViewHolder {
             return ViewHolder(view)

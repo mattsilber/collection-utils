@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.guardanis.collections.adapters.viewbuilder.AdapterViewModule;
-import com.guardanis.collections.list.adapters.ListViewModule;
+import com.guardanis.collections.list.adapters.ListViewAdapterViewModule;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,8 +20,8 @@ public class CompatModularRecyclerAdapter extends ModularRecyclerAdapter {
             ViewGroup parent,
             int viewType) {
 
-        if (module instanceof ListViewModule) {
-            ListViewModule listViewModule = ((ListViewModule) module);
+        if (module instanceof ListViewAdapterViewModule) {
+            ListViewAdapterViewModule listViewModule = ((ListViewAdapterViewModule) module);
             listViewModule.build(getContext(), parent);
 
             return new RecyclerListViewHolderCompat(listViewModule.getConvertView());
@@ -37,15 +37,15 @@ public class CompatModularRecyclerAdapter extends ModularRecyclerAdapter {
             RecyclerView.ViewHolder holder,
             int position) {
 
-        if (module instanceof ListViewModule)
-            onBindCompatibilityViewModule((ListViewModule) module, item, holder, position);
+        if (module instanceof ListViewAdapterViewModule)
+            onBindCompatibilityViewModule((ListViewAdapterViewModule) module, item, holder, position);
         else
             super.bind(item, module, holder, position);
     }
 
     @SuppressWarnings("unchecked")
     protected void onBindCompatibilityViewModule(
-            ListViewModule module,
+            ListViewAdapterViewModule module,
             Object item,
             RecyclerView.ViewHolder holder,
             int position) {

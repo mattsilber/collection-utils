@@ -2,6 +2,7 @@ package com.guardanis.collections.sample.modules
 
 import android.view.View
 import com.guardanis.collections.adapters.ModularAdapter
+import com.guardanis.collections.list.adapters.ListViewAdapterViewModule
 import com.guardanis.collections.sample.R
 import com.guardanis.fontutils.TextView
 import java.util.*
@@ -10,7 +11,7 @@ class SampleTextListModule(
         val title: String,
         val detail: String) {
 
-    class ViewModule: com.guardanis.collections.list.adapters.ListViewModule<SampleTextListModule>(R.layout.text_list_module) {
+    class ViewModule: ListViewAdapterViewModule<SampleTextListModule>(R.layout.text_list_module) {
 
         var titleView: TextView? = null
         var detailView: TextView? = null

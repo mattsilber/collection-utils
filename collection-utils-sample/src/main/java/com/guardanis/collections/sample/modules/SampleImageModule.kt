@@ -8,14 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.guardanis.collections.adapters.ModularAdapter
-import com.guardanis.collections.recycler.adapters.RecyclerViewModule
+import com.guardanis.collections.recycler.adapters.RecyclerViewAdapterViewModule
 import com.guardanis.collections.sample.R
 import com.guardanis.collections.sample.glide.GlideApp
-import java.util.*
 
 class SampleImageModule(private val imageUrl: String) {
 
-    class ViewModule(layoutResId: Int): RecyclerViewModule<SampleImageModule, ViewHolder>(layoutResId) {
+    class ViewModule(layoutResId: Int): RecyclerViewAdapterViewModule<SampleImageModule, ViewHolder>(layoutResId) {
 
         override fun buildViewHolder(view: View): ViewHolder {
             return ViewHolder(view)

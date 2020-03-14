@@ -63,7 +63,7 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ViewGroup parent,
             int viewType) {
 
-        RecyclerViewModule recyclerViewModule = ((RecyclerViewModule) module);
+        RecyclerViewAdapterViewModule recyclerViewModule = ((RecyclerViewAdapterViewModule) module);
         recyclerViewModule.build(getContext(), parent);
 
         return recyclerViewModule.getViewHolder();
@@ -86,15 +86,15 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             RecyclerView.ViewHolder holder,
             int position) {
 
-        if (!(module instanceof RecyclerViewModule))
+        if (!(module instanceof RecyclerViewAdapterViewModule))
             throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
 
-        onBindRecyclerViewModule((RecyclerViewModule) module, item, holder, position);
+        onBindRecyclerViewModule((RecyclerViewAdapterViewModule) module, item, holder, position);
     }
 
     @SuppressWarnings("unchecked")
     protected void onBindRecyclerViewModule(
-            RecyclerViewModule module,
+            RecyclerViewAdapterViewModule module,
             Object item,
             RecyclerView.ViewHolder holder,
             int position) {

@@ -4,13 +4,13 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.guardanis.collections.adapters.ModularAdapter
-import com.guardanis.collections.recycler.adapters.RecyclerViewModule
+import com.guardanis.collections.recycler.adapters.RecyclerViewAdapterViewModule
 import com.guardanis.collections.recycler.adapters.callbacks.ViewHolderLifeCycleCallbacks
 import com.guardanis.collections.sample.R
 
 class SampleDividerModule(private val height: Int) {
 
-    class ViewModule(): RecyclerViewModule<SampleDividerModule, ViewHolder>(R.layout.divider_module) {
+    class ViewModule(): RecyclerViewAdapterViewModule<SampleDividerModule, ViewHolder>(R.layout.divider_module) {
 
         override fun buildViewHolder(view: View): ViewHolder {
             return ViewHolder(view)

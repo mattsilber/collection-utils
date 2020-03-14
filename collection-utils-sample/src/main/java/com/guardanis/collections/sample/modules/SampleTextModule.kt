@@ -3,16 +3,15 @@ package com.guardanis.collections.sample.modules
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.guardanis.collections.adapters.ModularAdapter
-import com.guardanis.collections.recycler.adapters.RecyclerViewModule
+import com.guardanis.collections.recycler.adapters.RecyclerViewAdapterViewModule
 import com.guardanis.collections.sample.R
 import com.guardanis.fontutils.TextView
-import java.util.*
 
 class SampleTextModule(
         private val title: String,
         private val details: String) {
 
-    class ViewModule(layoutResId: Int): RecyclerViewModule<SampleTextModule, ViewHolder>(layoutResId) {
+    class ViewModule(layoutResId: Int): RecyclerViewAdapterViewModule<SampleTextModule, ViewHolder>(layoutResId) {
 
         override fun buildViewHolder(view: View): ViewHolder {
             return ViewHolder(view)

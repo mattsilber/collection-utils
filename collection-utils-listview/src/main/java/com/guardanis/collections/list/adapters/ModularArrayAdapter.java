@@ -1,7 +1,6 @@
 package com.guardanis.collections.list.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,7 +15,6 @@ import com.guardanis.collections.adapters.properties.AdapterPropertiesManager;
 import com.guardanis.collections.adapters.properties.SimpleAdapterPropertiesManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -64,19 +62,19 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter 
             throw new RuntimeException("ModuleBuilderResolver for item type [" + item.getClass() + "] not found.");
 
         ModuleBuilder builder = resolver.resolve(this, item, position);
-        ListViewModule module;
+        ListViewAdapterViewModule module;
 
         if(convertView == null
                 || convertView.getTag() == null
                 || convertView.getTag().getClass() != item.getClass()) {
-            module = (ListViewModule) builder.createViewModule();
+            module = (ListViewAdapterViewModule) builder.createViewModule();
             module.build(getContext(), parent);
 
             convertView = module.getConvertView();
             convertView.setTag(module);
         }
         else
-            module = (ListViewModule) convertView.getTag();
+            module = (ListViewAdapterViewModule) convertView.getTag();
 
         module.updateView(this, item, position);
 

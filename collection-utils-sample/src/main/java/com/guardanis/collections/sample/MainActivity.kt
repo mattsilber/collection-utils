@@ -71,7 +71,7 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
                         SampleDividerModule.ViewModule::class.java,
                         { SampleDividerModule.ViewModule() }))
 
-        // A ListViewModule is backwards compatible with the ModularRecyclerAdapter
+        // A ListViewAdapterViewModule is backwards compatible with the ModularRecyclerAdapter
         adapter.registerModuleBuilder(
                 SampleTextListModule::class.java,
                 ModuleBuilder(
