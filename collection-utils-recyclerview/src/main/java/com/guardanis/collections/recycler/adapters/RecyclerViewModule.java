@@ -19,7 +19,7 @@ public abstract class RecyclerViewModule<T, H extends RecyclerView.ViewHolder> e
 
     @Override
     public View build(Context context, ViewGroup parent){
-        View convertView = inflate(context, parent);
+        View convertView = viewBuilder.createInstance(context, parent);
         this.viewHolder = buildViewHolder(convertView);
 
         return convertView;

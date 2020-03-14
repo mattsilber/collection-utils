@@ -11,7 +11,7 @@ import com.guardanis.collections.pager.adapters.PagerViewModule
 
 class SamplePagerFragmentModule {
 
-    class ViewModule(layoutResId: Int): PagerViewModule<SamplePagerFragmentModule>(layoutResId) {
+    class ViewModule(val layoutResId: Int): PagerViewModule<SamplePagerFragmentModule>(layoutResId) {
 
         override fun build(context: Context, parent: ViewGroup?): Fragment {
             return SamplePagerFragment()

@@ -5,20 +5,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.guardanis.collections.adapters.viewbuilder.LayoutInflaterAdapterViewBuilder;
+
+import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 
 public abstract class AdapterViewModule<V> {
 
-    protected int layoutResId;
+    public interface ViewBuilder {
+        public View createInstance(Context context, ViewGroup parent);
+    }
 
-    public AdapterViewModule(int layoutResId) {
-        this.layoutResId = layoutResId;
+    protected ViewBuilder viewBuilder;
+
+    public AdapterViewModule(@LayoutRes int layoutResId) {
+        this(new LayoutInflaterAdapterViewBuilder(layoutResId));
+    }
+
+    public AdapterViewModule(ViewBuilder viewBuilder) {
+        this.viewBuilder = viewBuilder;
     }
 
     public abstract V build(Context context, @Nullable ViewGroup parent);
 
-    protected View inflate(Context context, ViewGroup parent){
-        return LayoutInflater.from(context)
-                .inflate(layoutResId, parent, false);
+    @Deprecated
+    protected View inflate(Context context, ViewGroup parent) {
+        return viewBuilder.createInstance(context, parent);
     }
 }

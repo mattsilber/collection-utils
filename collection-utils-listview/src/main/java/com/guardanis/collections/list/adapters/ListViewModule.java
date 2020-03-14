@@ -17,7 +17,7 @@ public abstract class ListViewModule<T> extends AdapterViewModule<View> {
 
     @Override
     public View build(Context context, ViewGroup parent){
-        this.convertView = inflate(context, parent);
+        this.convertView = viewBuilder.createInstance(context, parent);
         this.locateViewComponents(convertView);
 
         return convertView;

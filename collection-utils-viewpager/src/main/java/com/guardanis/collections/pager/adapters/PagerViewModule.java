@@ -5,13 +5,14 @@ import android.os.Bundle;
 import com.guardanis.collections.adapters.AdapterViewModule;
 import com.guardanis.collections.adapters.ModularAdapter;
 
+import androidx.annotation.LayoutRes;
 import androidx.fragment.app.Fragment;
 
 abstract public class PagerViewModule<T> extends AdapterViewModule<Fragment> {
 
     public static final String BUNDLE_LAYOUT_RES_ID_KEY = "layout_res_id";
-
-    public PagerViewModule(int layoutResId) {
+    
+    public PagerViewModule(@LayoutRes int layoutResId) {
         super(layoutResId);
     }
 
