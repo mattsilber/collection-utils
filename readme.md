@@ -202,7 +202,7 @@ Types are enforced at runtime when accessed, so there is no compile-time safety 
 
 ## CollectionModule
 
-`CollectionModules` are the behavioral building blocks of this system. Each module is designed to separately handle a use case, and delegate the necessary events back (in a normalized way() that doesn't interfere with the default behavior of the ListView/GridView/RecyclerView/etc. 
+`CollectionModules` are the behavioral building blocks of this system. Each module is designed to separately handle a use case, and delegate the necessary events back (in a normalized way) that doesn't interfere with the default behavior of the ListView/GridView/RecyclerView/etc. 
 
 #### EndlessModule
 
