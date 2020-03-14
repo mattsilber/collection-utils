@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.annotation:annotation:1.1.0"
 
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation "junit:junit:$vJunit"
@@ -48,20 +48,13 @@ dependencies {
 }
 
 ext {
-    bintrayRepo = 'maven'
     bintrayName = 'collection-utils-core'
-
-    publishedGroupId = 'com.guardanis'
     libraryName = 'collection-utils-core'
     artifact = 'collection-utils-core'
 
     libraryDescription = 'An assortment of modularized additives for collection-based layouts'
-    libraryVersion = '4.0.0'
-
-    developerId = 'mattsilber'
-    developerName = 'Matt Silber'
-    developerEmail = 'matt@guardanis.com'
+    libraryVersion = "$vCoreVersion"
 }
 
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
+apply from: "$installV1Url"
+apply from: "$bintrayV1Url"

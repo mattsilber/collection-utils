@@ -26,39 +26,27 @@ android {
     }
 }
 
-repositories {
-    jcenter()
-    mavenCentral()
-    maven { url 'https://maven.google.com/' }
-}
-
 dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
-//    releaseImplementation project(path: ':collection-utils')
-//    debugImplementation project(path: ':collection-utils')
-    implementation project(path: ':collection-utils')
-    implementation project(path: ':collection-utils-recyclerview')
-    implementation project(path: ':collection-utils-listview')
+    releaseImplementation "com.guardanis:$coreLibraryPackage:$vCoreVersion"
+    debugImplementation project(path: ':collection-utils')
+
+    // TODO: Set release variant for these
+    debugImplementation project(path: ':collection-utils-recyclerview')
+    debugImplementation project(path: ':collection-utils-listview')
 
     testImplementation 'junit:junit:4.12'
 }
 
 ext {
-    bintrayRepo = 'maven'
     bintrayName = 'collection-utils-recyclerview-compat'
-
-    publishedGroupId = 'com.guardanis'
     libraryName = 'collection-utils-recyclerview-compat'
     artifact = 'collection-utils-recyclerview-compat'
 
     libraryDescription = 'An assortment of modularized additives for collection-based layouts (RecyclerView compatibility components for ListView)'
-    libraryVersion = '4.0.0'
-
-    developerId = 'mattsilber'
-    developerName = 'Matt Silber'
-    developerEmail = 'matt@guardanis.com'
+    libraryVersion = "$vCoreVersion"
 }
 
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
+apply from: "$installV1Url"
+apply from: "$bintrayV1Url"

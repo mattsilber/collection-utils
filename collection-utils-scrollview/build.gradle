@@ -26,38 +26,24 @@ android {
     }
 }
 
-repositories {
-    jcenter()
-    mavenCentral()
-    maven { url 'https://maven.google.com/' }
-}
-
 dependencies {
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "androidx.appcompat:appcompat:1.1.0"
 
-//    releaseImplementation project(path: ':collection-utils')
-//    debugImplementation project(path: ':collection-utils')
-    implementation project(path: ':collection-utils')
+    releaseImplementation "com.guardanis:$coreLibraryPackage:$vCoreVersion"
+    debugImplementation project(path: ':collection-utils')
 
     testImplementation 'junit:junit:4.12'
 }
 
 ext {
-    bintrayRepo = 'maven'
     bintrayName = 'collection-utils-scrollview'
-
-    publishedGroupId = 'com.guardanis'
     libraryName = 'collection-utils-scrollview'
     artifact = 'collection-utils-scrollview'
 
     libraryDescription = 'An assortment of modularized additives for collection-based layouts (ScrollView components)'
-    libraryVersion = '4.0.0'
-
-    developerId = 'mattsilber'
-    developerName = 'Matt Silber'
-    developerEmail = 'matt@guardanis.com'
+    libraryVersion = "$vCoreVersion"
 }
 
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
+apply from: "$installV1Url"
+apply from: "$bintrayV1Url"
