@@ -44,5 +44,4 @@ public interface ModularAdapter {
      * @param key property key
      */
     public <V> V getProperty(String key);
-
 }

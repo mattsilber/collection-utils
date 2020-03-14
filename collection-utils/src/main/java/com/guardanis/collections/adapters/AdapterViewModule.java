@@ -11,7 +11,7 @@ public abstract class AdapterViewModule<V> {
 
     protected int layoutResId;
 
-    public AdapterViewModule(int layoutResId){
+    public AdapterViewModule(int layoutResId) {
         this.layoutResId = layoutResId;
     }
 

@@ -26,14 +26,15 @@ public abstract class ModuleBuilderResolver<V> {
     public int getViewTypeIndex(ModularAdapter adapter, V item, int position){
         ModuleBuilder builder = resolve(adapter, item, position);
 
-        for(int i = 0; i < builders.size(); i++)
-            if(builders.get(i) == builder)
+        for(int i = 0; i < builders.size(); i++) {
+            if (builders.get(i) == builder)
                 return i;
+        }
 
         throw new RuntimeException("No ModuleBuilder registered for " + item.getClass().getSimpleName() + " at position " + position);
     }
 
-    public ModuleBuilder getBuilder(int localIndex){
+    public ModuleBuilder getBuilder(int localIndex) {
         return builders.get(localIndex);
     }
 

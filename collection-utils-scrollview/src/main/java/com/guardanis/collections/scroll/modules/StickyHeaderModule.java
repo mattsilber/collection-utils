@@ -71,7 +71,7 @@ public class StickyHeaderModule extends CollectionModule<ModularScrollView> {
         if(currentStickyView != null){
             canvas.save();
             canvas.translate(0, getAdjustedTopPosition());
-            
+
             currentStickyView.draw(canvas);
 
             canvas.restore();

@@ -26,5 +26,4 @@ public class ModuleBuilder<T extends AdapterViewModule> {
     public Class getViewModuleClass(){
         return viewModuleClass;
     }
-
 }

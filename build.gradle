@@ -1,17 +1,34 @@
 allprojects {
     buildscript {
         repositories {
-            jcenter()
             maven { url 'https://maven.google.com/' }
+            mavenCentral()
+            jcenter()
         }
 
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.2.1'
+            classpath 'com.android.tools.build:gradle:3.5.3'
         }
     }
 
     repositories {
-        jcenter()
         maven { url 'https://maven.google.com/' }
+        mavenCentral()
+        jcenter()
     }
+}
+
+ext {
+    kotlin_version = '1.3.50'
+
+    vBintray = "1.2"
+    vMavenGradle = "2.1"
+
+    vJunit = "4.12"
+    vAndroidxTestExtJunit = "1.1.1"
+    vAndroidxTestRrunner = "1.2.0"
+    vAndroidxTestCore = "1.2.0"
+    vAndroidxTestEspressoEspressoCore = "3.2.0"
+    vMockitoMockitoCore = "2.23.4"
+    vRobolectricRobolectric = "4.3.1"
 }
