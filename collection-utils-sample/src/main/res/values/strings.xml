@@ -10,7 +10,10 @@
 
     <string-array name="fu__font_family_resources">
         <item>roboto--normal=fonts/roboto.ttf,bold=fonts/roboto_bold.ttf</item>
+        <item>about_love--normal=fonts/about_love.ttf</item>
     </string-array>
 
+    <string name="font__roboto">roboto</string>
+    <string name="font__about_love">about_love</string>
 
 </resources>

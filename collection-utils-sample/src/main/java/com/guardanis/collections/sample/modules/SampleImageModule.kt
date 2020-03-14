@@ -1,9 +1,12 @@
 package com.guardanis.collections.sample.modules
 
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
 import com.guardanis.collections.sample.R
@@ -19,11 +22,13 @@ class SampleImageModule(private val imageUrl: String) {
         }
 
         override fun updateView(adapter: ModularAdapter, item: SampleImageModule, position: Int) {
+            viewHolder.detail?.text = item.imageUrl
             viewHolder.imageView?.run({
                 ViewCompat.setBackground(this, null)
 
                 GlideApp.with(this)
                         .load(item.imageUrl)
+                        .apply(noCacheRequestOptions())
                         .into(this)
             })
         }
@@ -32,21 +37,18 @@ class SampleImageModule(private val imageUrl: String) {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
         var imageView: AppCompatImageView? = view.findViewById(R.id.image_module_logo)
+        var detail: TextView? = view.findViewById(R.id.image_module_detail)
     }
 
     companion object {
 
-        private val randomImageUrl: String
-            get() {
-                return when (Random().nextInt(3)) {
-                    0 -> "https://guardanis.com/image/android_dreamer.png"
-                    1 -> "https://guardanis.com/image/android_quitter.png"
-                    else -> "https://guardanis.com/image/android_corners.png"
-                }
-            }
-
         fun createRandomInstance(): SampleImageModule {
-            return SampleImageModule(randomImageUrl)
+            return SampleImageModule("https://source.unsplash.com/random/600x400")
         }
     }
+}
+
+fun noCacheRequestOptions(): RequestOptions {
+    return RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
 }

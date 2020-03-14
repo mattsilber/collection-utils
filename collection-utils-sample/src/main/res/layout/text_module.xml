@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFF0000"
+    android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingBottom="32dip"
     android:paddingLeft="16dip"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="This is an example module with some text"
-        android:textColor="@color/base__text_white"
+        android:textColor="@color/base__text_dark_0"
         android:textSize="16sp"
         android:textStyle="bold"/>
 
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="This is a an example detail element within the text"
-        android:textColor="@color/base__text_white"
+        android:textColor="@color/base__text_dark_2"
         android:textSize="14sp" />
 
 </LinearLayout>

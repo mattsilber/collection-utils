@@ -12,6 +12,7 @@ import com.guardanis.collections.recycler.adapters.CompatModularRecyclerAdapter
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.modules.EndlessModule
 import com.guardanis.collections.recycler.modules.SwipeRefreshLayoutModule
+import com.guardanis.collections.sample.glide.GlideApp
 import com.guardanis.collections.sample.modules.*
 import java.lang.ref.WeakReference
 import java.util.*

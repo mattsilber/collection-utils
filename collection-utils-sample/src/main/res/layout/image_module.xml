@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cu="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:background="@drawable/image_bg"
-    android:orientation="vertical"
-    android:padding="16dip">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_module_logo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
-        android:scaleType="centerInside" />
+        android:scaleType="centerCrop"
+        cu:layout_constraintStart_toStartOf="parent"
+        cu:layout_constraintTop_toTopOf="parent"
+        cu:layout_constraintEnd_toEndOf="parent"
+        cu:layout_constraintBottom_toBottomOf="parent" />
 
-</LinearLayout>
+    <com.guardanis.fontutils.TextView
+        android:id="@+id/image_module_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Source"
+        android:textColor="@color/base__text_white_1"
+        android:textSize="16sp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="12dp"
+        cu:layout_constraintStart_toStartOf="parent"
+        cu:layout_constraintEnd_toEndOf="parent"
+        cu:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

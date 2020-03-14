@@ -30,33 +30,42 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
     protected Map<String, Object> properties = new HashMap<String, Object>();
 
     public ModularPagerFragmentAdapter(Context context, FragmentManager manager) {
-        super(manager);
+        this(context, manager, BEHAVIOR_SET_USER_VISIBLE_HINT);
+    }
 
-        this.context = new WeakReference(context);
+    public ModularPagerFragmentAdapter(Context context, FragmentManager manager, int behavior) {
+        super(manager, behavior);
+
+        this.context = new WeakReference<Context>(context);
     }
 
     public ModularPagerFragmentAdapter addAll(Collection<Object> item) {
         this.items.addAll(item);
+
         return this;
     }
 
     public ModularPagerFragmentAdapter add(Object item) {
         this.items.add(item);
+
         return this;
     }
 
     public ModularPagerFragmentAdapter remove(Object item) {
         this.items.remove(item);
+
         return this;
     }
 
     public ModularPagerFragmentAdapter removeAt(int position) {
         this.items.remove(position);
+
         return this;
     }
 
     public ModularPagerFragmentAdapter clear() {
         this.items.clear();
+
         return this;
     }
 

@@ -1,8 +1,6 @@
 package com.guardanis.collections.sample.modules
 
-import android.graphics.Color
 import android.view.View
-import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.recycler.adapters.RecyclerViewModule
@@ -12,8 +10,7 @@ import java.util.*
 
 class SampleTextModule(
         private val title: String,
-        private val details: String,
-        private @ColorInt val backgroundColor: Int) {
+        private val details: String) {
 
     class ViewModule(layoutResId: Int): RecyclerViewModule<SampleTextModule, ViewHolder>(layoutResId) {
 
@@ -23,8 +20,7 @@ class SampleTextModule(
 
         override fun updateView(adapter: ModularAdapter, item: SampleTextModule, position: Int) {
             viewHolder.titleView?.text = item.title
-            viewHolder.detailsView?.text = item.details
-            viewHolder.itemView.setBackgroundColor(item.backgroundColor)
+            viewHolder.detailsView?.text = 0.until(3).fold("", { last, next -> "$last\n${item.details}".trim() })
             viewHolder.itemView.setOnLongClickListener({
                 adapter.triggerCallback(itemLongClicked, position)
                 return@setOnLongClickListener true
@@ -65,18 +61,8 @@ class SampleTextModule(
                 }
             }
 
-        private val randomColor: Int
-            get() {
-                return when (Random().nextInt(4)) {
-                    0 -> Color.parseColor("#F44336")
-                    1 -> Color.parseColor("#2980B9")
-                    2 -> Color.TRANSPARENT
-                    else -> Color.parseColor("#7F8C8D")
-                }
-            }
-
         fun createRandomInstance(): SampleTextModule {
-            return SampleTextModule(randomTitle, randomDetails, randomColor)
+            return SampleTextModule(randomTitle, randomDetails)
         }
     }
 }

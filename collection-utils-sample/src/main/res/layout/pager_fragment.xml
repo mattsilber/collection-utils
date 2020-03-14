@@ -1,22 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cu="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
-    android:paddingLeft="22dp"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp">
+    android:background="@color/base__text_dark_2">
+
+    <ImageView
+        android:id="@+id/pager_fragment_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        cu:layout_constraintStart_toStartOf="parent"
+        cu:layout_constraintTop_toTopOf="parent"
+        cu:layout_constraintEnd_toEndOf="parent"
+        cu:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.guardanis.fontutils.TextView
-        android:layout_width="match_parent"
+        android:id="@+id/pager_fragment_title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/base__rounded_content"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="This text is inside a view pager.\nSwipe me."
-        android:textColor="@color/base__text_dark_2"
-        android:textSize="16dp"/>
+        android:gravity="left"
+        android:text="A wonderful title"
+        android:textColor="@color/base__text_white"
+        android:textSize="32sp"
+        android:paddingLeft="24dp"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        cu:textFontFamily="@string/font__about_love"
+        cu:layout_constraintStart_toStartOf="parent"
+        cu:layout_constraintEnd_toEndOf="parent"
+        cu:layout_constraintBottom_toTopOf="@+id/pager_fragment_detail"/>
 
-</LinearLayout>
+    <com.guardanis.fontutils.TextView
+        android:id="@+id/pager_fragment_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="This text is inside a view pager.\nSwipe me."
+        android:textColor="@color/base__text_white_1"
+        android:textSize="16sp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="46dp"
+        cu:layout_constraintStart_toStartOf="parent"
+        cu:layout_constraintEnd_toEndOf="parent"
+        cu:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
