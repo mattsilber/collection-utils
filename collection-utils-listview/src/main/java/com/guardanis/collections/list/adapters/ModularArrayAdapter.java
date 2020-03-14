@@ -10,6 +10,10 @@ import com.guardanis.collections.adapters.Callback;
 import com.guardanis.collections.adapters.ModularAdapter;
 import com.guardanis.collections.adapters.ModuleBuilder;
 import com.guardanis.collections.adapters.ModuleBuilderResolver;
+import com.guardanis.collections.adapters.actions.AdapterActionsManager;
+import com.guardanis.collections.adapters.actions.SimpleAdapterActionsManager;
+import com.guardanis.collections.adapters.properties.AdapterPropertiesManager;
+import com.guardanis.collections.adapters.properties.SimpleAdapterPropertiesManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +23,8 @@ import java.util.Map;
 public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter {
 
     protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new LinkedHashMap<Class, ModuleBuilderResolver>();
-    protected Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
-    protected Map<String, Object> properties = new HashMap<String, Object>();
+    protected AdapterActionsManager actionsManager = new SimpleAdapterActionsManager();
+    protected AdapterPropertiesManager propertiesManager = new SimpleAdapterPropertiesManager();
 
     public ModularArrayAdapter(Context context) {
         super(context, 0, new ArrayList());
@@ -80,36 +84,26 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter 
     }
 
     @Override
-    public ModularArrayAdapter registerCallback(String key, Callback callback){
-        actionCallbacks.put(key, callback);
+    public ModularArrayAdapter registerCallback(String key, Callback callback) {
+        actionsManager.registerCallback(key, callback);
 
         return this;
     }
 
     @Override
-    public <V> void triggerCallback(String key, V value){
-        try{
-            actionCallbacks.get(key)
-                    .onTriggered(value);
-        }
-        catch(ClassCastException e){ e.printStackTrace(); }
-        catch(NullPointerException e){ Log.d("collections", key + " callback is null. Ignoring.");  }
+    public <V> void triggerCallback(String key, V value) {
+        actionsManager.triggerCallback(key, value);
     }
 
     @Override
     public ModularArrayAdapter setProperty(String key, Object value) {
-        this.properties.put(key, value);
+        propertiesManager.setProperty(key, value);
+
         return this;
     }
 
     @Override
-    public <V> V getProperty(String key){
-        try{
-            return (V) properties.get(key);
-        }
-        catch(ClassCastException e){ e.printStackTrace(); }
-        catch(NullPointerException e){ Log.d("collections", key + " property is null. Ignoring.");  }
-
-        return null;
+    public <V> V getProperty(String key) {
+        return propertiesManager.getProperty(key);
     }
 }

@@ -2,7 +2,7 @@ package com.guardanis.collections.pager.adapters;
 
 import android.os.Bundle;
 
-import com.guardanis.collections.adapters.AdapterViewModule;
+import com.guardanis.collections.adapters.viewbuilder.AdapterViewModule;
 import com.guardanis.collections.adapters.ModularAdapter;
 
 import androidx.annotation.LayoutRes;

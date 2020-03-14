@@ -1,5 +1,7 @@
 package com.guardanis.collections.adapters;
 
+import com.guardanis.collections.adapters.viewbuilder.AdapterViewModule;
+
 import androidx.annotation.NonNull;
 
 public class ModuleBuilder<T extends AdapterViewModule> {

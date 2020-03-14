@@ -1,28 +1,23 @@
-package com.guardanis.collections.adapters;
+package com.guardanis.collections.adapters.viewbuilder;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guardanis.collections.adapters.viewbuilder.LayoutInflaterAdapterViewBuilder;
+import com.guardanis.collections.adapters.AdapterViewBuilder;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 
 public abstract class AdapterViewModule<V> {
 
-    public interface ViewBuilder {
-        public View createInstance(Context context, ViewGroup parent);
-    }
-
-    protected ViewBuilder viewBuilder;
+    protected AdapterViewBuilder viewBuilder;
 
     public AdapterViewModule(@LayoutRes int layoutResId) {
         this(new LayoutInflaterAdapterViewBuilder(layoutResId));
     }
 
-    public AdapterViewModule(ViewBuilder viewBuilder) {
+    public AdapterViewModule(AdapterViewBuilder viewBuilder) {
         this.viewBuilder = viewBuilder;
     }
 

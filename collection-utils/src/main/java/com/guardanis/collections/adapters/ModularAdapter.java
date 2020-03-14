@@ -2,6 +2,8 @@ package com.guardanis.collections.adapters;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 public interface ModularAdapter {
 
     public Context getContext();
@@ -44,4 +46,11 @@ public interface ModularAdapter {
      * @param key property key
      */
     public <V> V getProperty(String key);
+
+    /**
+     * Get the Object value in the ModularAdapter at a position
+     * @param position The position of the item in range [0,n)
+     */
+    @Nullable
+    public Object getItem(int position);
 }

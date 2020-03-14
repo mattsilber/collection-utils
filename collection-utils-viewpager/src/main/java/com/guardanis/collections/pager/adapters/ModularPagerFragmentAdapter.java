@@ -1,18 +1,21 @@
 package com.guardanis.collections.pager.adapters;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.guardanis.collections.adapters.AdapterViewModule;
+import com.guardanis.collections.adapters.viewbuilder.AdapterViewModule;
 import com.guardanis.collections.adapters.Callback;
 import com.guardanis.collections.adapters.ModularAdapter;
 import com.guardanis.collections.adapters.ModuleBuilder;
 import com.guardanis.collections.adapters.ModuleBuilderResolver;
+import com.guardanis.collections.adapters.actions.AdapterActionsManager;
+import com.guardanis.collections.adapters.actions.SimpleAdapterActionsManager;
+import com.guardanis.collections.adapters.properties.AdapterPropertiesManager;
+import com.guardanis.collections.adapters.properties.SimpleAdapterPropertiesManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +28,9 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
     protected WeakReference<Context> context;
     protected List<Object> items = new ArrayList<Object>();
 
-    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new HashMap<Class, ModuleBuilderResolver>();
-    protected Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
-    protected Map<String, Object> properties = new HashMap<String, Object>();
+    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new LinkedHashMap<>();
+    protected AdapterActionsManager actionsManager = new SimpleAdapterActionsManager();
+    protected AdapterPropertiesManager propertiesManager = new SimpleAdapterPropertiesManager();
 
     public ModularPagerFragmentAdapter(Context context, FragmentManager manager) {
         this(context, manager, BEHAVIOR_SET_USER_VISIBLE_HINT);
@@ -112,36 +115,26 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
     }
 
     @Override
-    public ModularPagerFragmentAdapter registerCallback(String key, Callback callback){
-        actionCallbacks.put(key, callback);
+    public ModularPagerFragmentAdapter registerCallback(String key, Callback callback) {
+        actionsManager.registerCallback(key, callback);
 
         return this;
     }
 
     @Override
-    public <V> void triggerCallback(String key, V value){
-        try{
-            actionCallbacks.get(key)
-                    .onTriggered(value);
-        }
-        catch(ClassCastException e){ e.printStackTrace(); }
-        catch(NullPointerException e){ Log.d("collections", key + " callback is null. Ignoring.");  }
+    public <V> void triggerCallback(String key, V value) {
+        actionsManager.triggerCallback(key, value);
     }
 
     @Override
     public ModularPagerFragmentAdapter setProperty(String key, Object value) {
-        this.properties.put(key, value);
+        propertiesManager.setProperty(key, value);
+
         return this;
     }
 
     @Override
-    public <V> V getProperty(String key){
-        try{
-            return (V) properties.get(key);
-        }
-        catch(ClassCastException e){ e.printStackTrace(); }
-        catch(NullPointerException e){ Log.d("collections", key + " property is null. Ignoring.");  }
-
-        return null;
+    public <V> V getProperty(String key) {
+        return propertiesManager.getProperty(key);
     }
 }

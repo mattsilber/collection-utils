@@ -3,7 +3,7 @@ package com.guardanis.collections.recycler.adapters;
 import android.content.Context;
 import android.view.ViewGroup;
 
-import com.guardanis.collections.adapters.AdapterViewModule;
+import com.guardanis.collections.adapters.viewbuilder.AdapterViewModule;
 import com.guardanis.collections.list.adapters.ListViewModule;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +33,7 @@ public class CompatModularRecyclerAdapter extends ModularRecyclerAdapter {
     @Override
     protected <T> void bind(
             Object item,
-            com.guardanis.collections.adapters.AdapterViewModule module,
+            AdapterViewModule module,
             RecyclerView.ViewHolder holder,
             int position) {
 
