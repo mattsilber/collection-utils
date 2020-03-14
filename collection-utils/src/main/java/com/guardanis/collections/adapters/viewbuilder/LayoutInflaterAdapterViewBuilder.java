@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guardanis.collections.adapters.AdapterViewBuilder;
-
 import androidx.annotation.LayoutRes;
 
 public class LayoutInflaterAdapterViewBuilder implements AdapterViewBuilder {

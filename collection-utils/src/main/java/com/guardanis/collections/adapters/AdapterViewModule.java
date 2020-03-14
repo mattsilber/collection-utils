@@ -1,10 +1,11 @@
-package com.guardanis.collections.adapters.viewbuilder;
+package com.guardanis.collections.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guardanis.collections.adapters.AdapterViewBuilder;
+import com.guardanis.collections.adapters.viewbuilder.AdapterViewBuilder;
+import com.guardanis.collections.adapters.viewbuilder.LayoutInflaterAdapterViewBuilder;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;

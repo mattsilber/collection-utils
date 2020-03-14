@@ -1,4 +1,4 @@
-package com.guardanis.collections.adapters;
+package com.guardanis.collections.adapters.viewbuilder;
 
 import android.content.Context;
 import android.view.View;

@@ -3,7 +3,7 @@ package com.guardanis.collections.adapters
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import com.guardanis.collections.adapters.viewbuilder.AdapterViewModule
+import com.guardanis.collections.adapters.builderdelegates.ModuleBuilderDelegate
 import org.robolectric.annotation.Config
 
 object TestLayoutId {
@@ -20,7 +20,7 @@ class MockViewModule(val layoutResId: Int): AdapterViewModule<View>(layoutResId)
     }
 }
 
-class MockModuleBuilderDelegate: ModuleBuilder.BuilderDelegate<MockViewModule> {
+class MockModuleBuilderDelegate: ModuleBuilderDelegate<MockViewModule> {
 
     override fun create(layoutResId: Int): MockViewModule {
         return MockViewModule(layoutResId)
