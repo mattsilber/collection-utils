@@ -6,8 +6,8 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingBottom="32dip"
-    android:paddingLeft="16dip"
-    android:paddingRight="16dip"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
     android:paddingTop="32dip">
 
     <com.guardanis.fontutils.TextView

@@ -43,7 +43,7 @@
         android:textSize="16sp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:paddingBottom="46dp"
+        android:paddingBottom="12dp"
         cu:layout_constraintStart_toStartOf="parent"
         cu:layout_constraintEnd_toEndOf="parent"
         cu:layout_constraintBottom_toBottomOf="parent"/>

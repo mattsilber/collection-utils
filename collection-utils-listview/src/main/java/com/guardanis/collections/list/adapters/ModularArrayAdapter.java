@@ -13,11 +13,12 @@ import com.guardanis.collections.adapters.ModuleBuilderResolver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter {
 
-    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new HashMap<Class, ModuleBuilderResolver>();
+    protected Map<Class, ModuleBuilderResolver> viewModuleBuilders = new LinkedHashMap<Class, ModuleBuilderResolver>();
     protected Map<String, Callback> actionCallbacks = new HashMap<String, Callback>();
     protected Map<String, Object> properties = new HashMap<String, Object>();
 
@@ -39,30 +40,14 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter 
 
     @Override
     public int getViewTypeCount() {
-        int count = 0;
-
-        for(ModuleBuilderResolver resolver : viewModuleBuilders.values())
-            count += resolver.getBuilderTypeCount();
-
-        return count;
+        return ModuleBuilderResolver.getUniqueItemViewTypeCount(viewModuleBuilders);
     }
 
     @Override
     public int getItemViewType(int position) {
-        int pos = 0;
-
         Object item = getItem(position);
 
-        for(Class c : viewModuleBuilders.keySet()){
-            if(c == item.getClass())
-                return pos + viewModuleBuilders.get(c)
-                        .getViewTypeIndex(this, item, position);
-
-            pos += viewModuleBuilders.get(c)
-                .getBuilderTypeCount();
-        }
-
-        throw new RuntimeException("No Registered Module for " + getItem(position).getClass());
+        return ModuleBuilderResolver.resolveUniqueItemViewType(this, item, viewModuleBuilders);
     }
 
     @Override

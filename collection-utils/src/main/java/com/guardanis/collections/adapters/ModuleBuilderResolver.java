@@ -3,6 +3,7 @@ package com.guardanis.collections.adapters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -36,6 +37,57 @@ public abstract class ModuleBuilderResolver<V> {
 
     public ModuleBuilder getBuilder(int localIndex) {
         return builders.get(localIndex);
+    }
+
+    public static int resolveUniqueItemViewType(
+            ModularAdapter adapter,
+            Object item,
+            Map<Class, ModuleBuilderResolver> viewModuleBuilders) {
+
+        int groupOffsetPosition = 0;
+
+        for(Class type : viewModuleBuilders.keySet()) {
+            ModuleBuilderResolver resolver = viewModuleBuilders.get(type);
+
+            if(type == item.getClass()) {
+                int subgroupIndex = resolver.getViewTypeIndex(adapter, item, groupOffsetPosition);
+
+                return groupOffsetPosition + subgroupIndex;
+            };
+
+            groupOffsetPosition += resolver.getBuilderTypeCount();
+        }
+
+        throw new RuntimeException("No Registered Module for " + item.getClass());
+    }
+
+    public static ModuleBuilder resolveModuleBuilderFromUniqueItemViewType(
+            int uniqueViewTypeIndex,
+            Map<Class, ModuleBuilderResolver> viewModuleBuilders) {
+
+        int groupOffsetPosition = 0;
+
+        for(Class type : viewModuleBuilders.keySet()){
+            ModuleBuilderResolver resolver = viewModuleBuilders.get(type);
+            int count = resolver.getBuilderTypeCount();
+
+            if(groupOffsetPosition <= uniqueViewTypeIndex && uniqueViewTypeIndex < groupOffsetPosition + count) {
+                return resolver.getBuilder(uniqueViewTypeIndex - groupOffsetPosition);
+            }
+
+            groupOffsetPosition += count;
+        }
+
+        throw new RuntimeException("No Registered Module for unique view type index: " + uniqueViewTypeIndex);
+    }
+
+    public static int getUniqueItemViewTypeCount(Map<Class, ModuleBuilderResolver> viewModuleBuilders) {
+        int count = 0;
+
+        for(ModuleBuilderResolver resolver : viewModuleBuilders.values())
+            count += resolver.getBuilderTypeCount();
+
+        return count;
     }
 
     @SuppressWarnings("unchecked")
