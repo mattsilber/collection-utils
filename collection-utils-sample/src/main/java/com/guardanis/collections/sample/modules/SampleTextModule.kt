@@ -43,26 +43,21 @@ class SampleTextModule(
 
         const val itemLongClicked = "sample_text_module_clicked" // Int
 
-        private val randomTitle: String
-            get() {
-                return when (Random().nextInt(3)) {
-                    0 -> "This is a random title"
-                    1 -> "This is another title"
-                    else -> "This title is superior"
-                }
-            }
-
-        private val randomDetails: String
-            get() {
-                return when (Random().nextInt(3)) {
-                    0 -> "Sometimes random messages can be cool"
-                    1 -> "Other times they can be weirdly formatted,\nwith multiple lines and with useless information."
-                    else -> "I'm running out of ideas for random text"
-                }
-            }
-
         fun createRandomInstance(): SampleTextModule {
-            return SampleTextModule(randomTitle, randomDetails)
+            val titles: Array<String> = arrayOf(
+                    "This is a random title",
+                    "Some important title",
+                    "A superior title emerges"
+            )
+
+            val details: Array<String> = arrayOf(
+                    "Sometimes short random messages can be cool",
+                    "Other times they can be weirdly formatted,\nwith multiple lines and with useless information.",
+                    "I'm running out of ideas for random text",
+                    "Pretend this says something really important"
+            )
+
+            return SampleTextModule(titles.random(), details.random())
         }
     }
 }

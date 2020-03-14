@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:text="This is an example module with some text"
         android:textColor="@color/base__text_dark_0"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"/>
 
     <com.guardanis.fontutils.TextView
@@ -26,5 +26,14 @@
         android:text="This is a an example detail element within the text"
         android:textColor="@color/base__text_dark_2"
         android:textSize="14sp" />
+
+    <com.guardanis.fontutils.TextView
+        android:id="@+id/text_module_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:text="Long press to close"
+        android:textColor="#3498DB"
+        android:textSize="12sp" />
 
 </LinearLayout>
