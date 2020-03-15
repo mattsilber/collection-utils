@@ -1,21 +1,17 @@
 package com.guardanis.collections.sample.modules
 
-import android.graphics.Color
-import androidx.annotation.ColorInt
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.guardanis.collections.adapters.ModularAdapter
-import com.guardanis.collections.recycler.adapters.RecyclerViewModule
+import com.guardanis.collections.recycler.adapters.RecyclerViewAdapterViewModule
 import com.guardanis.collections.sample.R
 import com.guardanis.fontutils.TextView
-import java.util.*
 
 class SampleTextModule(
         private val title: String,
-        private val details: String,
-        private @ColorInt val backgroundColor: Int) {
+        private val details: String) {
 
-    class ViewModule(layoutResId: Int): RecyclerViewModule<SampleTextModule, ViewHolder>(layoutResId) {
+    class ViewModule(layoutResId: Int): RecyclerViewAdapterViewModule<SampleTextModule, ViewHolder>(layoutResId) {
 
         override fun buildViewHolder(view: View): ViewHolder {
             return ViewHolder(view)
@@ -23,8 +19,7 @@ class SampleTextModule(
 
         override fun updateView(adapter: ModularAdapter, item: SampleTextModule, position: Int) {
             viewHolder.titleView?.text = item.title
-            viewHolder.detailsView?.text = item.details
-            viewHolder.itemView.setBackgroundColor(item.backgroundColor)
+            viewHolder.detailsView?.text = 0.until(3).fold("", { last, next -> "$last\n${item.details}".trim() })
             viewHolder.itemView.setOnLongClickListener({
                 adapter.triggerCallback(itemLongClicked, position)
                 return@setOnLongClickListener true
@@ -47,36 +42,21 @@ class SampleTextModule(
 
         const val itemLongClicked = "sample_text_module_clicked" // Int
 
-        private val randomTitle: String
-            get() {
-                return when (Random().nextInt(3)) {
-                    0 -> "This is a random title"
-                    1 -> "This is another title"
-                    else -> "This title is superior"
-                }
-            }
-
-        private val randomDetails: String
-            get() {
-                return when (Random().nextInt(3)) {
-                    0 -> "Sometimes random messages can be cool"
-                    1 -> "Other times they can be weirdly formatted,\nwith multiple lines and with useless information."
-                    else -> "I'm running out of ideas for random text"
-                }
-            }
-
-        private val randomColor: Int
-            get() {
-                return when (Random().nextInt(4)) {
-                    0 -> Color.parseColor("#F44336")
-                    1 -> Color.parseColor("#2980B9")
-                    2 -> Color.TRANSPARENT
-                    else -> Color.parseColor("#7F8C8D")
-                }
-            }
-
         fun createRandomInstance(): SampleTextModule {
-            return SampleTextModule(randomTitle, randomDetails, randomColor)
+            val titles: Array<String> = arrayOf(
+                    "This is a random title",
+                    "Some important title",
+                    "A superior title emerges"
+            )
+
+            val details: Array<String> = arrayOf(
+                    "Sometimes short random messages can be cool",
+                    "Other times they can be weirdly formatted,\nwith multiple lines and with useless information.",
+                    "I'm running out of ideas for random text",
+                    "Pretend this says something really important"
+            )
+
+            return SampleTextModule(titles.random(), details.random())
         }
     }
 }

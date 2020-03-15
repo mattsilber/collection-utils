@@ -4,15 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#34495e"
-    android:orientation="vertical"
+    android:orientation="horizontal"
+    android:gravity="center"
     android:padding="24dip">
 
     <com.guardanis.fontutils.TextView
         android:id="@+id/text_module_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="left"
-        android:text="This is an example random number?"
+        android:text="Some random number:"
+        android:textColor="@color/base__text_white_0"
+        android:textSize="18sp"/>
+
+    <com.guardanis.fontutils.TextView
+        android:id="@+id/text_module_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12345"
         android:textColor="@color/base__text_white"
         android:textSize="18sp"
         android:textStyle="bold"/>

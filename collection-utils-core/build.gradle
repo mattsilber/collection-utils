@@ -1,0 +1,60 @@
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$vBintray"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$vMavenGradle"
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 29
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.annotation:annotation:1.1.0"
+
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation "junit:junit:$vJunit"
+    testImplementation "androidx.test.ext:junit:$vAndroidxTestExtJunit"
+    testImplementation "androidx.test:runner:$vAndroidxTestRrunner"
+    testImplementation "androidx.test:core:$vAndroidxTestCore"
+    testImplementation "androidx.test.espresso:espresso-core:$vAndroidxTestEspressoEspressoCore"
+    testImplementation "org.mockito:mockito-core:$vMockitoMockitoCore"
+    testImplementation "org.robolectric:robolectric:$vRobolectricRobolectric"
+}
+
+ext {
+    bintrayName = 'collection-utils-core'
+    libraryName = 'collection-utils-core'
+    artifact = 'collection-utils-core'
+
+    libraryDescription = 'An assortment of modularized additives for collection-based layouts'
+    libraryVersion = "$vCoreVersion"
+}
+
+apply from: "$installV1Url"
+apply from: "$bintrayV1Url"

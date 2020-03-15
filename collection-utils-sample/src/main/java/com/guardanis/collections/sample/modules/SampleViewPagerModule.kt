@@ -1,18 +1,18 @@
 package com.guardanis.collections.sample.modules
 
-import androidx.fragment.app.FragmentManager
-import androidx.viewpager.widget.ViewPager
 import android.view.View
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.guardanis.collections.adapters.ModularAdapter
 import com.guardanis.collections.adapters.ModuleBuilder
 import com.guardanis.collections.pager.adapters.ModularPagerFragmentAdapter
-import com.guardanis.collections.recycler.adapters.RecyclerViewModule
+import com.guardanis.collections.recycler.adapters.RecyclerViewAdapterViewModule
 import com.guardanis.collections.sample.R
 
 class SampleViewPagerModule(private val fragmentManager: FragmentManager) {
 
-    class ViewModule(layoutResId: Int): RecyclerViewModule<SampleViewPagerModule, ViewHolder>(layoutResId) {
+    class ViewModule(layoutResId: Int): RecyclerViewAdapterViewModule<SampleViewPagerModule, ViewHolder>(layoutResId) {
 
         override fun buildViewHolder(view: View): ViewHolder {
             return ViewHolder(view)
@@ -22,10 +22,9 @@ class SampleViewPagerModule(private val fragmentManager: FragmentManager) {
             val adapter = ModularPagerFragmentAdapter(adapter.context, item.fragmentManager)
             adapter.registerModuleBuilder(
                     SamplePagerFragmentModule::class.java,
-                    ModuleBuilder(
-                            R.layout.pager_fragment,
-                            SamplePagerFragmentModule.ViewModule::class.java,
-                            { SamplePagerFragmentModule.ViewModule(it) }))
+                    ModuleBuilder({
+                        SamplePagerFragmentModule.ViewModule(R.layout.pager_fragment)
+                    }))
             adapter.add(SamplePagerFragmentModule.createInstance())
             adapter.add(SamplePagerFragmentModule.createInstance())
             adapter.add(SamplePagerFragmentModule.createInstance())

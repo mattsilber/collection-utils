@@ -1,19 +1,19 @@
 buildscript {
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$vBintray"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$vMavenGradle"
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 28
+        targetSdkVersion 29
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,33 +26,20 @@ android {
     }
 }
 
-repositories {
-    jcenter()
-    mavenCentral()
-    maven { url 'https://maven.google.com/' }
-}
-
 dependencies {
-    implementation "androidx.annotation:annotation:1.0.0"
+    implementation "androidx.annotation:annotation:1.1.0"
 
     testImplementation 'junit:junit:4.12'
 }
 
 ext {
-    bintrayRepo = 'maven'
     bintrayName = 'collection-utils-legacy'
-
-    publishedGroupId = 'com.guardanis'
     libraryName = 'collection-utils-legacy'
     artifact = 'collection-utils-legacy'
 
     libraryDescription = 'An assortment of modularized additives for collection-based layouts (legacy components)'
     libraryVersion = '3.0.0'
-
-    developerId = 'mattsilber'
-    developerName = 'Matt Silber'
-    developerEmail = 'matt@guardanis.com'
 }
 
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
+apply from: "$installV1Url"
+apply from: "$bintrayV1Url"

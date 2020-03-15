@@ -1,16 +1,18 @@
 package com.guardanis.collections.sample
 
 import android.os.Bundle
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.guardanis.collections.adapters.Callback
 import com.guardanis.collections.adapters.ModuleBuilder
-import com.guardanis.collections.generic.SwipeRefreshLayoutModule
 import com.guardanis.collections.recycler.ModularRecyclerView
+import com.guardanis.collections.recycler.adapters.CompatModularRecyclerAdapter
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.modules.EndlessModule
+import com.guardanis.collections.recycler.modules.SwipeRefreshLayoutModule
+import com.guardanis.collections.sample.glide.GlideApp
 import com.guardanis.collections.sample.modules.*
 import java.lang.ref.WeakReference
 import java.util.*
@@ -36,46 +38,36 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
         val recycler = findViewById<ModularRecyclerView>(R.id.main_list)
         recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recycler.registerModule(EndlessModule(this))
-        recycler.registerModule(KSwipeRefreshLayoutModule(findViewById(R.id.main_swipe_refresh_layout), { refresh() }))
+        recycler.registerModule(KSwipeRefreshLayoutModule(findViewById(R.id.main_swipe_refresh_layout), ::refresh))
         recycler.itemAnimator = DefaultItemAnimator()
 
-        this.adapter = ModularRecyclerAdapter(this)
+        this.adapter = CompatModularRecyclerAdapter(this)
 
         adapter.registerModuleBuilder(
                 SampleTextModule::class.java,
                 ModuleBuilder(
                         R.layout.text_module,
-                        SampleTextModule.ViewModule::class.java,
                         { SampleTextModule.ViewModule(it) }))
 
         adapter.registerModuleBuilder(
                 SampleImageModule::class.java,
                 ModuleBuilder(
-                        R.layout.image_module,
-                        SampleImageModule.ViewModule::class.java,
-                        { SampleImageModule.ViewModule(it) }))
+                        { SampleImageModule.ViewModule(R.layout.image_module) }))
 
         adapter.registerModuleBuilder(
                 SampleViewPagerModule::class.java,
                 ModuleBuilder(
                         R.layout.pager_module,
-                        SampleViewPagerModule.ViewModule::class.java,
                         { SampleViewPagerModule.ViewModule(it) }))
 
         adapter.registerModuleBuilder(
                 SampleDividerModule::class.java,
-                ModuleBuilder(
-                        R.layout.divider_module,
-                        SampleDividerModule.ViewModule::class.java,
-                        { SampleDividerModule.ViewModule() }))
+                ModuleBuilder({ SampleDividerModule.ViewModule() }))
 
-        // A ListViewModule is backwards compatible with the ModularRecyclerAdapter
+        // A ListViewAdapterViewModule is backwards compatible with the ModularRecyclerAdapter
         adapter.registerModuleBuilder(
                 SampleTextListModule::class.java,
-                ModuleBuilder(
-                        R.layout.text_list_module,
-                        SampleTextListModule.ViewModule::class.java,
-                        { SampleTextListModule.ViewModule() }))
+                ModuleBuilder(SampleTextListModule::ViewModule))
 
         // Callbacks are registered with the ModularAdapter to be triggered later by items
         adapter.registerCallback(SampleTextModule.itemLongClicked, sampleTextModuleLongClickedCallback)
