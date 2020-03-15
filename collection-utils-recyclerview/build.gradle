@@ -32,7 +32,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     releaseImplementation "com.guardanis:$coreLibraryPackage:$vCoreVersion"
-    debugImplementation project(path: ':collection-utils')
+    debugImplementation project(path: ':collection-utils-core')
 
     testImplementation 'junit:junit:4.12'
 }

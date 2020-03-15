@@ -30,7 +30,7 @@ dependencies {
     implementation "androidx.annotation:annotation:1.1.0"
 
     releaseImplementation "com.guardanis:$coreLibraryPackage:$vCoreVersion"
-    debugImplementation project(path: ':collection-utils')
+    debugImplementation project(path: ':collection-utils-core')
 
     testImplementation 'junit:junit:4.12'
 }

@@ -1,4 +1,4 @@
-include ':collection-utils'
+include ':collection-utils-core'
 include ':collection-utils-legacy'
 include ':collection-utils-gridview'
 include ':collection-utils-listview'

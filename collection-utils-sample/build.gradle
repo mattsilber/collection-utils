@@ -35,7 +35,7 @@ dependencies {
 
     implementation "com.google.android.material:material:1.1.0"
 
-    implementation project(path: ':collection-utils')
+    implementation project(path: ':collection-utils-core')
     implementation project(path: ':collection-utils-legacy')
     implementation project(path: ':collection-utils-gridview')
     implementation project(path: ':collection-utils-listview')

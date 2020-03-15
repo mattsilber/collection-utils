@@ -30,9 +30,10 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
     releaseImplementation "com.guardanis:$coreLibraryPackage:$vCoreVersion"
-    debugImplementation project(path: ':collection-utils')
+    releaseImplementation "com.guardanis:collection-utils-recyclerview:$vCoreVersion"
+    releaseImplementation "com.guardanis:collection-utils-listview:$vCoreVersion"
 
-    // TODO: Set release variant for these
+    debugImplementation project(path: ':collection-utils-core')
     debugImplementation project(path: ':collection-utils-recyclerview')
     debugImplementation project(path: ':collection-utils-listview')
 

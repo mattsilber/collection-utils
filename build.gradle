@@ -12,6 +12,7 @@ allprojects {
     }
 
     repositories {
+        maven { url 'https://dl.bintray.com/mattsilber/maven' }
         maven { url 'https://maven.google.com/' }
         mavenCentral()
         jcenter()
@@ -19,8 +20,8 @@ allprojects {
 }
 
 ext {
-    vCoreVersion = "3.0.0" // 4.0.0
-    coreLibraryPackage = "collection-utils" // collection-utils-core
+    vCoreVersion = "4.0.0"
+    coreLibraryPackage = "collection-utils-core"
 
     kotlin_version = '1.3.50'
 
