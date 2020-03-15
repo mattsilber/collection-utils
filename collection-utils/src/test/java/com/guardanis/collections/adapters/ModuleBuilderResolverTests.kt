@@ -60,6 +60,6 @@ class ModuleBuilderResolverTests {
     }
 
     private fun createBuilder(layoutResId: Int): ModuleBuilder<MockViewModule> {
-        return ModuleBuilder(layoutResId, MockViewModule::class.java, ::MockViewModule)
+        return ModuleBuilder(layoutResId, ::MockViewModule)
     }
 }

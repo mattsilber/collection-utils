@@ -19,10 +19,3 @@ class MockViewModule(val layoutResId: Int): AdapterViewModule<View>(layoutResId)
         return View(context)
     }
 }
-
-class MockModuleBuilderDelegate: ModuleBuilderDelegate<MockViewModule> {
-
-    override fun create(layoutResId: Int): MockViewModule {
-        return MockViewModule(layoutResId)
-    }
-}
