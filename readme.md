@@ -157,7 +157,7 @@ public static class SimpleViewHolder extends RecyclerView.ViewHolder {
 
 ##### Actions : AdapterActionsManager
 
-Since I want the modules to be as dumb and re-useable as possible, the `ModularAdapters` have a semi-typeless callback system allowing you to register, and trigger, callbacks with just keys and the values you want supplied with them. Granted, this removes a lot of compile-time type-safety and can make it more difficult to track down issues, but there are trade-offs with everything.
+Since I want the modules to be as dumb and re-useable as possible, the `ModularAdapters` have a semi-typeless callback system allowing you to register, and trigger, callbacks with just keys and the values you want supplied with them. 
 
 To register a callback with the adapter:
 
@@ -168,12 +168,11 @@ adapter.registerCallback("key__my_item_clicked", item -> {
 });
 ```
 
-And then trigger it from with the `AdapterViewModule` on a click event
+And then trigger it from within the `AdapterViewModule` on a click event
 
 ```java
-getConvertView()
-    .setOnClickListener(v ->
-        adapter.triggerCallback("key__my_item_clicked", "some_item"));
+someViewInstance.setOnClickListener(v ->
+    adapter.triggerCallback("key__my_item_clicked", "some_item"));
 ```
 
 Types are enforced at runtime when accessed, so there is no compile-time safety for actions. Triggering an action that does not exist, or supplying an invalid type as an argument, will log a warning and do nothing. 
@@ -209,7 +208,7 @@ The EndlessModule triggers an `onNextPage()` callback when a user is approaching
 
 #### StickyHeaderModule
 
-When scrolling long list, it's really nice to have sticky headers show you where you are. This will help you do that in the case where the entire View should be treated as a header.
+When scrolling long lists, it's really nice to have sticky headers show you where you are. 
 
 All you need to do is add a boolean tag to the View you create in your Adapter's overridden `getView(int, View, ViewGroup)` method, e.g.
 
