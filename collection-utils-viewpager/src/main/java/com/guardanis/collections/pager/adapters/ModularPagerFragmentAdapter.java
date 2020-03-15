@@ -75,10 +75,7 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
     @Override
     public Fragment getItem(int position) {
         Object item = items.get(position);
-
-        ModuleBuilder builder = viewModuleBuilders.get(item.getClass())
-                .resolve(this, item, position);
-
+        ModuleBuilder builder = ModuleBuilderResolver.resolveModuleBuilder(this, item, position, viewModuleBuilders);
         AdapterViewModule module = builder.createViewModule();
 
         if (!(module instanceof ViewPagerAdapterViewModule))

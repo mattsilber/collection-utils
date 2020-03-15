@@ -73,8 +73,7 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Object item = getItem(position);
 
-        ModuleBuilderResolver resolver = viewModuleBuilders.get(item.getClass());
-        ModuleBuilder builder = resolver.resolve(this, item, position);
+        ModuleBuilder builder = ModuleBuilderResolver.resolveModuleBuilder(this, item, position, viewModuleBuilders);
         AdapterViewModule module = builder.createViewModule();
 
         bind(item, module, holder, position);

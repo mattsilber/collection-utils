@@ -55,18 +55,13 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         Object item = getItem(position);
-
-        ModuleBuilderResolver resolver = viewModuleBuilders.get(item.getClass());
-
-        if (resolver == null)
-            throw new RuntimeException("ModuleBuilderResolver for item type [" + item.getClass() + "] not found.");
-
-        ModuleBuilder builder = resolver.resolve(this, item, position);
+        ModuleBuilder builder = ModuleBuilderResolver.resolveModuleBuilder(this, item, position, viewModuleBuilders);
         ListViewAdapterViewModule module;
 
         if(convertView == null
                 || convertView.getTag() == null
                 || convertView.getTag().getClass() != item.getClass()) {
+
             module = (ListViewAdapterViewModule) builder.createViewModule();
             module.build(getContext(), parent);
 

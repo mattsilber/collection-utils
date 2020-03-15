@@ -49,20 +49,17 @@ To register different items to different `AdapterViewModules`, you can simply do
 ```java
 ModularArrayAdapter adapter = new ModularArrayAdapter(this);
 
-// collection-utils <4.0.0 and 4.0.0+
+// collection-utils 4.0.0+ only
 adapter.registerModuleBuilder(
         ItemType1.class,
-        new ModuleBuilder(
-                R.layout.list_type_1,
-                ViewModule1.class,
-                resId -> new ViewModule1(resId)));
+        new ModuleBuilder(() -> new ViewModule1(R.layout.list_type_1)));
 
-// collection-utils 4.0.0+ only
+// collection-utils semi-compatible with <4.0.0 (removed ViewModule.class declaration)
 adapter.registerModuleBuilder(
         ItemType2.class,
         new ModuleBuilder(
-                ViewModule2.class,
-                () -> new ViewModule2(R.layout.list_type_2)));
+                R.layout.list_type_2,
+                resId -> new ViewModule2(resId)));
 ```
 
 Where `ItemType{_}` and `ViewModule{_}` are the classes of the data in your adapter and their respective `AdapterViewModules`.

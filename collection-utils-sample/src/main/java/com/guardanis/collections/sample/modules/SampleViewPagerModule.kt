@@ -22,10 +22,9 @@ class SampleViewPagerModule(private val fragmentManager: FragmentManager) {
             val adapter = ModularPagerFragmentAdapter(adapter.context, item.fragmentManager)
             adapter.registerModuleBuilder(
                     SamplePagerFragmentModule::class.java,
-                    ModuleBuilder(
-                            R.layout.pager_fragment,
-                            SamplePagerFragmentModule.ViewModule::class.java,
-                            { SamplePagerFragmentModule.ViewModule(it) }))
+                    ModuleBuilder({
+                        SamplePagerFragmentModule.ViewModule(R.layout.pager_fragment)
+                    }))
             adapter.add(SamplePagerFragmentModule.createInstance())
             adapter.add(SamplePagerFragmentModule.createInstance())
             adapter.add(SamplePagerFragmentModule.createInstance())
