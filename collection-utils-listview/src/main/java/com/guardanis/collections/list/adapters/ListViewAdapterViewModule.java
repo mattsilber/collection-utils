@@ -10,9 +10,13 @@ import com.guardanis.collections.adapters.ModularAdapter;
 
 import java.lang.ref.WeakReference;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public abstract class ListViewAdapterViewModule<T> extends AdapterViewModule<View> {
 
-    protected WeakReference<View> convertView;
+    @NonNull
+    protected WeakReference<View> convertView = new WeakReference<View>(null);
 
     public ListViewAdapterViewModule(int layoutResId) {
         super(layoutResId);
@@ -41,6 +45,7 @@ public abstract class ListViewAdapterViewModule<T> extends AdapterViewModule<Vie
 
     public abstract void updateView(ModularAdapter adapter, T item, int position);
 
+    @Nullable
     public View getConvertView(){
         return convertView.get();
     }
