@@ -1,9 +1,9 @@
 package com.guardanis.collections.recycler.adapters;
 
-import com.guardanis.collections.adapters.AdapterViewModule;
+import androidx.recyclerview.widget.RecyclerView;
 
 @Deprecated
-public abstract class RecyclerViewModule<T> extends AdapterViewModule<T> {
+public abstract class RecyclerViewModule<T, H extends RecyclerView.ViewHolder> extends RecyclerViewAdapterViewModule<T, H> {
 
     public RecyclerViewModule(int layoutResId) {
         super(layoutResId);
