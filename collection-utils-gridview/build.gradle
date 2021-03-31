@@ -1,49 +1,30 @@
-buildscript {
-    dependencies {
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$vBintray"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:$vMavenGradle"
-    }
-}
-
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion rootProject.ext.targetSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdkVersion rootProject.ext.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 }
 
 dependencies {
-    implementation "androidx.annotation:annotation:1.1.0"
-    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.annotation:annotation:$vAndroidXAnnotations"
+    implementation "androidx.appcompat:appcompat:$vAndroidXAppCompat"
 
-    releaseImplementation "com.guardanis:$coreLibraryPackage:$vCoreVersion"
+    releaseImplementation "com.guardanis:$coreLibraryPackage:$mavLibraryVersion"
     debugImplementation project(path: ':collection-utils-core')
 
     testImplementation 'junit:junit:4.12'
 }
 
 ext {
-    bintrayName = 'collection-utils-gridview'
-    libraryName = 'collection-utils-gridview'
-    artifact = 'collection-utils-gridview'
-
-    libraryDescription = 'An assortment of modularized additives for collection-based layouts (GridView components)'
-    libraryVersion = "$vCoreVersion"
+    mavProjectName = 'collection-utils-gridview'
+    mavLibraryDescription = 'An assortment of modularized additives for collection-based layouts (GridView components)'
 }
 
-apply from: "$installV1Url"
-apply from: "$bintrayV1Url"
+apply from: project.rootProject.file("publishing.gradle")

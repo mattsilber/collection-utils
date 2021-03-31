@@ -1,6 +1,6 @@
 # collection-utils
 
-[![Download](https://api.bintray.com/packages/mattsilber/maven/collection-utils-core/images/download.svg) ](https://bintray.com/mattsilber/maven/collection-utils-core/_latestVersion)
+[![Download](https://img.shields.io/maven-central/v/com.guardanis/collection-utils-core)](https://search.maven.org/artifact/com.guardanis/collection-utils-core)
 
 An assortment of modularized additives for collection-based layouts so I never have to create a class named `EndlessPullToRefreshStickyHeaderListView` or override an Adapter ever again.
 
@@ -12,7 +12,7 @@ Collection-based views have their own, separate, modular implementations (`Modul
 
 ```groovy
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 ext { 
@@ -280,3 +280,6 @@ Now, assuming you remembered to call `convertView.setTag(R.integer.cu__sticky_he
 
 Anyway... congratulations on modularizing your components for collection-based Views without having to worry about extending any adapter or View classes.
 
+### Moved to MavenCentral
+
+As of version 4.0.2, collection-utils will be hosted on MavenCentral. Versions 4.0.1 and below will remain on JCenter.
