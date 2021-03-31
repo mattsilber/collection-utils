@@ -1,8 +1,6 @@
 buildscript {
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$vBintray"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:$vMavenGradle"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
@@ -10,21 +8,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion rootProject.ext.targetSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdkVersion rootProject.ext.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 
     testOptions {
@@ -35,9 +26,9 @@ android {
 }
 
 dependencies {
-    implementation "androidx.annotation:annotation:1.1.0"
+    implementation "androidx.annotation:annotation:$vAndroidXAnnotations"
 
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     testImplementation "junit:junit:$vJunit"
     testImplementation "androidx.test.ext:junit:$vAndroidxTestExtJunit"
     testImplementation "androidx.test:runner:$vAndroidxTestRrunner"
@@ -48,13 +39,8 @@ dependencies {
 }
 
 ext {
-    bintrayName = 'collection-utils-core'
-    libraryName = 'collection-utils-core'
-    artifact = 'collection-utils-core'
-
-    libraryDescription = 'An assortment of modularized additives for collection-based layouts'
-    libraryVersion = "$vCoreVersion"
+    mavProjectName = 'collection-utils-core'
+    mavLibraryDescription = 'An assortment of modularized additives for collection-based layouts'
 }
 
-apply from: "$installV1Url"
-apply from: "$bintrayV1Url"
+apply from: project.rootProject.file("publishing.gradle")
