@@ -21,10 +21,10 @@ class SampleViewPagerModule(private val fragmentManager: FragmentManager) {
         override fun updateView(adapter: ModularAdapter, item: SampleViewPagerModule, position: Int) {
             val adapter = ModularPagerFragmentAdapter(adapter.context, item.fragmentManager)
             adapter.registerModuleBuilder(
-                    SamplePagerFragmentModule::class.java,
-                    ModuleBuilder({
-                        SamplePagerFragmentModule.ViewModule(R.layout.pager_fragment)
-                    }))
+                SamplePagerFragmentModule::class.java,
+                ModuleBuilder({
+                    SamplePagerFragmentModule.ViewModule(R.layout.pager_fragment)
+                }))
             adapter.add(SamplePagerFragmentModule.createInstance())
             adapter.add(SamplePagerFragmentModule.createInstance())
             adapter.add(SamplePagerFragmentModule.createInstance())
