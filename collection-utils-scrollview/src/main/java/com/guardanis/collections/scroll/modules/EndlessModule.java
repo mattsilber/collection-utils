@@ -11,6 +11,7 @@ import com.guardanis.collections.scroll.ModularScrollView;
 public class EndlessModule extends CollectionModule<ModularScrollView> {
 
     public interface EndlessEventListener {
+
         public void onNextPage();
     }
 
@@ -18,7 +19,7 @@ public class EndlessModule extends CollectionModule<ModularScrollView> {
     protected boolean loading = false;
     protected boolean endingReached = false;
 
-    public EndlessModule(EndlessEventListener eventListener){
+    public EndlessModule(EndlessEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
@@ -27,30 +28,32 @@ public class EndlessModule extends CollectionModule<ModularScrollView> {
         return false;
     }
 
-    public void reset(){
+    public void reset() {
         loading = false;
         endingReached = false;
     }
 
     @Override
-    public void onDrawDispatched(Canvas canvas) { }
+    public void onDrawDispatched(Canvas canvas) {
+    }
 
     @Override
-    public void onScrollStateChanged(int i) { }
+    public void onScrollStateChanged(int i) {
+    }
 
     @Override
     public void onScroll(int... values) {
         final ModularScrollView parent = getParent();
 
-        if(isScrollEventProcessable()){
+        if (isScrollEventProcessable()) {
             ViewGroup container = (ViewGroup) parent.getChildAt(0);
             View view = container.getChildAt(container.getChildCount() - 1);
 
             int diff = view == null
-                    ? 0
-                    : ((view.getBottom() - view.getHeight() / 2) - (parent.getHeight() + parent.getScrollY()));
+                ? 0
+                : ((view.getBottom() - view.getHeight() / 2) - (parent.getHeight() + parent.getScrollY()));
 
-            if(diff < 1){
+            if (diff < 1) {
                 loading = true;
 
                 eventListener.onNextPage();
@@ -59,25 +62,27 @@ public class EndlessModule extends CollectionModule<ModularScrollView> {
     }
 
     private boolean isScrollEventProcessable() {
-        return !(getParent() == null
+        return !(
+            getParent() == null
                 || eventListener == null
                 || loading
-                || endingReached);
+                || endingReached
+        );
     }
 
-    public void onEndingReached(){
+    public void onEndingReached() {
         endingReached = true;
     }
 
-    public void setEndingReached(boolean endingReached){
+    public void setEndingReached(boolean endingReached) {
         this.endingReached = endingReached;
     }
 
-    public boolean isLoading(){
+    public boolean isLoading() {
         return loading;
     }
 
-    public void setLoading(boolean loading){
+    public void setLoading(boolean loading) {
         this.loading = loading;
     }
 }
