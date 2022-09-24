@@ -67,7 +67,6 @@ public abstract class ModuleBuilderResolver<V> {
 
                 return groupOffsetPosition + subgroupIndex;
             }
-            ;
 
             groupOffsetPosition += resolver.getBuilderTypeCount();
         }

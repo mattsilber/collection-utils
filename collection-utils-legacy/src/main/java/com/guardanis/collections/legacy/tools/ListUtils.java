@@ -78,19 +78,25 @@ public class ListUtils<V> {
             List<T> converted = new ArrayList<T>();
 
             if (value instanceof List) {
-                converted.addAll(new ListUtils((List<V>) value)
-                    .flatMap(converter)
-                    .values());
+                converted.addAll(
+                    new ListUtils((List<V>) value)
+                        .flatMap(converter)
+                        .values()
+                );
             }
             else if (value instanceof Object[]) {
-                converted.addAll(new ListUtils((V[]) value)
-                    .flatMap(converter)
-                    .values());
+                converted.addAll(
+                    new ListUtils((V[]) value)
+                        .flatMap(converter)
+                        .values()
+                );
             }
             else if (value instanceof Set) {
-                converted.addAll(new ListUtils((Set<V>) value)
-                    .flatMap(converter)
-                    .values());
+                converted.addAll(
+                    new ListUtils((Set<V>) value)
+                        .flatMap(converter)
+                        .values()
+                );
             }
             else if (value != null) {
                 T item = converter.convert((S) value);
@@ -286,10 +292,12 @@ public class ListUtils<V> {
      */
     @SuppressWarnings("unchecked")
     public V[] valuesToArray(Class<V> arrayType) {
-        return values.toArray((V[]) Array.newInstance(
-            arrayType,
-            values.size()
-        ));
+        return values.toArray(
+            (V[]) Array.newInstance(
+                arrayType,
+                values.size()
+            )
+        );
     }
 
     public static <T> ListUtils<T> fromMappedCount(int count, Converter<Integer, T> converter) {
