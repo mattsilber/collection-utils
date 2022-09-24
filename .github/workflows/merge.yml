@@ -6,6 +6,10 @@ on:
     branches:
       - master
 
+concurrency:
+  group: merge-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     if: ${{ github.triggering_actor != 'dependabot[bot]' }}
