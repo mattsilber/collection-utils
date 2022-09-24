@@ -4,11 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
+import androidx.viewpager.widget.ViewPager;
+
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.adapters.Callback;
-
-import androidx.viewpager.widget.ViewPager;
 
 public class ModularViewPager extends ViewPager {
 
@@ -24,7 +24,7 @@ public class ModularViewPager extends ViewPager {
         init();
     }
 
-    protected void init(){
+    protected void init() {
         controller = new CollectionController<ModularViewPager>(this);
 
         setOnTouchListener(controller);
@@ -41,31 +41,36 @@ public class ModularViewPager extends ViewPager {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if(controller != null)
+        if (controller != null) {
             controller.onDetachedFromWindow();
+        }
     }
 
-    public CollectionController<ModularViewPager> getCollectionController(){
+    public CollectionController<ModularViewPager> getCollectionController() {
         return controller;
     }
 
-    public ModularViewPager registerModule(CollectionModule<ModularViewPager> module){
+    public ModularViewPager registerModule(CollectionModule<ModularViewPager> module) {
         controller.registerModule(module);
 
         return this;
     }
 
-    public void unregisterModule(CollectionModule<ModularViewPager> module){
+    public void unregisterModule(CollectionModule<ModularViewPager> module) {
         controller.unregisterModule(module);
     }
 
-    public <V extends CollectionModule<ModularViewPager>> V getModule(Class<V> moduleClass){
+    public <V extends CollectionModule<ModularViewPager>> V getModule(Class<V> moduleClass) {
         return controller.getModule(moduleClass);
     }
 
-    public <V extends CollectionModule<ModularViewPager>> ModularViewPager bindModule(Class<V> moduleClass, Callback<V> action){
-        if(controller.getModule(moduleClass) != null)
+    public <V extends CollectionModule<ModularViewPager>> ModularViewPager bindModule(
+        Class<V> moduleClass,
+        Callback<V> action
+    ) {
+        if (controller.getModule(moduleClass) != null) {
             action.onTriggered(controller.getModule(moduleClass));
+        }
 
         return this;
     }
