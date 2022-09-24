@@ -1,0 +1,13 @@
+name: Merge
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    if: ${{ github.triggering_actor != 'dependabot[bot]' }}
+    uses: ./workflows/test.yml
+
