@@ -5,31 +5,37 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.guardanis.collections.CollectionModule;
 
 import java.lang.ref.WeakReference;
-
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class SwipeRefreshLayoutModule<V extends ViewGroup> extends CollectionModule<V> {
 
     protected final WeakReference<SwipeRefreshLayout> layout;
 
-    public SwipeRefreshLayoutModule(SwipeRefreshLayout layout, @NonNull SwipeRefreshLayout.OnRefreshListener refreshListener){
+    public SwipeRefreshLayoutModule(
+        SwipeRefreshLayout layout,
+        @NonNull SwipeRefreshLayout.OnRefreshListener refreshListener
+    ) {
         this.layout = new WeakReference<SwipeRefreshLayout>(layout);
 
         layout.setOnRefreshListener(refreshListener);
     }
 
     @Override
-    public void onDrawDispatched(Canvas canvas) { }
+    public void onDrawDispatched(Canvas canvas) {
+    }
 
     @Override
-    public void onScrollStateChanged(int scrollState) { }
+    public void onScrollStateChanged(int scrollState) {
+    }
 
     @Override
-    public void onScroll(int... values) { }
+    public void onScroll(int... values) {
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -46,8 +52,9 @@ public class SwipeRefreshLayoutModule<V extends ViewGroup> extends CollectionMod
     public void setRefreshing(boolean refreshing) {
         SwipeRefreshLayout view = layout.get();
 
-        if (view == null)
+        if (view == null) {
             return;
+        }
 
         view.setRefreshing(refreshing);
     }

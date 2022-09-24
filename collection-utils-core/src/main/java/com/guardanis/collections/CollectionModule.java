@@ -4,16 +4,17 @@ import android.graphics.Canvas;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.ref.WeakReference;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.lang.ref.WeakReference;
+
 public abstract class CollectionModule<T extends ViewGroup> implements View.OnTouchListener {
 
-    @NonNull protected WeakReference<T> parentRef = new WeakReference<T>(null);
+    @NonNull
+    protected WeakReference<T> parentRef = new WeakReference<T>(null);
 
-    public CollectionModule<T> setParent(T parent){
+    public CollectionModule<T> setParent(T parent) {
         this.parentRef = new WeakReference<T>(parent);
 
         return this;
@@ -21,7 +22,7 @@ public abstract class CollectionModule<T extends ViewGroup> implements View.OnTo
 
     public abstract void onDrawDispatched(Canvas canvas);
 
-    public void onDetachedFromWindow(){
+    public void onDetachedFromWindow() {
         this.parentRef = new WeakReference<T>(null);
     }
 

@@ -51,15 +51,17 @@ ModularArrayAdapter adapter = new ModularArrayAdapter(this);
 
 // collection-utils 4.0.0+ only
 adapter.registerModuleBuilder(
-        ItemType1.class,
-        new ModuleBuilder(() -> new ViewModule1(R.layout.list_type_1)));
+    ItemType1.class,
+    new ModuleBuilder(() -> new ViewModule1(R.layout.list_type_1))
+);
 
 // collection-utils semi-compatible with <4.0.0 (removed ViewModule.class declaration)
 adapter.registerModuleBuilder(
-        ItemType2.class,
-        new ModuleBuilder(
-                R.layout.list_type_2,
-                resId -> new ViewModule2(resId)));
+    ItemType2.class,
+    new ModuleBuilder(
+        R.layout.list_type_2,
+        resId -> new ViewModule2(resId))
+);
 ```
 
 Where `ItemType{_}` and `ViewModule{_}` are the classes of the data in your adapter and their respective `AdapterViewModules`.
@@ -68,23 +70,26 @@ Now, let's say you want 1 data-type to match 2 alternating ViewHolders. That cou
 
 ```java
 ModuleBuilder builder1 = new ModuleBuilder(
-        ViewModule1.class,
-        () -> new ViewModule1(R.layout.list_type_1));
+    ViewModule1.class,
+    () -> new ViewModule1(R.layout.list_type_1)
+);
 
 ModuleBuilder builder2 = new ModuleBuilder(
-        ViewModule2.class,
-        () -> new ViewModule2(R.layout.list_type_2));
+    ViewModule2.class,
+    () -> new ViewModule2(R.layout.list_type_2)
+);
 
 ModularArrayAdapter adapter = new ModularArrayAdapter(this)                
-        .registerModuleBuilderResolver(
-                ImageHolder1.class,
-                new ModuleBuilderResolver(builder1, builder2) {
-                    public ModuleBuilder resolve(ModularArrayAdapter adapter, Object item, int position) {
-                        return position % 2 == 0
-                                ? builder1
-                                : builder2;
-                    }
-                });
+    .registerModuleBuilderResolver(
+        ImageHolder1.class,
+        new ModuleBuilderResolver(builder1, builder2) {
+            public ModuleBuilder resolve(ModularArrayAdapter adapter, Object item, int position) {
+                return position % 2 == 0
+                    ? builder1
+                    : builder2;
+            }
+        }
+    );
 ```
 
 Just a note: you must also supply the `ModuleBuilder` instances in the `ModuleBuilderResolver` constructor or else it won't know how to determine the true index of the view types for efficiently reusing layouts.
@@ -114,9 +119,9 @@ public class SimpleViewModule extends ListViewAdapterViewModule<String> {
     @Override
     public void updateView(ModularAdapter adapter, String item, int position) {
         new ImageRequest(adapter.getContext(), item)
-                .setTargetView(image)
-                .setFadeTransition()
-                .execute();
+            .setTargetView(image)
+            .setFadeTransition()
+            .execute();
     }
 }
 ```
@@ -137,9 +142,9 @@ public class SimpleViewModule extends RecyclerViewAdapterViewModule<String, Simp
     @Override
     public void updateView(ModularAdapter adapter, String item, int position) {
         new ImageRequest(adapter.getContext(), item)
-                .setTargetView(getViewHolder().image)
-                .setFadeTransition()
-                .execute();
+            .setTargetView(getViewHolder().image)
+            .setFadeTransition()
+            .execute();
     }
 }
 
@@ -172,7 +177,8 @@ And then trigger it from within the `AdapterViewModule` on a click event
 
 ```java
 someViewInstance.setOnClickListener(v ->
-    adapter.triggerCallback("key__my_item_clicked", "some_item"));
+    adapter.triggerCallback("key__my_item_clicked", "some_item")
+);
 ```
 
 Types are enforced at runtime when accessed, so there is no compile-time safety for actions. Triggering an action that does not exist, or supplying an invalid type as an argument, will log a warning and do nothing. 

@@ -10,7 +10,7 @@ import org.mockito.Mockito.*
 import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
-@Config(sdk=[Build.VERSION_CODES.O])
+@Config(sdk = [Build.VERSION_CODES.O])
 class AdapterActionsManagerTests {
 
     abstract class KStringCallback: Callback<String>
@@ -25,7 +25,7 @@ class AdapterActionsManagerTests {
         manager.triggerCallback(key, 0)
 
         verify(callback, never())
-                .onTriggered(ArgumentMatchers.any())
+            .onTriggered(ArgumentMatchers.any())
     }
 
     @Test
@@ -39,6 +39,6 @@ class AdapterActionsManagerTests {
         manager.triggerCallback(key, expected)
 
         verify(callback, times(1))
-                .onTriggered(expected)
+            .onTriggered(expected)
     }
 }

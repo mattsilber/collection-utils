@@ -11,10 +11,12 @@ public class SimpleLifeCycleViewHolder extends RecyclerView.ViewHolder implement
     }
 
     @Override
-    public void onViewAttachedToWindow() { }
+    public void onViewAttachedToWindow() {
+    }
 
     @Override
-    public void onViewDetachedFromWindow() { }
+    public void onViewDetachedFromWindow() {
+    }
 
     @Override
     public boolean onFailedToRecycleView() {
@@ -22,5 +24,6 @@ public class SimpleLifeCycleViewHolder extends RecyclerView.ViewHolder implement
     }
 
     @Override
-    public void onViewRecycled() { }
+    public void onViewRecycled() {
+    }
 }

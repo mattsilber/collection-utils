@@ -8,8 +8,9 @@ import com.guardanis.fontutils.TextView
 import java.util.*
 
 class SampleTextListModule(
-        val title: String,
-        val detail: String) {
+    val title: String,
+    val detail: String,
+) {
 
     class ViewModule: ListViewAdapterViewModule<SampleTextListModule>(R.layout.text_list_module) {
 

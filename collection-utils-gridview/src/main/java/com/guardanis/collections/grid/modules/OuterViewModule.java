@@ -18,24 +18,27 @@ public abstract class OuterViewModule extends CollectionModule<ModularGridView> 
     /**
      * To use this properly, the GridView must be wrapped in a RelativeLayout
      */
-    public OuterViewModule(View targetView){
+    public OuterViewModule(View targetView) {
         this.targetView = targetView;
     }
 
     @Override
-    public CollectionModule<ModularGridView> setParent(final ModularGridView parent){
+    public CollectionModule<ModularGridView> setParent(final ModularGridView parent) {
         super.setParent(parent);
 
-        if(parent != null){
+        if (parent != null) {
             updateParentPadding();
 
             parent.setClipToPadding(false);
 
             parent.post(new Runnable() {
                 public void run() {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         parent.scrollListBy(-targetView.getHeight());
-                    else parent.setSelection(0);
+                    }
+                    else {
+                        parent.setSelection(0);
+                    }
                 }
             });
         }
@@ -51,18 +54,21 @@ public abstract class OuterViewModule extends CollectionModule<ModularGridView> 
     }
 
     @Override
-    public void onDrawDispatched(Canvas canvas) { }
+    public void onDrawDispatched(Canvas canvas) {
+    }
 
     @Override
-    public void onScrollStateChanged(int i) { }
+    public void onScrollStateChanged(int i) {
+    }
 
     protected boolean isScrollEventProcessable() {
         return getParent() != null;
     }
 
-    public void invalidate(){
-        if(getParent() != null)
+    public void invalidate() {
+        if (getParent() != null) {
             updateParentPadding();
+        }
     }
 
 }

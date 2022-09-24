@@ -3,7 +3,6 @@ package com.guardanis.collections.sample.glide
 import java.security.KeyStore
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
-import java.util.*
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
@@ -21,11 +20,13 @@ constructor(): X509TrustManager {
 
             factories.add(original)
         }
-        catch (e: Exception) { throw CertificateException(e) }
+        catch (e: Exception) {
+            throw CertificateException(e)
+        }
 
         factories.flatMap({ it.trustManagers.toList() })
-                .mapNotNull({ it as? X509TrustManager })
-                .forEach({ x509TrustManagers.add(it) })
+            .mapNotNull({ it as? X509TrustManager })
+            .forEach({ x509TrustManagers.add(it) })
 
         if (x509TrustManagers.isEmpty())
             throw CertificateException("Couldn't find any X509TrustManagers")
@@ -39,7 +40,8 @@ constructor(): X509TrustManager {
 
                 return
             }
-            catch (e: CertificateException) { }
+            catch (e: CertificateException) {
+            }
         }
 
         throw CertificateException()
@@ -53,7 +55,8 @@ constructor(): X509TrustManager {
 
                 return
             }
-            catch (e: CertificateException) { }
+            catch (e: CertificateException) {
+            }
         }
 
         throw CertificateException()
@@ -61,7 +64,7 @@ constructor(): X509TrustManager {
 
     override fun getAcceptedIssuers(): Array<X509Certificate> {
         return x509TrustManagers
-                .flatMap({ it.acceptedIssuers.toList() })
-                .toTypedArray()
+            .flatMap({ it.acceptedIssuers.toList() })
+            .toTypedArray()
     }
 }

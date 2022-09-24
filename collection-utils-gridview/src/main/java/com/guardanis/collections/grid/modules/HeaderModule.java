@@ -2,9 +2,9 @@ package com.guardanis.collections.grid.modules;
 
 import android.view.View;
 
-import com.guardanis.collections.grid.ModularGridView;
-
 import androidx.core.view.ViewCompat;
+
+import com.guardanis.collections.grid.ModularGridView;
 
 public class HeaderModule extends OuterViewModule {
 
@@ -13,7 +13,7 @@ public class HeaderModule extends OuterViewModule {
      * targetView must be aligned to the top (else it will look weird). This module
      * performs translations to fake the header.
      */
-    public HeaderModule(View targetView){
+    public HeaderModule(View targetView) {
         super(targetView);
     }
 
@@ -22,18 +22,20 @@ public class HeaderModule extends OuterViewModule {
         final ModularGridView parent = getParent();
 
         this.originalPadding = originalPadding < 0
-                ? parent.getPaddingTop()
-                : originalPadding;
+            ? parent.getPaddingTop()
+            : originalPadding;
 
-        parent.setPadding(parent.getPaddingLeft(),
-                originalPadding + targetView.getHeight(),
-                parent.getPaddingRight(),
-                parent.getPaddingBottom());
+        parent.setPadding(
+            parent.getPaddingLeft(),
+            originalPadding + targetView.getHeight(),
+            parent.getPaddingRight(),
+            parent.getPaddingBottom()
+        );
     }
 
     @Override
     public void onScroll(int... values) {
-        if(isScrollEventProcessable() && values[0] == 0){
+        if (isScrollEventProcessable() && values[0] == 0) {
             final View firstView = getParent().getChildAt(0);
 
             if (firstView != null) {

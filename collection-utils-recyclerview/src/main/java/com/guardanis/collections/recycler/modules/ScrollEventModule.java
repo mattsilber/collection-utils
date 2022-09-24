@@ -10,25 +10,29 @@ import com.guardanis.collections.recycler.ModularRecyclerView;
 public class ScrollEventModule extends CollectionModule<ModularRecyclerView> {
 
     public interface ScrollEventListener {
+
         public void onScrolled(int dX, int dY);
     }
 
     protected ScrollEventListener eventListener;
 
-    public ScrollEventModule(ScrollEventListener eventListener){
+    public ScrollEventModule(ScrollEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void onDrawDispatched(Canvas canvas) { }
+    public void onDrawDispatched(Canvas canvas) {
+    }
 
     @Override
-    public void onScrollStateChanged(int i) { }
+    public void onScrollStateChanged(int i) {
+    }
 
     @Override
     public void onScroll(int... values) {
-        if(getParent() != null)
+        if (getParent() != null) {
             eventListener.onScrolled(values[0], values[1]);
+        }
     }
 
     @Override

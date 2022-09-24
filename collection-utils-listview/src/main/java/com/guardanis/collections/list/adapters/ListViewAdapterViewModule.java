@@ -4,14 +4,14 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guardanis.collections.adapters.viewbuilder.AdapterViewBuilder;
-import com.guardanis.collections.adapters.AdapterViewModule;
-import com.guardanis.collections.adapters.ModularAdapter;
-
-import java.lang.ref.WeakReference;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.guardanis.collections.adapters.AdapterViewModule;
+import com.guardanis.collections.adapters.ModularAdapter;
+import com.guardanis.collections.adapters.viewbuilder.AdapterViewBuilder;
+
+import java.lang.ref.WeakReference;
 
 public abstract class ListViewAdapterViewModule<T> extends AdapterViewModule<View> {
 
@@ -46,7 +46,7 @@ public abstract class ListViewAdapterViewModule<T> extends AdapterViewModule<Vie
     public abstract void updateView(ModularAdapter adapter, T item, int position);
 
     @Nullable
-    public View getConvertView(){
+    public View getConvertView() {
         return convertView.get();
     }
 }

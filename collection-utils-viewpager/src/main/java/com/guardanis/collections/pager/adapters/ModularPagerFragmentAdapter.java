@@ -2,6 +2,10 @@ package com.guardanis.collections.pager.adapters;
 
 import android.content.Context;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
 import com.guardanis.collections.adapters.AdapterViewModule;
 import com.guardanis.collections.adapters.Callback;
 import com.guardanis.collections.adapters.ModularAdapter;
@@ -18,10 +22,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter implements ModularAdapter {
 
@@ -78,8 +78,9 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
         ModuleBuilder builder = ModuleBuilderResolver.resolveModuleBuilder(this, item, position, viewModuleBuilders);
         AdapterViewModule module = builder.createViewModule();
 
-        if (!(module instanceof ViewPagerAdapterViewModule))
+        if (!(module instanceof ViewPagerAdapterViewModule)) {
             throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
+        }
 
         ViewPagerAdapterViewModule pagerModule = (ViewPagerAdapterViewModule) module;
 
@@ -105,7 +106,10 @@ public class ModularPagerFragmentAdapter extends FragmentStatePagerAdapter imple
     }
 
     @Override
-    public ModularPagerFragmentAdapter registerModuleBuilderResolver(Class itemType, final ModuleBuilderResolver layoutResolver) {
+    public ModularPagerFragmentAdapter registerModuleBuilderResolver(
+        Class itemType,
+        final ModuleBuilderResolver layoutResolver
+    ) {
         viewModuleBuilders.put(itemType, layoutResolver);
 
         return this;

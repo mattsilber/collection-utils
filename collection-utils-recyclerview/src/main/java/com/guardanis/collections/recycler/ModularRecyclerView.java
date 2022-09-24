@@ -7,12 +7,12 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.guardanis.collections.CollectionController;
 import com.guardanis.collections.CollectionModule;
 import com.guardanis.collections.adapters.Callback;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ModularRecyclerView extends RecyclerView {
 
@@ -35,13 +35,14 @@ public class ModularRecyclerView extends RecyclerView {
         init();
     }
 
-    protected void init(){
+    protected void init() {
         controller = new CollectionController<ModularRecyclerView>(this);
 
         setOnTouchListener(controller);
 
-        if(Build.VERSION.SDK_INT >= 9)
+        if (Build.VERSION.SDK_INT >= 9) {
             setOverScrollMode(View.OVER_SCROLL_NEVER);
+        }
     }
 
     @Override
@@ -71,41 +72,46 @@ public class ModularRecyclerView extends RecyclerView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if(controller != null)
+        if (controller != null) {
             controller.onDetachedFromWindow();
+        }
     }
 
     public boolean isFlinging() {
         return flinging;
     }
 
-    public CollectionController<ModularRecyclerView> getCollectionController(){
+    public CollectionController<ModularRecyclerView> getCollectionController() {
         return controller;
     }
 
-    public ModularRecyclerView registerModule(CollectionModule<ModularRecyclerView> module){
+    public ModularRecyclerView registerModule(CollectionModule<ModularRecyclerView> module) {
         controller.registerModule(module);
 
         return this;
     }
 
-    public void unregisterModule(CollectionModule<ModularRecyclerView> module){
+    public void unregisterModule(CollectionModule<ModularRecyclerView> module) {
         controller.unregisterModule(module);
     }
 
-    public <V extends CollectionModule<ModularRecyclerView>> V getModule(Class<V> moduleClass){
+    public <V extends CollectionModule<ModularRecyclerView>> V getModule(Class<V> moduleClass) {
         return controller.getModule(moduleClass);
     }
 
-    public <V extends CollectionModule<ModularRecyclerView>> ModularRecyclerView bindModule(Class<V> moduleClass, Callback<V> action){
-        if(controller.getModule(moduleClass) != null)
+    public <V extends CollectionModule<ModularRecyclerView>> ModularRecyclerView bindModule(
+        Class<V> moduleClass,
+        Callback<V> action
+    ) {
+        if (controller.getModule(moduleClass) != null) {
             action.onTriggered(controller.getModule(moduleClass));
+        }
 
         return this;
     }
 
     @Override
-    public int computeVerticalScrollOffset(){
+    public int computeVerticalScrollOffset() {
         return super.computeVerticalScrollOffset();
     }
 

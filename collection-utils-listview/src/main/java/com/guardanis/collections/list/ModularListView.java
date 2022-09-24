@@ -33,14 +33,15 @@ public class ModularListView extends ListView implements AbsListView.OnScrollLis
         init();
     }
 
-    protected void init(){
+    protected void init() {
         controller = new CollectionController<ModularListView>(this);
 
         setOnTouchListener(controller);
         setOnScrollListener(this);
 
-        if(Build.VERSION.SDK_INT >= 9)
+        if (Build.VERSION.SDK_INT >= 9) {
             setOverScrollMode(View.OVER_SCROLL_NEVER);
+        }
     }
 
     @Override
@@ -66,41 +67,46 @@ public class ModularListView extends ListView implements AbsListView.OnScrollLis
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if(controller != null)
+        if (controller != null) {
             controller.onDetachedFromWindow();
+        }
     }
 
     public boolean isFlinging() {
         return flinging;
     }
 
-    public CollectionController<ModularListView> getCollectionController(){
+    public CollectionController<ModularListView> getCollectionController() {
         return controller;
     }
 
-    public ModularListView registerModule(CollectionModule<ModularListView> module){
+    public ModularListView registerModule(CollectionModule<ModularListView> module) {
         controller.registerModule(module);
 
         return this;
     }
 
-    public void unregisterModule(CollectionModule<ModularListView> module){
+    public void unregisterModule(CollectionModule<ModularListView> module) {
         controller.unregisterModule(module);
     }
 
-    public <V extends CollectionModule<ModularListView>> V getModule(Class<V> moduleClass){
+    public <V extends CollectionModule<ModularListView>> V getModule(Class<V> moduleClass) {
         return controller.getModule(moduleClass);
     }
 
-    public <V extends CollectionModule<ModularListView>> ModularListView bindModule(Class<V> moduleClass, Callback<V> action){
-        if(controller.getModule(moduleClass) != null)
+    public <V extends CollectionModule<ModularListView>> ModularListView bindModule(
+        Class<V> moduleClass,
+        Callback<V> action
+    ) {
+        if (controller.getModule(moduleClass) != null) {
             action.onTriggered(controller.getModule(moduleClass));
+        }
 
         return this;
     }
 
     @Override
-    public int computeVerticalScrollOffset(){
+    public int computeVerticalScrollOffset() {
         return super.computeVerticalScrollOffset();
     }
 }

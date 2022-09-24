@@ -2,9 +2,9 @@ package com.guardanis.collections.grid.modules;
 
 import android.view.View;
 
-import com.guardanis.collections.grid.ModularGridView;
-
 import androidx.core.view.ViewCompat;
+
+import com.guardanis.collections.grid.ModularGridView;
 
 public class FooterModule extends OuterViewModule {
 
@@ -13,7 +13,7 @@ public class FooterModule extends OuterViewModule {
      * targetView must be aligned to the bottom (else it will look weird). This module
      * performs translations to fake the footer.
      */
-    public FooterModule(View targetView){
+    public FooterModule(View targetView) {
         super(targetView);
     }
 
@@ -22,20 +22,22 @@ public class FooterModule extends OuterViewModule {
         final ModularGridView parent = getParent();
 
         this.originalPadding = originalPadding < 0
-                ? parent.getPaddingBottom()
-                : originalPadding;
+            ? parent.getPaddingBottom()
+            : originalPadding;
 
-        parent.setPadding(parent.getPaddingLeft(),
-                parent.getPaddingTop(),
-                parent.getPaddingRight(),
-                originalPadding + targetView.getHeight());
+        parent.setPadding(
+            parent.getPaddingLeft(),
+            parent.getPaddingTop(),
+            parent.getPaddingRight(),
+            originalPadding + targetView.getHeight()
+        );
     }
 
     @Override
     public void onScroll(int... values) {
         final ModularGridView parent = getParent();
 
-        if(isScrollEventProcessable()){
+        if (isScrollEventProcessable()) {
             if (values[0] + values[1] >= values[2]) {
                 final View lastView = parent.getChildAt(parent.getChildCount() - 1);
 

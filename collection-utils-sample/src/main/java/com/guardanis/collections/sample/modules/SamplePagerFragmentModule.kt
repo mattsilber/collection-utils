@@ -33,15 +33,17 @@ class SamplePagerFragmentModule {
     class SamplePagerFragment: Fragment() {
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-            val inflated = inflater.inflate(arguments?.getInt(ViewPagerAdapterViewModule.BUNDLE_LAYOUT_RES_ID_KEY) ?: 0, container, false)
+            val inflated = inflater.inflate(arguments?.getInt(ViewPagerAdapterViewModule.BUNDLE_LAYOUT_RES_ID_KEY) ?: 0,
+                container,
+                false)
 
             val imageView = inflated.findViewById<ImageView>(R.id.pager_fragment_image)
 
             GlideApp.with(imageView.context)
-                    .load("https://picsum.photos/400/600")
-                    .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
-                    .apply(noCacheRequestOptions())
-                    .into(imageView)
+                .load("https://picsum.photos/400/600")
+                .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
+                .apply(noCacheRequestOptions())
+                .into(imageView)
 
             return inflated
         }

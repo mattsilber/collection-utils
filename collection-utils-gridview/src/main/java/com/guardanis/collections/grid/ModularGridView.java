@@ -32,14 +32,15 @@ public class ModularGridView extends GridView implements AbsListView.OnScrollLis
         init();
     }
 
-    protected void init(){
+    protected void init() {
         controller = new CollectionController<ModularGridView>(this);
 
         setOnTouchListener(controller);
         setOnScrollListener(this);
 
-        if(Build.VERSION.SDK_INT >= 9)
+        if (Build.VERSION.SDK_INT >= 9) {
             setOverScrollMode(View.OVER_SCROLL_NEVER);
+        }
     }
 
     @Override
@@ -65,34 +66,35 @@ public class ModularGridView extends GridView implements AbsListView.OnScrollLis
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if(controller != null)
+        if (controller != null) {
             controller.onDetachedFromWindow();
+        }
     }
 
     public boolean isFlinging() {
         return flinging;
     }
 
-    public CollectionController<ModularGridView> getCollectionController(){
+    public CollectionController<ModularGridView> getCollectionController() {
         return controller;
     }
 
-    public ModularGridView registerModule(CollectionModule<ModularGridView> module){
+    public ModularGridView registerModule(CollectionModule<ModularGridView> module) {
         controller.registerModule(module);
 
         return this;
     }
 
-    public void unregisterModule(CollectionModule<ModularGridView> module){
+    public void unregisterModule(CollectionModule<ModularGridView> module) {
         controller.unregisterModule(module);
     }
 
-    public <V extends CollectionModule<ModularGridView>> V getModule(Class<V> moduleClass){
+    public <V extends CollectionModule<ModularGridView>> V getModule(Class<V> moduleClass) {
         return controller.getModule(moduleClass);
     }
 
     @Override
-    public int computeVerticalScrollOffset(){
+    public int computeVerticalScrollOffset() {
         return super.computeVerticalScrollOffset();
     }
 }

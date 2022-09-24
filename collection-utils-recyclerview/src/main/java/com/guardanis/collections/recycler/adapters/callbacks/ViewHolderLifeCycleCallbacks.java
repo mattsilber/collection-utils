@@ -8,10 +8,12 @@ package com.guardanis.collections.recycler.adapters.callbacks;
 public interface ViewHolderLifeCycleCallbacks {
 
     public void onViewAttachedToWindow();
+
     public void onViewDetachedFromWindow();
 
     /**
      * See: RecyclerView.Adapter.onFailedToRecycleView
+     *
      * @return true to force the recycle, otherwise allow parent adapter to decide
      */
     public boolean onFailedToRecycleView();

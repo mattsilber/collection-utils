@@ -12,7 +12,6 @@ import com.guardanis.collections.recycler.adapters.CompatModularRecyclerAdapter
 import com.guardanis.collections.recycler.adapters.ModularRecyclerAdapter
 import com.guardanis.collections.recycler.modules.EndlessModule
 import com.guardanis.collections.recycler.modules.SwipeRefreshLayoutModule
-import com.guardanis.collections.sample.glide.GlideApp
 import com.guardanis.collections.sample.modules.*
 import java.lang.ref.WeakReference
 import java.util.*
@@ -44,33 +43,44 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
         this.adapter = CompatModularRecyclerAdapter(this)
 
         adapter.registerModuleBuilder(
-                SampleTextModule::class.java,
-                ModuleBuilder(
-                        R.layout.text_module,
-                        { SampleTextModule.ViewModule(it) }))
+            SampleTextModule::class.java,
+            ModuleBuilder(
+                R.layout.text_module,
+                { SampleTextModule.ViewModule(it) }
+            )
+        )
 
         adapter.registerModuleBuilder(
-                SampleImageModule::class.java,
-                ModuleBuilder(
-                        { SampleImageModule.ViewModule(R.layout.image_module) }))
+            SampleImageModule::class.java,
+            ModuleBuilder(
+                { SampleImageModule.ViewModule(R.layout.image_module) }
+            )
+        )
 
         adapter.registerModuleBuilder(
-                SampleViewPagerModule::class.java,
-                ModuleBuilder(
-                        R.layout.pager_module,
-                        { SampleViewPagerModule.ViewModule(it) }))
+            SampleViewPagerModule::class.java,
+            ModuleBuilder(
+                R.layout.pager_module,
+                { SampleViewPagerModule.ViewModule(it) }
+            )
+        )
 
         adapter.registerModuleBuilder(
-                SampleDividerModule::class.java,
-                ModuleBuilder({ SampleDividerModule.ViewModule() }))
+            SampleDividerModule::class.java,
+            ModuleBuilder({ SampleDividerModule.ViewModule() })
+        )
 
         // A ListViewAdapterViewModule is backwards compatible with the ModularRecyclerAdapter
         adapter.registerModuleBuilder(
-                SampleTextListModule::class.java,
-                ModuleBuilder(SampleTextListModule::ViewModule))
+            SampleTextListModule::class.java,
+            ModuleBuilder(SampleTextListModule::ViewModule)
+        )
 
         // Callbacks are registered with the ModularAdapter to be triggered later by items
-        adapter.registerCallback(SampleTextModule.itemLongClicked, sampleTextModuleLongClickedCallback)
+        adapter.registerCallback(
+            SampleTextModule.itemLongClicked,
+            sampleTextModuleLongClickedCallback
+        )
 
         recycler.adapter = this.adapter
 
@@ -79,54 +89,54 @@ class MainActivity: AppCompatActivity(), EndlessModule.EndlessEventListener {
 
     private fun refresh() {
         recycler.get()
-                ?.let({ it.getModule(EndlessModule::class.java) })
-                ?.apply({
-                    this.isLoading = true
-                    this.setEndingReached(false)
-                })
+            ?.let({ it.getModule(EndlessModule::class.java) })
+            ?.run({
+                this.isLoading = true
+                this.setEndingReached(false)
+            })
 
         adapter.clear()
 
         appendRandomContent()
 
         recycler.get()
-                ?.getModule(KSwipeRefreshLayoutModule::class.java)
-                ?.onRefreshCompleted()
+            ?.getModule(KSwipeRefreshLayoutModule::class.java)
+            ?.onRefreshCompleted()
     }
 
     private fun appendRandomContent() {
         0.until(10)
-                .map({
-                    when (Random().nextInt(5)) {
-                        0 -> SampleImageModule.createRandomInstance()
-                        1 -> SampleViewPagerModule.createInstance(supportFragmentManager)
-                        2 -> SampleTextListModule.createInstance()
-                        else -> SampleTextModule.createRandomInstance()
-                    }
-                })
-                .forEach({
-                    adapter.add(it)
-                    adapter.add(SampleDividerModule.createInstance())
-                })
+            .map({
+                when (Random().nextInt(5)) {
+                    0 -> SampleImageModule.createRandomInstance()
+                    1 -> SampleViewPagerModule.createInstance(supportFragmentManager)
+                    2 -> SampleTextListModule.createInstance()
+                    else -> SampleTextModule.createRandomInstance()
+                }
+            })
+            .forEach({
+                adapter.add(it)
+                adapter.add(SampleDividerModule.createInstance())
+            })
 
         recycler.get()
-                ?.getModule(EndlessModule::class.java)
-                ?.isLoading = false
+            ?.getModule(EndlessModule::class.java)
+            ?.isLoading = false
     }
 
     override fun onNextPage() {
         recycler.get()
-                ?.apply({
-                    this.getModule(EndlessModule::class.java)?.isLoading = true
-                    this.post({
-                        appendRandomContent()
+            ?.apply({
+                this.getModule(EndlessModule::class.java)?.isLoading = true
+                this.post({
+                    appendRandomContent()
 
-                        if (1000 < this@MainActivity.adapter.itemCount)
-                            this.getModule(EndlessModule::class.java)?.onEndingReached()
-                    })
+                    if (1000 < this@MainActivity.adapter.itemCount)
+                        this.getModule(EndlessModule::class.java)?.onEndingReached()
                 })
+            })
     }
 
     class KSwipeRefreshLayoutModule(layout: SwipeRefreshLayout, refreshListener: (() -> Unit)):
-            SwipeRefreshLayoutModule<ModularRecyclerView>(layout, refreshListener)
+        SwipeRefreshLayoutModule<ModularRecyclerView>(layout, refreshListener)
 }

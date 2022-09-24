@@ -26,9 +26,9 @@ class SampleImageModule(private val imageUrl: String) {
                 ViewCompat.setBackground(this, null)
 
                 GlideApp.with(this)
-                        .load(item.imageUrl)
-                        .apply(noCacheRequestOptions())
-                        .into(this)
+                    .load(item.imageUrl)
+                    .apply(noCacheRequestOptions())
+                    .into(this)
             })
         }
     }
@@ -49,5 +49,5 @@ class SampleImageModule(private val imageUrl: String) {
 
 fun noCacheRequestOptions(): RequestOptions {
     return RequestOptions()
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
 }
