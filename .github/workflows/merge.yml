@@ -13,5 +13,5 @@ concurrency:
 jobs:
   test:
     if: ${{ github.triggering_actor != 'dependabot[bot]' }}
-    uses: ./workflows/test.yml
+    uses: ./.github/workflows/test.yml
 
