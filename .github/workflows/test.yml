@@ -1,0 +1,13 @@
+name: Test
+
+on:
+  workflow_call:
+
+jobs:
+  unit_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest --stacktrace

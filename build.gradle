@@ -34,8 +34,6 @@ allprojects {
         mavGitUrl = "https://github.com/mattsilber/collection-utils.git"
         mavScmConnection = "scm:git:git://github.com:mattsilber/collection-utils.git"
         mavScmDeveloperConnection = "scm:git:ssh://github.com:mattsilber/collection-utils.git"
-
-        mavDeploymentRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
     }
 
     buildscript {
@@ -54,5 +52,6 @@ allprojects {
         maven { url 'https://maven.google.com/' }
         mavenCentral()
         gradlePluginPortal()
+        mavenLocal()
     }
 }

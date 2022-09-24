@@ -1,0 +1,17 @@
+name: Merge
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: merge-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    if: ${{ github.triggering_actor != 'dependabot[bot]' }}
+    uses: ./.github/workflows/test.yml
+

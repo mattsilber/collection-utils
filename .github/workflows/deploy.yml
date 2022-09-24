@@ -1,0 +1,50 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Publish Core to Maven (Local)
+        run: ./gradlew collection-utils-core:publishReleasePublicationToMavenLocal
+
+      - name: Publish Core to Maven (Central)
+        run: ./gradlew collection-utils-core:publishReleasePublicationToMavenCentralRepository
+
+      - name: Publish ListView to Maven (Local)
+        run: ./gradlew collection-utils-listview:publishReleasePublicationToMavenLocal
+
+      - name: Publish ListView to Maven (Central)
+        run: ./gradlew collection-utils-listview:publishReleasePublicationToMavenCentralRepository
+
+      - name: Publish RecyclerView to Maven (Local)
+        run: ./gradlew collection-utils-recyclerview:publishReleasePublicationToMavenLocal
+
+      - name: Publish RecyclerView to Maven (Central)
+        run: ./gradlew collection-utils-recyclerview:publishReleasePublicationToMavenCentralRepository
+
+      - name: Publish RecyclerView-Compat to Maven (Central)
+        run: ./gradlew collection-utils-recyclerview-compat:publishReleasePublicationToMavenCentralRepository
+
+      - name: Publish ScrollView to Maven (Central)
+        run: ./gradlew collection-utils-scrollview:publishReleasePublicationToMavenCentralRepository
+
+      - name: Publish ViewPager to Maven (Central)
+        run: ./gradlew collection-utils-viewpager:publishReleasePublicationToMavenCentralRepository
+
+      - name: Publish GridView to Maven (Central)
+        run: ./gradlew collection-utils-gridview:publishReleasePublicationToMavenCentralRepository
+
+      - name: Publish Legacy Tools to Maven (Central)
+        run: ./gradlew collection-utils-legacy:publishReleasePublicationToMavenCentralRepository
