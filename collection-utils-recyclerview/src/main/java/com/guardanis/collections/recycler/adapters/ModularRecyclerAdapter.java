@@ -3,6 +3,10 @@ package com.guardanis.collections.recycler.adapters;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.guardanis.collections.adapters.AdapterViewModule;
 import com.guardanis.collections.adapters.Callback;
 import com.guardanis.collections.adapters.ModularAdapter;
@@ -20,10 +24,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ModularAdapter {
 
     protected Context context;
@@ -34,7 +34,7 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     protected List<Object> data = new ArrayList<Object>();
 
-    public ModularRecyclerAdapter(Context context){
+    public ModularRecyclerAdapter(Context context) {
         this.context = context;
     }
 
@@ -44,7 +44,10 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public ModularRecyclerAdapter registerModuleBuilderResolver(Class itemType, final ModuleBuilderResolver layoutResolver) {
+    public ModularRecyclerAdapter registerModuleBuilderResolver(
+        Class itemType,
+        final ModuleBuilderResolver layoutResolver
+    ) {
         viewModuleBuilders.put(itemType, layoutResolver);
 
         return this;
@@ -53,15 +56,16 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         AdapterViewModule module = getBuilder(viewType)
-                .createViewModule();
+            .createViewModule();
 
         return createViewHolder(module, parent, viewType);
     }
 
     protected RecyclerView.ViewHolder createViewHolder(
-            AdapterViewModule module,
-            ViewGroup parent,
-            int viewType) {
+        AdapterViewModule module,
+        ViewGroup parent,
+        int viewType
+    ) {
 
         RecyclerViewAdapterViewModule recyclerViewModule = ((RecyclerViewAdapterViewModule) module);
         recyclerViewModule.build(getContext(), parent);
@@ -80,23 +84,26 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     protected <T> void bind(
-            Object item,
-            AdapterViewModule module,
-            RecyclerView.ViewHolder holder,
-            int position) {
+        Object item,
+        AdapterViewModule module,
+        RecyclerView.ViewHolder holder,
+        int position
+    ) {
 
-        if (!(module instanceof RecyclerViewAdapterViewModule))
+        if (!(module instanceof RecyclerViewAdapterViewModule)) {
             throw new RuntimeException("Unsupported module of type: " + module.getClass().getName());
+        }
 
         onBindRecyclerViewModule((RecyclerViewAdapterViewModule) module, item, holder, position);
     }
 
     @SuppressWarnings("unchecked")
     protected void onBindRecyclerViewModule(
-            RecyclerViewAdapterViewModule module,
-            Object item,
-            RecyclerView.ViewHolder holder,
-            int position) {
+        RecyclerViewAdapterViewModule module,
+        Object item,
+        RecyclerView.ViewHolder holder,
+        int position
+    ) {
 
         module.overrideViewHolder(holder);
         module.updateView(this, item, position);
@@ -141,23 +148,26 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
-        if (holder instanceof ViewHolderLifeCycleCallbacks)
+        if (holder instanceof ViewHolderLifeCycleCallbacks) {
             ((ViewHolderLifeCycleCallbacks) holder).onViewAttachedToWindow();
+        }
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
 
-        if (holder instanceof ViewHolderLifeCycleCallbacks)
+        if (holder instanceof ViewHolderLifeCycleCallbacks) {
             ((ViewHolderLifeCycleCallbacks) holder).onViewDetachedFromWindow();
+        }
     }
 
     @Override
     public boolean onFailedToRecycleView(@NonNull RecyclerView.ViewHolder holder) {
         if (holder instanceof ViewHolderLifeCycleCallbacks
-                && ((ViewHolderLifeCycleCallbacks) holder).onFailedToRecycleView())
+            && ((ViewHolderLifeCycleCallbacks) holder).onFailedToRecycleView()) {
             return true;
+        }
 
         return super.onFailedToRecycleView(holder);
     }
@@ -166,8 +176,9 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
 
-        if (holder instanceof ViewHolderLifeCycleCallbacks)
+        if (holder instanceof ViewHolderLifeCycleCallbacks) {
             ((ViewHolderLifeCycleCallbacks) holder).onViewRecycled();
+        }
     }
 
     @Override
@@ -200,8 +211,9 @@ public class ModularRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public void remove(final Object obj) {
         for (int index = data.size() - 1; 0 <= index; index--) {
-            if (obj == data.get(index))
+            if (obj == data.get(index)) {
                 remove(index);
+            }
         }
     }
 
