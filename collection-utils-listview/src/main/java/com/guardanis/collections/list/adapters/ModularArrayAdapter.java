@@ -34,7 +34,10 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter 
     }
 
     @Override
-    public ModularArrayAdapter registerModuleBuilderResolver(Class itemType, final ModuleBuilderResolver layoutResolver) {
+    public ModularArrayAdapter registerModuleBuilderResolver(
+        Class itemType,
+        final ModuleBuilderResolver layoutResolver
+    ) {
         viewModuleBuilders.put(itemType, layoutResolver);
 
         return this;
@@ -53,14 +56,14 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter 
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         Object item = getItem(position);
         ModuleBuilder builder = ModuleBuilderResolver.resolveModuleBuilder(this, item, position, viewModuleBuilders);
         ListViewAdapterViewModule module;
 
-        if(convertView == null
-                || convertView.getTag() == null
-                || convertView.getTag().getClass() != item.getClass()) {
+        if (convertView == null
+            || convertView.getTag() == null
+            || convertView.getTag().getClass() != item.getClass()) {
 
             module = (ListViewAdapterViewModule) builder.createViewModule();
             module.build(getContext(), parent);
@@ -68,8 +71,9 @@ public class ModularArrayAdapter extends ArrayAdapter implements ModularAdapter 
             convertView = module.getConvertView();
             convertView.setTag(module);
         }
-        else
+        else {
             module = (ListViewAdapterViewModule) convertView.getTag();
+        }
 
         module.updateView(this, item, position);
 

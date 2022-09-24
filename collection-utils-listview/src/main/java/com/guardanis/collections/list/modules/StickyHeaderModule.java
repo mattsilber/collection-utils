@@ -25,8 +25,9 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
 
     @Override
     public void onScrollStateChanged(int scrollState) {
-        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
             adjustStickyHeaders();
+        }
     }
 
     @Override
@@ -37,16 +38,21 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
     private void adjustStickyHeaders() {
         final ModularListView parent = getParent();
 
-        if(parent == null)
+        if (parent == null) {
             return;
+        }
 
         int firstVisiblePosition = parent.getFirstVisiblePosition();
 
-        if(firstVisiblePosition < 1)
+        if (firstVisiblePosition < 1) {
             removeSelectedPosition();
-        else if(lastPosition < firstVisiblePosition)
+        }
+        else if (lastPosition < firstVisiblePosition) {
             onCurrentPositionIncreased(firstVisiblePosition);
-        else updateGeneralStickyPosition(firstVisiblePosition);
+        }
+        else {
+            updateGeneralStickyPosition(firstVisiblePosition);
+        }
 
         lastPosition = firstVisiblePosition;
     }
@@ -56,11 +62,11 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
         nextStickyView = null;
     }
 
-    private void onCurrentPositionIncreased(int firstVisiblePosition){
+    private void onCurrentPositionIncreased(int firstVisiblePosition) {
         View firstVisible = getParent()
-                .getChildAt(0);
+            .getChildAt(0);
 
-        if(isViewAHeader(firstVisible)){
+        if (isViewAHeader(firstVisible)) {
             currentStickyBitmap = getCurrentStickyBitmap(firstVisible);
             stickyHeaderPosition = firstVisiblePosition;
         }
@@ -68,31 +74,37 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
         updateNextStickyPosition();
     }
 
-    private void updateGeneralStickyPosition(int firstVisiblePosition){
-        if(firstVisiblePosition < stickyHeaderPosition){
+    private void updateGeneralStickyPosition(int firstVisiblePosition) {
+        if (firstVisiblePosition < stickyHeaderPosition) {
             currentStickyBitmap = null;
             nextStickyView = null;
             stickyHeaderPosition = 0;
         }
     }
 
-    private void updateNextStickyPosition(){
+    private void updateNextStickyPosition() {
         View secondVisible = getParent()
-                .getChildAt(1);
+            .getChildAt(1);
 
-        if(isViewAHeader(secondVisible))
+        if (isViewAHeader(secondVisible)) {
             nextStickyView = secondVisible;
-        else nextStickyView = null;
+        }
+        else {
+            nextStickyView = null;
+        }
     }
 
     protected boolean isViewAHeader(View view) {
-        if(view == null)
+        if (view == null) {
             return false;
-        else return Boolean.parseBoolean(
+        }
+        else {
+            return Boolean.parseBoolean(
                 String.valueOf(view.getTag(R.integer.cu__sticky_header_tag_ref)));
+        }
     }
 
-    protected Bitmap getCurrentStickyBitmap(View v){
+    protected Bitmap getCurrentStickyBitmap(View v) {
         v.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(v.getDrawingCache());
         v.setDrawingCacheEnabled(false);
@@ -101,8 +113,8 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
     }
 
     @Override
-    public void onDrawDispatched(Canvas canvas){
-        if(currentStickyBitmap != null){
+    public void onDrawDispatched(Canvas canvas) {
+        if (currentStickyBitmap != null) {
             canvas.save();
             canvas.translate(0, getAdjustedTopPosition());
             canvas.drawBitmap(currentStickyBitmap, 0, 0, null);
@@ -111,8 +123,12 @@ public class StickyHeaderModule extends CollectionModule<ModularListView> {
     }
 
     private int getAdjustedTopPosition() {
-        if(nextStickyView != null && nextStickyView.getTop() <= currentStickyBitmap.getHeight())
-            return Math.max(-1 * (currentStickyBitmap.getHeight() - nextStickyView.getTop()), -currentStickyBitmap.getHeight());
+        if (nextStickyView != null && nextStickyView.getTop() <= currentStickyBitmap.getHeight()) {
+            return Math.max(
+                -1 * (currentStickyBitmap.getHeight() - nextStickyView.getTop()),
+                -currentStickyBitmap.getHeight()
+            );
+        }
 
         return 0;
     }

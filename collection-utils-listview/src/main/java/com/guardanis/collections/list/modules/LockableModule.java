@@ -17,15 +17,18 @@ public class LockableModule extends CollectionModule<ModularListView> {
     }
 
     @Override
-    public void onDrawDispatched(Canvas canvas) { }
+    public void onDrawDispatched(Canvas canvas) {
+    }
 
     @Override
-    public void onScrollStateChanged(int i) { }
+    public void onScrollStateChanged(int i) {
+    }
 
     @Override
-    public void onScroll(int... values) { }
+    public void onScroll(int... values) {
+    }
 
-    public void setLocked(boolean locked){
+    public void setLocked(boolean locked) {
         this.locked = locked;
     }
 
