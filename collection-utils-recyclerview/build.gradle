@@ -14,7 +14,7 @@ android {
 
 dependencies {
     implementation "androidx.annotation:annotation:$vAndroidXAnnotations"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     releaseImplementation "com.guardanis:$coreLibraryPackage:$mavLibraryVersion"
