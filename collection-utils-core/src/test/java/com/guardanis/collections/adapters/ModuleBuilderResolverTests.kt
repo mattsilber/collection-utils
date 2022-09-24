@@ -9,7 +9,7 @@ import org.mockito.Mockito.mock
 import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
-@Config(sdk=[Build.VERSION_CODES.O])
+@Config(sdk = [Build.VERSION_CODES.O])
 class ModuleBuilderResolverTests {
 
     @Test
@@ -30,7 +30,11 @@ class ModuleBuilderResolverTests {
         val mockItem = "fake"
 
         val resolver = object: ModuleBuilderResolver<Any>(stringBuilder, booleanBuilder) {
-            override fun resolve(adapter: ModularAdapter, item: Any, position: Int): ModuleBuilder<out AdapterViewModule<*>> {
+            override fun resolve(
+                adapter: ModularAdapter,
+                item: Any,
+                position: Int,
+            ): ModuleBuilder<out AdapterViewModule<*>> {
                 return if (position.rem(builders.size) == 0) stringBuilder else booleanBuilder
             }
         }
@@ -50,7 +54,11 @@ class ModuleBuilderResolverTests {
         val booleanBuilder = createBuilder(TestLayoutId.booleanModule)
 
         val resolver = object: ModuleBuilderResolver<Any>(stringBuilder, booleanBuilder) {
-            override fun resolve(adapter: ModularAdapter, item: Any, position: Int): ModuleBuilder<out AdapterViewModule<*>> {
+            override fun resolve(
+                adapter: ModularAdapter,
+                item: Any,
+                position: Int,
+            ): ModuleBuilder<out AdapterViewModule<*>> {
                 return if (position.rem(builders.size) == 0) stringBuilder else booleanBuilder
             }
         }

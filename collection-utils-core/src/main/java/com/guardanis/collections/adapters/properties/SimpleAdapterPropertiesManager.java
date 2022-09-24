@@ -2,10 +2,10 @@ package com.guardanis.collections.adapters.properties;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import androidx.annotation.Nullable;
 
 public class SimpleAdapterPropertiesManager implements AdapterPropertiesManager {
 
@@ -19,11 +19,13 @@ public class SimpleAdapterPropertiesManager implements AdapterPropertiesManager 
     @Override
     @Nullable
     @SuppressWarnings("unchecked")
-    public <V> V getProperty(String key){
+    public <V> V getProperty(String key) {
         try {
             return (V) properties.get(key);
         }
-        catch(NullPointerException e){ Log.d("collections", key + " property is null. Ignoring.");  }
+        catch (NullPointerException e) {
+            Log.d("collections", key + " property is null. Ignoring.");
+        }
 
         return null;
     }

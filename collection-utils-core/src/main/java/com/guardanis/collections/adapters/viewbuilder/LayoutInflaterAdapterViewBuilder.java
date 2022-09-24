@@ -9,7 +9,8 @@ import androidx.annotation.LayoutRes;
 
 public class LayoutInflaterAdapterViewBuilder implements AdapterViewBuilder {
 
-    @LayoutRes protected int layoutResId;
+    @LayoutRes
+    protected int layoutResId;
 
     public LayoutInflaterAdapterViewBuilder(@LayoutRes int layoutResId) {
         this.layoutResId = layoutResId;
@@ -18,6 +19,6 @@ public class LayoutInflaterAdapterViewBuilder implements AdapterViewBuilder {
     @Override
     public View createInstance(Context context, ViewGroup parent) {
         return LayoutInflater.from(context)
-                .inflate(layoutResId, parent, false);
+            .inflate(layoutResId, parent, false);
     }
 }

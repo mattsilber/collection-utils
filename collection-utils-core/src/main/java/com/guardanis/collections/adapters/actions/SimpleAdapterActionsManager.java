@@ -17,12 +17,16 @@ public class SimpleAdapterActionsManager implements AdapterActionsManager {
     }
 
     @Override
-    public <V> void triggerCallback(String key, V value){
-        try{
+    public <V> void triggerCallback(String key, V value) {
+        try {
             actionCallbacks.get(key)
-                    .onTriggered(value);
+                .onTriggered(value);
         }
-        catch(ClassCastException e) { e.printStackTrace(); }
-        catch(NullPointerException e) { Log.d("collections", key + " callback is null. Ignoring.");  }
+        catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e) {
+            Log.d("collections", key + " callback is null. Ignoring.");
+        }
     }
 }

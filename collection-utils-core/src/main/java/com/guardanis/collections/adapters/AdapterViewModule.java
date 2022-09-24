@@ -4,11 +4,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guardanis.collections.adapters.viewbuilder.AdapterViewBuilder;
-import com.guardanis.collections.adapters.viewbuilder.LayoutInflaterAdapterViewBuilder;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
+
+import com.guardanis.collections.adapters.viewbuilder.AdapterViewBuilder;
+import com.guardanis.collections.adapters.viewbuilder.LayoutInflaterAdapterViewBuilder;
 
 public abstract class AdapterViewModule<V> {
 
