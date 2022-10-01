@@ -1,11 +1,6 @@
-buildscript {
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kover'
 
 android {
     compileSdkVersion rootProject.ext.targetSdkVersion
@@ -17,6 +12,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildTypes.debug.testCoverageEnabled = true
 
     testOptions {
         unitTests {
@@ -41,6 +38,12 @@ dependencies {
 ext {
     mavProjectName = 'collection-utils-core'
     mavLibraryDescription = 'An assortment of modularized additives for collection-based layouts'
+}
+
+kover {
+    instrumentation {
+        excludeTasks.add "testReleaseUnitTest"
+    }
 }
 
 apply from: project.rootProject.file("publishing.gradle")

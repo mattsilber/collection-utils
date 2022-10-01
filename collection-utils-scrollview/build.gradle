@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kover'
 
 android {
     compileSdkVersion rootProject.ext.targetSdkVersion
@@ -10,6 +11,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildTypes.debug.testCoverageEnabled = true
 }
 
 dependencies {
@@ -25,6 +28,12 @@ dependencies {
 ext {
     mavProjectName = 'collection-utils-scrollview'
     mavLibraryDescription = 'An assortment of modularized additives for collection-based layouts (ScrollView components)'
+}
+
+kover {
+    instrumentation {
+        excludeTasks.add "testReleaseUnitTest"
+    }
 }
 
 apply from: project.rootProject.file("publishing.gradle")

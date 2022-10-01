@@ -1,12 +1,7 @@
-buildscript {
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kover'
 
 android {
     compileSdkVersion rootProject.ext.targetSdkVersion
@@ -50,5 +45,16 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:3.11.0"
 
     kapt "com.github.bumptech.glide:compiler:4.9.0"
+}
+
+kover {
+    instrumentation {
+        excludeTasks.addAll(
+            [
+                "testDebugUnitTest",
+                "testReleaseUnitTest"
+            ]
+        )
+    }
 }
 
