@@ -24,7 +24,7 @@ allprojects {
         coreLibraryPackage = "collection-utils-core"
 
         vAndroidXAnnotations = "1.5.0"
-        vAndroidXAppCompat = "1.2.0"
+        vAndroidXAppCompat = "1.5.1"
 
         vJunit = "4.12"
         vAndroidxTestExtJunit = "1.1.3"
