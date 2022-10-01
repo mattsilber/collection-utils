@@ -26,12 +26,17 @@ dependencies {
     implementation "androidx.annotation:annotation:$vAndroidXAnnotations"
 
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
     testImplementation "junit:junit:$vJunit"
+
     testImplementation "androidx.test.ext:junit:$vAndroidxTestExtJunit"
     testImplementation "androidx.test:runner:$vAndroidxTestRrunner"
     testImplementation "androidx.test:core:$vAndroidxTestCore"
     testImplementation "androidx.test.espresso:espresso-core:$vAndroidxTestEspressoEspressoCore"
+
     testImplementation "org.mockito:mockito-core:$vMockitoMockitoCore"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$vMockitoMockitoKotlin"
+
     testImplementation "org.robolectric:robolectric:$vRobolectricRobolectric"
 }
 

@@ -49,6 +49,103 @@ class ModuleBuilderResolverTests {
     }
 
     @Test
+    fun testResolveUniqueItemViewTypeTypeReturnsIndex() {
+        val stringBuilder = createBuilder(TestLayoutId.stringModule)
+        val booleanBuilder = createBuilder(TestLayoutId.booleanModule)
+        val intBuilder = createBuilder(TestLayoutId.intModule)
+
+        class Test(val value: Any)
+
+        val resolvers = mapOf<Class<*>, ModuleBuilderResolver<*>>(
+            Test::class.java to object: ModuleBuilderResolver<Any>(stringBuilder, intBuilder) {
+                override fun resolve(
+                    adapter: ModularAdapter,
+                    item: Any,
+                    position: Int,
+                ): ModuleBuilder<out AdapterViewModule<*>> {
+                    return if ((item as Test).value is String) stringBuilder else intBuilder
+                }
+            },
+            java.lang.Boolean::class.java to object: ModuleBuilderResolver<Any>(booleanBuilder) {
+                override fun resolve(
+                    adapter: ModularAdapter,
+                    item: Any,
+                    position: Int,
+                ): ModuleBuilder<out AdapterViewModule<*>> {
+                    return booleanBuilder
+                }
+            }
+        )
+
+        val adapter = mock(ModularAdapter::class.java)
+
+        assertEquals(0, ModuleBuilderResolver.resolveUniqueItemViewType(adapter, Test(""), resolvers))
+        assertEquals(1, ModuleBuilderResolver.resolveUniqueItemViewType(adapter, Test(0), resolvers))
+        assertEquals(2, ModuleBuilderResolver.resolveUniqueItemViewType(adapter, true, resolvers))
+    }
+
+    @Test(expected = java.lang.RuntimeException::class)
+    fun testThrowsRuntimeExceptionWhenNoModuleDefinedForResolveUniqueItemViewType() {
+        val adapter = mock(ModularAdapter::class.java)
+
+        ModuleBuilderResolver.resolveUniqueItemViewType(adapter, "", emptyMap())
+    }
+
+    @Test
+    fun testResolveModuleBuilderFromUniqueItemViewTypeReturnsBuilderByIndex() {
+        val stringBuilder = createBuilder(TestLayoutId.stringModule)
+        val booleanBuilder = createBuilder(TestLayoutId.booleanModule)
+        val intBuilder = createBuilder(TestLayoutId.intModule)
+
+        val resolvers = mapOf<Class<*>, ModuleBuilderResolver<*>>(
+            String::class.java to object: ModuleBuilderResolver<Any>(stringBuilder, intBuilder) {
+                override fun resolve(
+                    adapter: ModularAdapter,
+                    item: Any,
+                    position: Int,
+                ): ModuleBuilder<out AdapterViewModule<*>> {
+                    throw RuntimeException()
+                }
+            },
+            Boolean::class.java to object: ModuleBuilderResolver<Any>(booleanBuilder) {
+                override fun resolve(
+                    adapter: ModularAdapter,
+                    item: Any,
+                    position: Int,
+                ): ModuleBuilder<out AdapterViewModule<*>> {
+                    return booleanBuilder
+                }
+            }
+        )
+
+        val builder = ModuleBuilderResolver.resolveModuleBuilderFromUniqueItemViewType(2, resolvers)
+
+        assertEquals(booleanBuilder, builder)
+    }
+
+    @Test(expected = java.lang.RuntimeException::class)
+    fun testThrowsRuntimeExceptionWhenNoModuleDefinedForResolveModuleBuilderFromUniqueItemViewType() {
+        ModuleBuilderResolver.resolveModuleBuilderFromUniqueItemViewType(0, emptyMap())
+    }
+
+    @Test(expected = java.lang.RuntimeException::class)
+    fun testThrowsRuntimeExceptionWhenNoModuleDefinedForGetViewTypeIndex() {
+        val resolver = object: ModuleBuilderResolver<Any>() {
+            override fun resolve(
+                adapter: ModularAdapter,
+                item: Any,
+                position: Int,
+            ): ModuleBuilder<out AdapterViewModule<*>>? {
+                return null
+            }
+        }
+
+        val adapter = mock(ModularAdapter::class.java)
+
+        resolver.getViewTypeIndex(adapter, 0L, 0)
+    }
+
+    @Test
     fun testModuleBuilderAccessByLocalIndex() {
         val stringBuilder = createBuilder(TestLayoutId.stringModule)
         val booleanBuilder = createBuilder(TestLayoutId.booleanModule)
@@ -65,6 +162,36 @@ class ModuleBuilderResolverTests {
 
         assertEquals(stringBuilder, resolver.getBuilder(0))
         assertEquals(booleanBuilder, resolver.getBuilder(1))
+    }
+
+    @Test
+    fun testSumsUniqueItemsCountForResolvers() {
+        val stringBuilder = createBuilder(TestLayoutId.stringModule)
+        val booleanBuilder = createBuilder(TestLayoutId.booleanModule)
+        val intBuilder = createBuilder(TestLayoutId.intModule)
+
+        val resolvers = mapOf<Class<*>, ModuleBuilderResolver<*>>(
+            String::class.java to object: ModuleBuilderResolver<Any>(stringBuilder, intBuilder) {
+                override fun resolve(
+                    adapter: ModularAdapter,
+                    item: Any,
+                    position: Int,
+                ): ModuleBuilder<out AdapterViewModule<*>> {
+                    throw RuntimeException()
+                }
+            },
+            Boolean::class.java to object: ModuleBuilderResolver<Any>(booleanBuilder) {
+                override fun resolve(
+                    adapter: ModularAdapter,
+                    item: Any,
+                    position: Int,
+                ): ModuleBuilder<out AdapterViewModule<*>> {
+                    throw RuntimeException()
+                }
+            }
+        )
+
+        assertEquals(3, ModuleBuilderResolver.getUniqueItemViewTypeCount(resolvers))
     }
 
     private fun createBuilder(layoutResId: Int): ModuleBuilder<MockViewModule> {
