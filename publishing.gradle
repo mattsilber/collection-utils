@@ -64,17 +64,6 @@ afterEvaluate {
                         url = mavGitUrl
                     }
                 }
-
-                // Applying the kotlin-android plugin adds a compilation dependency
-                // for kotlin-stdlib to the POM, even though no library packages use
-                // kotlin outside of the testImplementation. Strip it out.
-                pom.withXml {
-                    asNode()
-                            .dependencies
-                            .dependency
-                            .findAll { it.artifactId.text() == "kotlin-stdlib" }
-                            .collect { it.parent().remove(it) }
-                }
             }
         }
 
