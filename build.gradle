@@ -33,7 +33,7 @@ allprojects {
         vAndroidxTestEspressoEspressoCore = "3.4.0"
         vMockitoMockitoCore = "4.8.0"
         vMockitoMockitoKotlin = "4.0.0"
-        vRobolectricRobolectric = "4.8.2"
+        vRobolectricRobolectric = "4.9"
 
         mavPublishGroupId = "com.guardanis"
         mavLibraryVersion = "4.0.2"
