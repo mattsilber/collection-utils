@@ -1,8 +1,8 @@
-package com.guardanis.collections.adapters
+package com.guardanis.collections.adapters.actions
 
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.guardanis.collections.adapters.actions.SimpleAdapterActionsManager
+import com.guardanis.collections.adapters.Callback
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
@@ -23,6 +23,19 @@ class AdapterActionsManagerTests {
         val manager = SimpleAdapterActionsManager()
         manager.registerCallback(key, callback)
         manager.triggerCallback(key, 0)
+
+        verify(callback, never())
+            .onTriggered(ArgumentMatchers.any())
+    }
+
+    @Test
+    fun testAdapterActionsManagerTriggersNothingWhenKeyDoesNotExist() {
+        val key = "test_key"
+        val callback = mock(KStringCallback::class.java)
+
+        val manager = SimpleAdapterActionsManager()
+        manager.registerCallback(key, callback)
+        manager.triggerCallback(key.plus("_2"), 0)
 
         verify(callback, never())
             .onTriggered(ArgumentMatchers.any())

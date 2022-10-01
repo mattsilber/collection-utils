@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'kover'
 
 android {
@@ -13,6 +14,12 @@ android {
     }
 
     buildTypes.debug.testCoverageEnabled = true
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -23,7 +30,19 @@ dependencies {
     releaseImplementation "com.guardanis:$coreLibraryPackage:$mavLibraryVersion"
     debugImplementation project(path: ':collection-utils-core')
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    testImplementation "junit:junit:$vJunit"
+
+    testImplementation "androidx.test.ext:junit:$vAndroidxTestExtJunit"
+    testImplementation "androidx.test:runner:$vAndroidxTestRrunner"
+    testImplementation "androidx.test:core:$vAndroidxTestCore"
+    testImplementation "androidx.test.espresso:espresso-core:$vAndroidxTestEspressoEspressoCore"
+
+    testImplementation "org.mockito:mockito-core:$vMockitoMockitoCore"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$vMockitoMockitoKotlin"
+
+    testImplementation "org.robolectric:robolectric:$vRobolectricRobolectric"
 }
 
 ext {

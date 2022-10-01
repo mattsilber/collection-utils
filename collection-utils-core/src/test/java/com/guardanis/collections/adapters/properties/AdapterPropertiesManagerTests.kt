@@ -1,8 +1,7 @@
-package com.guardanis.collections.adapters
+package com.guardanis.collections.adapters.properties
 
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.guardanis.collections.adapters.properties.SimpleAdapterPropertiesManager
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
