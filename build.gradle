@@ -31,7 +31,7 @@ allprojects {
         vAndroidxTestRrunner = "1.4.0"
         vAndroidxTestCore = "1.4.0"
         vAndroidxTestEspressoEspressoCore = "3.4.0"
-        vMockitoMockitoCore = "4.8.0"
+        vMockitoMockitoCore = "4.8.1"
         vMockitoMockitoKotlin = "4.0.0"
         vRobolectricRobolectric = "4.8.2"
 
