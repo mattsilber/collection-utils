@@ -28,7 +28,7 @@ allprojects {
 
         vJunit = "4.13.2"
         vAndroidxTestExtJunit = "1.1.3"
-        vAndroidxTestRrunner = "1.4.0"
+        vAndroidxTestRrunner = "1.5.2"
         vAndroidxTestCore = "1.4.0"
         vAndroidxTestEspressoEspressoCore = "3.4.0"
         vMockitoMockitoCore = "4.9.0"
